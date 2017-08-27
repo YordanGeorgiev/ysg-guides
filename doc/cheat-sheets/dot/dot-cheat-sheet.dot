@@ -1,0 +1,49 @@
+digraph documentation_levels {
+	graph [compound=true];
+	style="rounded" ;
+	label = "CompanyDept Documentation Levels";
+
+	subgraph cluster_service {
+		label = "CompanyDept Service Documentation";
+		subgraph cluster_description {
+			label = "Service Description";
+			"Service Packages";
+			"Service Options";
+		}
+		subgraph cluster_templates {
+			label = "Documentation Templates";
+
+			subgraph cluster_case_templates {
+				label = "Case Documentation Templates";
+				"Case Description Template";
+				"Technical Overview Template";
+			}
+			subgraph cluster_app_templates {
+				label = "Application Documentation Templates";
+				"Network Diagram Example";
+				"DevOps Guide Template";
+			}
+		}
+	} 
+	subgraph cluster_case {
+		label = "Customer Case Documentation";
+		"Case Description" -> "Technical Overview" [arrowhead=none];
+		"Technical Overview" -> "Environment Description" [arrowhead=crow];
+	} 
+	subgraph cluster_app {
+		label = "Application Documentation";
+		"Network Diagram";
+		"DevOps Guide";
+	}
+	"Service Packages" -> "Case Description"
+[label=refer,dir=back,lhead=cluster_case,ltail=cluster_description];
+	"Technical Overview Template" -> "Case Description"
+[label=implement,dir=back,lhead=cluster_case,ltail=cluster_case_templates];
+	"Technical Overview" -> "DevOps Guide" [arrowhead=crow,lhead=cluster_app];
+	"DevOps Guide Template" -> "DevOps Guide"
+[label=implement,dir=back,lhead=cluster_app,ltail=cluster_app_templates];
+}
+
+// you could check the generated pic from:
+// http://www.webgraphviz.com/
+// dot -Tsvg input.dot > output.svg
