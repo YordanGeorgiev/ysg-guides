@@ -534,6 +534,9 @@ setup-x86_64.exe -n -q -s http://cygwin.mirror.constant.com -P %package%
 :: assign some AltGrr + <<Key>> to it for example V, click Ok with the mouse 
 :: press AltGr + V
 
+google download:
+win gnu utils - grep,less
+regjump
 
 ::VersionHistory
 :: 1.2.8 --- 2012-10-19 10:20:45 --- ysg --- clean up 

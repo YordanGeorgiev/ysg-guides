@@ -1,4 +1,56 @@
+# file: doc/cheat-sheets/perl/perl-cheat-sheet.sh
+
+
+
+
+
 # File:PerlOneLiners.sh v.1.1.0 
+
+# how-to install modules from the cpan
+perl -MCPAN -e 'install HTML::Template' 
+perl -MCPAN -e "install PAR::Packer"
+
+perl -MCPAN -e 'my $c = "CPAN::HandleConfig"; $c->load(doit => 1, autoconfig => 1); $c->edit(prerequisites_policy => "follow"); $c->edit(build_requires_install_policy => "yes"); $c->commit'
+
+#or combine it with local::lib module for non-privileged users
+perl -MCPAN -Mlocal::lib=~/perl5 -e 'my $c = "CPAN::HandleConfig"; $c->load(doit => 1, autoconfig => 1); $c->edit(prerequisites_policy => "follow"); $c->edit(build_requires_install_policy => "yes"); $c->commit'
+
+
+curl -L http://cpanmin.us | perl - --sudo App::cpanminus
+cpanm Foo::Bar
+
+
+# if this does not work 
+##################################################
+## START install perl modules by tar.gz
+##################################################
+# go to where you did download the modules tar
+cd /path/to/module
+tar -zxvf *.tar.gz
+
+# create the make file 
+perl Makefile.PL
+# run make 
+make
+# optionally test 
+make test 
+# optionally create the make html 
+make html 
+# install 
+make install
+##################################################
+## STOP install perl modules by tar.gz
+##################################################
+
+# how-to install modules on Windows
+ppm install "HTML::Template"
+
+# how-to install modules with cpan
+# first run in your shell  ( bash , sh , cmd ) 
+cpan
+install Spreadsheet::XLSX
+# check output - 99% of the cases no errors will be found and you are ok 
+
 
 # START -- how-to search and replace recursively 
 export dir=/var/aktia/3rdparty/docs/docx; 
@@ -245,13 +297,62 @@ http://stackoverflow.com/questions/2165022/how-can-i-troubleshoot-my-perl-cgi-sc
 
 h2xs -AX -n ModuleName
 
-# Purpose:
-# to provide a cheat sheet for famous perl one liners
-# VersionHistory: 
-# 1.1.2 --- 2013-06-14 16:32:54 --- ysg --- search and replace with vars
-# 1.1.1 --- 2013-05-09 22:50:14 --- ysg --- added perl modules installation 
-# 1.1.0 --- added famous perl one liners 
-# 1.0.0 --- Initial creation
-# sources:
-# http://www.catonmat.net/blog/perl-one-liners-explained-part-one/
 
+
+#=============================================================
+#Install a perl module from behind a firewalll using ppm
+#=============================================================
+Example with Compress-Bzip2 
+
+1. Download tar package from the nearest cpan mirror to C:\Temp\TEMP folder (could be other also ; ) 
+2. Create Compress-Bzip2.ppd type of file , containging the following: 
+
+<?xml version="1.0" encoding="UTF-8"?> 
+<SOFTPKG NAME="Compress-Bzip2" VERSION="2,2,09"> 
+<TITLE>Compress-Bzip2</TITLE>
+<ABSTRACT>Blah</ABSTRACT>
+<AUTHOR>Somebody</AUTHOR>
+<IMPLEMENTATION> 
+<CODEBASE HREF="file:///C|/Temp/TEMP/Compress-Bzip2-2.09.tar.gz "></CODEBASE>
+<INSTALL></INSTALL>
+<UNINSTALL></UNINSTALL>
+</IMPLEMENTATION>
+</SOFTPKG> 
+
+Attention: . Name and codebase NOT C:\ BUT file:///C|
+
+3. Open Dos prompt into the C:\Temp\TEMP (or whichever you prevered in the beginning) 
+4. Run the command : 
+ppm rep add downloadedTars C:\Temp\A_DOWNLOADS\downloaded _perlmodules 
+In order to add the folder to the list of your current ppm repositories 
+
+5. ppm install Compress-Bzip2
+In order to install the module from the local folder 
+
+6. ppm rep delete myNewRepository 
+In order to remove the repository from the ppm 
+#Add company's servers to thte local ppm's repository 
+ppm rep add linox1 http://linox.company.com/mirror/cpan/
+ppm rep add linox2  ftp://linux.company.com/mirror/cpan/
+
+
+#sleep for less than second in Windows 
+use Win32 ; 
+Win32::sleep ($time_in_milliseconds);
+
+#=================================================================== 
+#throw proper errro messages while checking the file size 
+use File::stat qw(:FIELDS);
+#create the obj wrapper for getting the file attributes 
+my $st =stat($file) or croak ( "No $stdout : $!"); #die will shut down the program !!!! 
+# get the file size 
+my $size = $st->size();
+$stat_obj =stat($stdout) or die "No $stdout: $!";
+#throw proper errro messages ^^^^
+($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+$atime,$mtime,$ctime,$blksize,$blocks) 
+= stat($filename);
+#===================================================================
+
+#================================================================
+# eof file: doc/cheat-sheets/perl/perl-cheat-sheet.sh
