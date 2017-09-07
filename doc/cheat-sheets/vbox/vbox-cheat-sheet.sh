@@ -1,5 +1,10 @@
 #file: docs/cheat-sheets/vbox/vbox-cheat-sheet.sh
 
+
+# how-to add a shared folder on the host
+VBoxManage sharedfolder add "host-name" -name "vshare" -hostpath "C:\var"
+
+
 # get the uuid's of your vms
 VBoxManage list vms | column -t | sort
 

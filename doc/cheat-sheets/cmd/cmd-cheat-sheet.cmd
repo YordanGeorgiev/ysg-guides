@@ -534,9 +534,24 @@ setup-x86_64.exe -n -q -s http://cygwin.mirror.constant.com -P %package%
 :: assign some AltGrr + <<Key>> to it for example V, click Ok with the mouse 
 :: press AltGr + V
 
+:: the following is list of cmd tools and binaries to download after a fresh win install
 google download:
-win gnu utils - grep,less
+win gnu utils - GnuWin core utils, grep,less
 regjump
+
+:: the following is list of appliations 
+google download: 
+Chrome
+TextPad
+Firefox
+OpenVPNGUI
+PostMan
+Adobe Acrobat Reader DC
+CCleaner
+NSIS
+
+
+
 
 ::VersionHistory
 :: 1.2.8 --- 2012-10-19 10:20:45 --- ysg --- clean up 

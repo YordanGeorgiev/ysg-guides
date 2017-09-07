@@ -350,8 +350,8 @@ sed '52q;d' # method 3, efficient on large files
 
 
 # START === create symlink
-export link_path=/opt/csitea/isg-pub/isg-pub.0.9.7.tst.ysg/doc_pub/public/img/apps/futu_lp_en
-export target_path=/opt/futurice/futu-lp/futu-lp.1.0.1.prd.ysg/doc_pub/public/img/
+export link_path=/opt/futu/enricher.sh
+export target_path=/opt/futu/enricher/enricher.0.1.8.dev.georgiev/src/bash/enricher/enricher.sh
 mkdir -p `dirname $link_path`
 unlink $link_path
 ln -s "$target_path" "$link_path"
@@ -371,20 +371,20 @@ ls -la $link_path;
 
 # START === user management
 #how-to add a linux group
-export group=futu
-export gid=10002
+export group=appgroup
+export gid=10001
 sudo groupadd -g "$gid" "$group"
 sudo cat /etc/group | grep --color "$group"
 
-export user=ysg
+export user=appuser
 export uid=10001
 export home_dir=/home/$user
-export desc="the user of the gogo app"
+export desc="the application user of the appgroup group"
 #how-to add an user
-useradd --uid "$uid" --home-dir "$home_dir" --gid "$group" \
+sudo useradd --uid "$uid" --home-dir "$home_dir" --gid "$group" \
 --create-home --shell /bin/bash "$user" \
 --comment "$desc"
-cat /etc/passwd | grep --color "$user"
+sudo cat /etc/passwd | grep --color "$user"
 
 
 # modify a user
