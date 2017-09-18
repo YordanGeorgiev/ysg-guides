@@ -7,6 +7,10 @@ git reset HEAD -- .
 # who has done what in the current branch
 git log --format='%h %ai %an %m%m %s'
 
+# how-to list which files were added to the 6804322 commit
+git diff-tree --no-commit-id --name-only -r 6804322
+
+
 # who has done what on a specific file
 git log --format='%h %ai %an %m%m %s' --follow some/file
 
@@ -46,6 +50,9 @@ git branch -D branch_to_delete
 
 # how-to list your existing tags
 git tag
+git push origin tag_name
+
+
 
 # how-to tag a version 
 export msg="a simple scala console project"
@@ -130,8 +137,14 @@ cat ~/.ssh/id_ecdsa.pub
 
 
 
+
 # add the remote 
+# this one asks usually a pw
 git remote add origin https://github.com/YordanGeorgiev/isg-pub.git
+
+# this one does not ask for pw if you have ssh keys set up in github
+git remote set-url origin git+ssh://git@github.com/YordanGeorgiev/aspark-starter
+
 # initialize a new git repo
 git init
 # clone the existing repo from the Internet

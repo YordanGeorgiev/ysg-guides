@@ -67,6 +67,18 @@ find "$dir/" -type f -name '*.bak' | xargs rm -f
 #-- stop  - srch and repl %var_id% with var_id_val in files in $component_name_dir_tmp
 
 
+
+# START === create symlink
+export link_path=/opt/futu/enricher.sh
+export target_path=/opt/futu/enricher/enricher.0.1.8.dev.georgiev/src/bash/enricher/enricher.sh
+mkdir -p `dirname $link_path`
+unlink $link_path
+ln -s "$target_path" "$link_path"
+ls -la $link_path;
+# STOP === create symlink
+
+
+
 # get a nice prompt 
 export PS1="\h [\d \t] [\w] $ \n\n  "
 
@@ -152,11 +164,9 @@ tcpdump dst 10.168.28.22 and tcp port 22
 tcpdump dst 1.2.81.2.8.212 
  
 # record the current session via script
-mkdir ~/scriptlogs
-script -a ~/data/log/script/`date +%Y%m%d%H%M%S`_script.log
+mkdir -p ~/data/log/script ; script -a ~/data/log/script/$USER.linux.`date +%Y%m%d%H%M%S`_script.log
   
-#/usr/bin is for normal user executables, /usr/sbin is for superuser executables, /usr/sfw is for external software (like gnu one), but provided with bundle of OS, /usr/ccs is for development utilities, usually not need for daily tasks like make, lex, yacc, sccs
- 
+
 # take the last 5 commands for faster execution to the temp execution script
 tail -n 5 /root/.bash_history >> /var/run.sh
  
@@ -179,7 +189,8 @@ find . -name '*os*' | grep linux | less
 find . -name '*.xml' -exec cat {} \;| grep wordToFindInRow | less
  
  
-# START === bash shortcuts 
+# START === bash shortcuts
+
 # Go to the beginning of the line you are currently typing on
 Ctrl + A 
 # Go to the end of the line you are currently typing on
@@ -188,6 +199,19 @@ Ctrl + E
 Alt + F
 # move a word backwards
 Alt + B
+# cycle back the history 
+Ctrl + R
+# the most efficent way to search your history is to hit Ctrl R and
+# type the start of the command. It will autocomplete as soon as theres
+# a match to a history entry, then you just hit enter. If you want to
+# complete the command (add to it ) use the right arrow to
+# escape from the quick search box ...
+
+# cycle forth the history ( might need separate config )
+Ctrl + I 
+# how-to edit complex commands via the $EDITOR
+Ctrl + X,E
+
 # STOP === bash shortcuts 
  
 # how-to mount an usb stick
@@ -214,7 +238,6 @@ echo $attachments | mailx $attachments -s "$dir files" $MyEmail
 
 mailx $(find $dir -type f| perl -ne 'print "-a $_"'| xargs) -s "$fir files" $MyEmail < `echo $(find $dir -type f| perl -ne 'print "-a $_"'| xargs)`
 
-
 #stop e-mail
  
 # see all the rules associated with the firewall
@@ -222,12 +245,6 @@ iptables -L -n -v --line-numbers
  
 gunzip *file.zip
 
-# To start remote session click on the putty screen , configure putty
-# settings to pull full screen with alt + Enter
- 
-# right click on the title bar , settings , change the font , copy
-# paste from and to the terminal window text
- 
 # how to ensure the sshd daemon is running
 ps -ef | grep sshd
 
@@ -236,24 +253,13 @@ ps -ef | grep sshd
 killall -v -i sshd
  
  
-# the most efficent way to search your history is to hit Ctrl R and
-#type the start of the command. It will autocomplete as soon as theres
-#a match to a history entry, then you just hit enter. If you want to
-#complete the command (add to it ) use the right arrow to
-#escape from the quick search box ...
  
  
 #How to see better which file were opened , which directories were visited
  
 #type always the fullpath after the vi - use the $PWD env variable to
-#open files in the current directory , thus after opening the file
-#after:
- 
-#vi /$PWD , press tab to complete the name of the current directory ,
-#type the name of the file. THUS AFTER RUNNING
-history | grep vim
- 
-#of course the same could be seen from the /home/username/.viinfo file /files
+# open files in the current directory , thus after opening the file
+# after:
  
 #where to set the colors for the terminal (if you are lucky to have one
 # with colors ; )
@@ -269,7 +275,7 @@ go over the file and gf
 #which version of Linux I am using
 uname -a
  
-#How to copy paste text in the putty window from client to server -
+#How to copy paste text in the terminal client window from client to server -
 
 #click the right button of your pointing device
  
@@ -304,7 +310,7 @@ PROMPT_COMMAND='history -a'
  
 # than run the script
 #how-to replace single char in file
-tr '\t' ',' < FileWithTabs > fileWithCommas
+tr '\t' ',' < file-with-tabs > file-with-commas
  
 # Allow access to the box from only one ip address
  
@@ -327,7 +333,7 @@ for pid in $(ps -ef | grep chrome | perl -ne 's/\s+/ /g;print $_ . "\n";' | cut 
 
 
 #how-to create relative file paths tar package recursively fromm a dir
-cd $RootDirToStartRelativePathsFrom
+cd $roo_dir_to_start_tarring_relative_paths_from
 tar -cvzpf $pckg_to_create.tar .
 # exctract tar file into cd  
 tar -xvf $pck_to_exctract_to_cwd.tar
@@ -346,27 +352,6 @@ gzip -cd $file | tar -xvf -
 sed -n '52p' # method 1
 sed '52!d' # method 2
 sed '52q;d' # method 3, efficient on large files
-
-
-
-# START === create symlink
-export link_path=/opt/futu/enricher.sh
-export target_path=/opt/futu/enricher/enricher.0.1.8.dev.georgiev/src/bash/enricher/enricher.sh
-mkdir -p `dirname $link_path`
-unlink $link_path
-ln -s "$target_path" "$link_path"
-ls -la $link_path;
-# STOP === create symlink
-
-
-
-export link_path=/opt/csitea/wrapp/src/bash/wrapp.sh
-export target_path=/opt/csitea/wrapp/wrapp.1.2.7.prd.ysg/src/bash/wrapp/wrapp.sh
-mkdir -p `dirname $link_path`
-unlink $link_path
-ln -s "$target_path" "$link_path"
-ls -la $link_path;
-
 
 
 # START === user management
@@ -412,10 +397,12 @@ gpasswd:
 
 #how-to extracts rpm packages contents
 export ins=foo-bar.rpm
-rpm2cpio $ins | cpio -id
-#how-to extract *.tar.gz 
-gzip -dc *.tar.gz | tar xvf -
-cd foo-bar-dir
+rpm2cpio $ins |cpio -id
+
+#how-to extract or uncompress  *.tar.gz 
+gzip -dc *.tar.gz | tar -C "$target_path" xvf -
+
+cd "$target_path/foo-bar-dir"
 
 #--- show all installed packages
 rpm -dev
@@ -740,8 +727,11 @@ htpasswd -c $pw_file $user
 ts='201401181205.09'
 touch -a -m -t "$ts" "$file"
 
+# how-to search for a packge
+sudo apt-cache search keyword
+
 # how-to install packages on ubuntu
-apt-get -y install $package_name
+sudo apt-get -y install $package_name
 # howto install packages on red-hat
 yum install $package_name
 
@@ -773,6 +763,18 @@ cat << "EOF" > path/to/instructed.cnf
 }
 EOF
 #^^^ no space after the new line
+
+# how-to automate silent installations
+# Pass input to the installer using a here-document
+sudo mysql_secure_installation <<EOF
+$password
+N
+Y
+Y
+Y
+Y
+EOF
+
 
 # how-to verify cert from the cmd line
 echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
