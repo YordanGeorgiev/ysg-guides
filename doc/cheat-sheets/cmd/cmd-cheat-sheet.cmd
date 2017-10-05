@@ -550,7 +550,8 @@ Adobe Acrobat Reader DC
 CCleaner
 NSIS
 
-
+:: how-to use global proxy on windows
+netsh winhttp set proxy <<proxy server address>> <<exception list in quotes, seperated by ;>>
 
 
 ::VersionHistory
