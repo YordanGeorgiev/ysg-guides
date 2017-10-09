@@ -87,6 +87,8 @@ find . -type f -exec stat -c '%n %y' {} \; | sort -n | less
 # check permissions effectively 
 find . -type f -exec stat -c "%U:%G %a %n" {} \; | less
 
+# skip a dir in find
+find . -not path no-go
 
 # aliases
 # show dirs with nice time newest modified on top 
@@ -504,12 +506,6 @@ ls -1 | awk -F1 'BEGIN {FS="-"};{print $2 "¤" $1 "-" $2 "-" $3 }' | sort -nr | c
 # the same approach with perl
 ls -1 | perl -p -i -e 's/^([^\-]*)(\-)([^\-]*)(\-)([^\-]*)/$3¤$1.2.8$4$5/g' | sort -nr | cut -d ¤ -f 2,5  
 
-# how-to use sftp with remoteUserName having publicIdentity of PublicIdentityUserName
-sftp -v -o "IdentityFile /var/www/.ssh-id/PublicIdentityUserName" \
--o "UserKnownHostsFile /var/www/.ssh-id/known_hosts" remoteUserName@ServerHostNameOrIpd
-
-
-ssh -v -o ServerAliveInterval 300 -o ServerAliveCountMax 1 
 
 # ==================================================================
 # START Jobs control 
