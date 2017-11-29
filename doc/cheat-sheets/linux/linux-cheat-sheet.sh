@@ -69,12 +69,13 @@ find "$dir/" -type f -name '*.bak' | xargs rm -f
 
 
 # START === create symlink
-export link_path=/opt/futu/enricher.sh
-export target_path=/opt/futu/enricher/enricher.0.1.8.dev.georgiev/src/bash/enricher/enricher.sh
+export link_path=/var/csitea
+export target_path=/Users/phz/var/csitea
 mkdir -p `dirname $link_path`
 unlink $link_path
 ln -s "$target_path" "$link_path"
 ls -la $link_path;
+
 # STOP === create symlink
 
 
@@ -499,9 +500,9 @@ pmap   $prod_id_to_pmap
 # by their sending sequence , use proper file naming convention files 
 # ls -1 gives us:
 # fileBeginningTillFirstDelimiter-TheColumnToSortBy-TheRestFromTheFileNameDelimiter
-ls -1 | awk -F1 'BEGIN {FS="-"};{print $2 "¤" $1 "-" $2 "-" $3 }' | sort -nr | cut -d ¤ -f 2,5 
+ls -1 | awk -F1 'BEGIN {FS="-"};{print $2 "Â¤" $1 "-" $2 "-" $3 }' | sort -nr | cut -d Â¤ -f 2,5 
 # the same approach with perl
-ls -1 | perl -p -i -e 's/^([^\-]*)(\-)([^\-]*)(\-)([^\-]*)/$3¤$1.2.8$4$5/g' | sort -nr | cut -d ¤ -f 2,5  
+ls -1 | perl -p -i -e 's/^([^\-]*)(\-)([^\-]*)(\-)([^\-]*)/$3Â¤$1.2.8$4$5/g' | sort -nr | cut -d Â¤ -f 2,5  
 
 # how-to use sftp with remoteUserName having publicIdentity of PublicIdentityUserName
 sftp -v -o "IdentityFile /var/www/.ssh-id/PublicIdentityUserName" \

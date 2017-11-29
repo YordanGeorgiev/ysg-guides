@@ -1,15 +1,27 @@
 #file: git-cheat-sheet.sh
 
+# who has done what in the current branch
+git log --format='%h %ai %an %m%m %s'
+
+# get the commit from which you wanto to change the history 
+last_own_commit_hash=babba7c
+
+# start eding the history
+git rebase -i $last_own_commit_hash
+# on the first opening of the file change ONLY the picks -> squash or whatever
+# on the second opening of the commit msg file change the commit msg to add
+
+# how-to remove a file added accidentally from the whole history
+git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
+
 # how-to remove all the files from staging
 git reset HEAD -- .
-
 
 # who has done what in the current branch
 git log --format='%h %ai %an %m%m %s'
 
 # how-to list which files were added to the 6804322 commit
 git diff-tree --no-commit-id --name-only -r 6804322
-
 
 # who has done what on a specific file
 git log --format='%h %ai %an %m%m %s' --follow some/file
@@ -45,13 +57,13 @@ git fetch -p origin
 # push my cool feature to  my repo fork
 git push myrepofork feature/mycoolfeature
 
-#how-to delete a local branch
+#how-to delete a branch locally and remotely
 git branch -D branch_to_delete
+git push -d origin branch_to_delete
 
 # how-to list your existing tags
 git tag
 git push origin tag_name
-
 
 
 # how-to tag a version 
@@ -63,10 +75,9 @@ git tag -a $version -m "$tag_msg"
 git show $version
 
 
-
 # to check a specific commit 
 git show $git_obj
-# how-to show which files have been commited 
+# howo show which files have been commited 
 git diff-tree --no-commit-id --name-only -r $git_obj
 
 
@@ -76,6 +87,11 @@ git branch -a
 # chekout as specific branch
 git fetch --all
 git checkout feature/feature_name
+
+# how-to delete local branches deleted already on the remote
+git fetch -p --all
+
+
 
 git checkout develop -- `git ls-tree --name-only -r develop | egrep '*.zip'`
 
@@ -91,6 +107,9 @@ git pull --rebase
 
 # remove the unneeded commits from the last 10 
 git rebase -i HEAD~10
+
+
+
 
 # how-to apply a commit from specific branch to the current branch
 git cherry-pick $commit_sha_to_apply
