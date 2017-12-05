@@ -1,5 +1,14 @@
 # file: docs/cheat-sheets/aws/aws-cli-cheat-sheet.sh
 
+
+# find for s3 bucket
+aws s3api --profile $aws_profile --endpoint-url=$end_point_url \
+list-objects --bucket $bucket_name --query 'Contents[].{Key: Key}'
+
+# how-to upload a dir into a s3 bucket
+aws s3 cp $src_dir s3://$tgt_bucket --recursive
+
+
 # aws ec2
 
 # how-to list the ec2 instances and their tags
