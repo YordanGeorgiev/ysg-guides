@@ -5,9 +5,11 @@
   objFileHandler.getFileTree( new File ( dataCsvDir ) )
     .filter(_.getName.endsWith(".csv"))
 		  .foreach{
-          x => var f = x;
-          /* some operation */
-	       println
+          x => {
+            var f = x;
+	         println ( f.toString() )
+            /* some operation */
+          }
 }
 
 // how-to declare hc array
@@ -52,14 +54,11 @@ or even better use the Either idiom
 // STOP how-to use Either
 
 
-
-
-Command + Alt + left arrow - go back in code
-Command + Alt + right arrow - go forth in code
-Command + Alt + Shift + L - format code in the current file  , cursor has to be there
-Command + Alt + T - fold selected text 
-Command + R - search and replace 
-Command + F - search in code , use the arrows to jump to the next or the previous ... , Esc to escape the search mode
-
+// create hc dataframe
+var input1 = spark.createDataFrame(Seq(
+(10L, "Joe Doe", 34),
+(11L, "Jane Doe", 31),
+(12L, "Alice Jones", 25)
+)).toDF("id", "name", "age")
 
 // eof file: scala-cheat-sheet.scala

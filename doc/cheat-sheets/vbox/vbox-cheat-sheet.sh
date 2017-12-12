@@ -27,6 +27,7 @@ VBoxManage startvm "vm-name"
 # how-to shutdown a vm
 VBoxManage controlvm "vm_name" poweroff
 
+
 # add port forwarding from host to guest
 VBoxManage modifyvm "vm_name" --natpf1 "5001,tcp,,5001,,5001"
 

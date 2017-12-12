@@ -88,6 +88,8 @@ find . -type f -exec stat -c '%n %y' {} \; | sort -n | less
 # check permissions effectively 
 find . -type f -exec stat -c "%U:%G %a %n" {} \; | less
 
+# skip a dir in find
+find . -not path no-go
 
 # aliases
 # show dirs with nice time newest modified on top 
@@ -357,20 +359,21 @@ sed '52q;d' # method 3, efficient on large files
 
 # START === user management
 #how-to add a linux group
-export group=appgroup
+export group=ysg
 export gid=10001
 sudo groupadd -g "$gid" "$group"
 sudo cat /etc/group | grep --color "$group"
 
-export user=appuser
+export user=ysg
 export uid=10001
 export home_dir=/home/$user
-export desc="the application user of the appgroup group"
+export desc="the hadoop group"
 #how-to add an user
 sudo useradd --uid "$uid" --home-dir "$home_dir" --gid "$group" \
 --create-home --shell /bin/bash "$user" \
 --comment "$desc"
 sudo cat /etc/passwd | grep --color "$user"
+groups "$user"
 
 
 # modify a user
@@ -504,12 +507,6 @@ ls -1 | awk -F1 'BEGIN {FS="-"};{print $2 "¤" $1 "-" $2 "-" $3 }' | sort -nr | 
 # the same approach with perl
 ls -1 | perl -p -i -e 's/^([^\-]*)(\-)([^\-]*)(\-)([^\-]*)/$3¤$1.2.8$4$5/g' | sort -nr | cut -d ¤ -f 2,5  
 
-# how-to use sftp with remoteUserName having publicIdentity of PublicIdentityUserName
-sftp -v -o "IdentityFile /var/www/.ssh-id/PublicIdentityUserName" \
--o "UserKnownHostsFile /var/www/.ssh-id/known_hosts" remoteUserName@ServerHostNameOrIpd
-
-
-ssh -v -o ServerAliveInterval 300 -o ServerAliveCountMax 1 
 
 # ==================================================================
 # START Jobs control 
@@ -656,14 +653,18 @@ ssh -L [BIND_ADDRESS:]PORT:HOST:HOSTPORT HOSTNAME
 # remote port forwarding
 ssh -R [BIND_ADDRESS:]PORT:HOST:HOSTPORT HOSTNAME
 
-# START === how-to enable port forwarding or tunnelling
-export local_port=22
-export remote_port=13306
-export ssh_user=type_here_ssh_user
-export ssh_server=type_here_the_hostname
-export db_server=type_here_the_db_hostname
-#[-L [bind_address:]port:host:hostport] 
-ssh -L localhost:$local_port:$db_server:$remote_port $ssh_user@$ssh_server
+# START === how-to enable port forwarding via ssh or ssh tunnelling
+export local_host_port=30000
+export host1_user=phz
+export host1=mac-host
+export host1_port=30000
+export host2=192.168.56.115
+export host2_user=ysg
+export host2_port=13306
+
+# Tunnel from localhost to host1 and from host1 to host2
+ssh -tt -L $local_host_port:localhost:$host1_port $host1_user@$host1 \
+ssh -tt -L $host1_port:localhost:$host2_port $host2_user@$host2
 # STOP === how-to enable port forwarding or tunnelling
 
 # START === cron scheduling 
@@ -731,6 +732,9 @@ touch -a -m -t "$ts" "$file"
 # how-to search for a packge
 sudo apt-cache search keyword
 
+# where did a package come from
+apt-cache policy $package
+
 # how-to install packages on ubuntu
 sudo apt-get -y install $package_name
 # howto install packages on red-hat
@@ -779,6 +783,7 @@ EOF
 
 # how-to verify cert from the cmd line
 echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
+
 
 
 #
