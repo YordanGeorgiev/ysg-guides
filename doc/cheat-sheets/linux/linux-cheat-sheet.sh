@@ -54,17 +54,17 @@ to_srch='what_to_srch'
 to_repl='what_to_replace'
 
 #-- srch and repl %var_id% with var_id_val in dirs in $component_name_dir_tmp
-find "$dir" -type d |\
+find "$dir" -not \( -wholename "./.git" -prune \) -type d |\
 perl -nle '$o=$_;s#'"$to_srch"'#'"$to_repl"'#g;$n=$_;`mkdir -p $n` ;'
-find "$dir" -type f |\
+find "$dir" -not \( -wholename "./.git" -prune \) -type f |\
 perl -nle '$o=$_;s#'"$to_srch"'#'"$to_repl"'#g;$n=$_;rename($o,$n) unless -e $n ;'
 
 #-- stop  - search and replace recursively in both files and file paths
 
-#-- start - srch and repl %var_id% with var_id_val in files in $component_name_dir_tmp
-find "$dir" -type f -exec perl -pi -e "s#$to_srch#$to_repl#g" {} \;
+#-- start - srch and repl %var_id% with var_id_val in files in $dir_to_srch_and_repl
+find "$dir" -type f -not \( -wholename "./.git" -prune \) -exec perl -pi -e "s#$to_srch#$to_repl#g" {} \;
 find "$dir/" -type f -name '*.bak' | xargs rm -f
-#-- stop  - srch and repl %var_id% with var_id_val in files in $component_name_dir_tmp
+#-- stop  - srch and repl %var_id% with var_id_val in files in $dir_to_srch_and_repl
 
 
 
@@ -461,6 +461,9 @@ kill -9 $proc_to_find
 netstat --tcp --listening --programs
 netstat --tcp
 netstat --route
+
+# how-to get my current gateway ip
+ip route | grep default
 
 
 # STOP === system monitoging commands

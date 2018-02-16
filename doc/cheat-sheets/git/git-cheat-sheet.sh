@@ -17,6 +17,9 @@ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 # how-to remove all the files from staging
 git reset HEAD -- .
 
+# how-to restore a
+git reset HEAD --hard
+
 # who has done what in the current branch
 git log --format='%h %ai %an %m%m %s'
 
@@ -154,9 +157,6 @@ ssh-keygen -t ecdsa -b 521
 cat ~/.ssh/id_ecdsa.pub
 
 
-
-
-
 # add the remote 
 # this one asks usually a pw
 git remote add origin https://github.com/YordanGeorgiev/isg-pub.git
@@ -241,7 +241,7 @@ git push origin master
 
 
 # well this is more of an jira git integration , but anyway 
-# how-to link Stash commits to jira issues 
+# how-to link stash commits to jira issues 
 git commit -m "$issue_id 0.4.1 foo bar"
 
 git log --pretty=format:"%cr %cn %s" --author="Georgiev Yordan" -3
@@ -276,6 +276,18 @@ git diff -p \
 # https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 # https://gist.github.com/JamesMGreene/cdd0ac49f90c987e45ac
 
+# how-to configure a git proxy 
+git config --global http.proxy $http_proxy
+git config --global https.proxy $https_proxy
 
+# save your current work into the git stash
+git stash 
+# check what there is in the git stash 
+git stash list
 
+# git stash 
+git stash drop stash@{0}
+
+# pick a git stash 
+git stash pop stash@{2}
 #eof file: git-cheat-sheet.sh

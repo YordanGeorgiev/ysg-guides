@@ -1,5 +1,9 @@
 #file: doc/cheat-sheets/mac-cheat-sheet.sh
 
+
+# how-to get hw info
+system_profiler SPSoftwareDataType
+
 # which tcp / ip ports are open
 sudo lsof -PiTCP -sTCP:LISTEN
 
@@ -8,7 +12,7 @@ sudo lsof -PiTCP -sTCP:LISTEN
  which pfctl
 
 # edit its configuration file
- vim  /etc/pf.conf
+vim  /etc/pf.conf
 
 # add the following lines 
 # Open port 8080 for TCP on all interfaces
@@ -52,29 +56,11 @@ Delete file from Finder = Cmd + BackspaceThe
 
 
 
-SHORTCUTS LINKS
-libre office shortcuts
-https://help.libreoffice.org/Calc/Shortcut_Keys_for_Spreadsheets
-
-
-
 # install java 8 
-brew cask install caskroom/versions/java8
- 
+brew cask install caskroom/versions/java8 
 brew install scala  
 brew install sbt 
 
-
-Idea shortcuts
-Command + Alt + Arrows - go back and forth were I was 
-Shift , Shift - search overall 
-Command + B - go to definition
-Command + E - go to recent files
-
-
-
-go to the 
-/nfsshare/zeppelin
 
 
 

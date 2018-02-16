@@ -83,4 +83,200 @@ val outDf: DataFrame = lstColumnsToIterate
 // STOP foldLeft usage
 
 
+
+// START CREATE HARDCODED DF 
+    val spark = SparkSession.builder().getOrCreate()
+    import spark.implicits._
+
+    val df = spark.createDataFrame(
+      Seq(
+      (1, None,    null.asInstanceOf[Integer], "F"),
+      (2, Some(2), 4, "F"),
+      (3, Some(3), 6, "N"),
+      (4, None,    8, "F")
+    )).toDF("A", "B", "C","D")
+
+    df.show
+    println ( df.schema.mkString(" , "))
+// STOP  CREATE HARDCODED DF 
+
+
+    // START how-to populate data - OBS NOT VERIFIED
+
+    val spark = SparkSession.builder().getOrCreate()
+    val sc = spark.sparkContext
+    val sqlContext = spark.sqlContext
+
+    import spark.implicits._
+    import sqlContext.implicits._
+
+    case class CaseClazz(
+                       id:Integer,
+                       foobar:String,
+    )
+
+
+    /**
+      * Build and return a schema to use for the sample manual data
+      */
+package com.nokia.ava.npo.musa.measurements
+
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
+import org.scalatest.FunSuite
+import com.nokia.ava.npo.musa.CassandraTestContext
+import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.types._
+
+class TestDataPOC extends FunSuite with CassandraTestContext {
+
+  val KEYSPACE = "notused"
+
+  /**
+    * A POC for creating testing data via
+    */
+  test("test populatoion of data from case class ") {
+
+    // START how-to populate data
+    val spark = SparkSession.builder().getOrCreate()
+    val sc = spark.sparkContext
+    val sqlContext = spark.sqlContext
+
+    import spark.implicits._
+    import sqlContext.implicits._
+
+    case class CaseClazz(
+                          id:Integer,
+                          foobar:String
+                        )
+
+    // obs first and second row hardcoded vals are for "teaching" schema !!!
+    val rddInServers = sc.parallelize(
+      List [CaseClazz](
+        // the first row should stay the same as all the freqs are different
+        CaseClazz(1,"foo"),
+        // the 2nd should stay the same as all the frequencies are different
+        CaseClazz(2,"bar") //,
+
+      ))
+
+    val rddInManual: RDD[Row] = rddInServers.map( (c: CaseClazz) => Row(
+      c.id,
+      c.foobar
+    ))
+
+    val schema = buildSchema
+    val dfIn :DataFrame = sqlContext.createDataFrame( rddInManual, schema)
+
+    println (dfIn.show)
+    // STOP  how-to populate data with case classes
+
+
+    // assert(dfOut.collect().toSeq.toSet == dfToCmp.collect().toSeq.toSet)
+    true
+  }
+
+
+  /**
+    * Build and return a schema to use for the sample manual data
+    */
+  def buildSchema() : StructType = {
+    val schema = StructType (
+      Seq (
+        StructField("id", IntegerType, false),
+        StructField("foobar", StringType, false)
+      )
+    )
+    schema
+  }
+
+}
+      // STOP  how-to populate data with case classes
+
+
+// START how-to implement command pattern with scala and implicits
+object WKTColumnsAdditionStage {
+  def read(fileType: MeasurementFileType, filePath: String): DataFrame = ???
+}
+
+object implicits {
+
+  implicit class FilteringStage(df: DataFrame) {
+    def filter: DataFrame = ???
+  }
+
+}
+
+class Reader(configuration: MusaParameters) {
+
+  import implicits._
+
+  def read(fileType: MeasurementFileType, filePath: String): DataFrame = {
+    WKTColumnsAdditionStage
+      .read(fileType, filePath)
+      .filter
+  }
+}
+
+// START how-to implement command pattern with scala and implicits
+
+
+// start how-to writer dummy logger
+  val now = Calendar.getInstance().getTime()
+  var logWriter = new BufferedWriter(new FileWriter(logFile, true))
+  val logStringStart = "Start: " + filePath + ", " + now
+  logWriter.write(logStringStart)
+  println(logStringStart) 
+// stop how-to write dummy logger 
+
+
+// start how-to read dataframe schema from json file 
+ def schema = DataType.fromJson(schemaJson).asInstanceOf[StructType]
+
+  def schemaJson =
+    Source
+      .fromInputStream(
+        getClass.getResourceAsStream("/schemas/input/4GConnected.json"))
+      .mkString
+
+{
+  "type" : "struct",
+  "fields" : [ {
+    "name" : "moClass",
+    "type" : "string",
+    "nullable" : false,
+    "metadata" : { }
+  },{ 
+    "name" : "itemLists",
+    "type" : {
+      "type" : "map",
+      "keyType" : "string",
+      "valueType" : {
+        "type" : "array",
+        "elementType" : {
+          "type" : "map",
+          "keyType" : "string",
+          "valueType" : "string",
+          "valueContainsNull" : true
+        },
+        "containsNull" : true
+      },
+      "valueContainsNull" : true
+    },
+    "nullable" : true,
+    "metadata" : { }
+  } ]
+} 
+
+
+// stop 
+
+
+// src - scala dependency injection 
+http://di-in-scala.github.io/#manual
+// 
+
+
+
+
+
 // eof file: scala-cheat-sheet.scala
