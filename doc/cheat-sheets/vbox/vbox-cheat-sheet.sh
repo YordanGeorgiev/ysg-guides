@@ -13,26 +13,26 @@ VBoxManage modifyvm 8e2562ee-61e3-48da-9381-092fc1ab909c --natdnsproxy1 on
 VBoxManage modifyvm 8e2562ee-61e3-48da-9381-092fc1ab909c --natdnshostresolver1 on
 
 # how-to start a vm without ui  
-VBoxManage startvm "vm-name" --type headless
+VBoxManage startvm "host-name" --type headless
 
 # how-to start a vm with detachable ui ( no 3D acceleration )
-VBoxManage startvm "vm-name" --type separate
+VBoxManage startvm "host-name" --type separate
 
 # how-to save the current state of the vm 
-VBoxManage controlvm "vm_name"  savestate
+VBoxManage controlvm "host-name"  savestate
 
 # how-to start a vm with ui  
 VBoxManage startvm "vm-name"
 
 # how-to shutdown a vm
-VBoxManage controlvm "vm_name" poweroff
+VBoxManage controlvm "host-name" poweroff
 
 
 # add port forwarding from host to guest
-VBoxManage modifyvm "vm_name" --natpf1 "5001,tcp,,5001,,5001"
+VBoxManage modifyvm "host-name" --natpf1 "5001,tcp,,5001,,5001"
 
 #how-to check network settings 
-VBoxManage showvminfo "vm_name" | grep NIC
+VBoxManage showvminfo "host-name" | grep NIC
 
 # in bash how-to export all myy Virtual box vms in Windows in the current dir
 while read -r vms ; do echo VBoxManage export "$vms" -o "$vms".ova ; done < <(VBoxManage list vms|cut -d'"' -f2)
@@ -47,7 +47,7 @@ VBoxManage modifyhd "C:\Users\ysg\VirtualBox VMs\doc-pub-host\doc-pub-host-disk1
 VBoxManage clonehd "C:\Users\ysg\VirtualBox VMs\doc-pub-host\doc-pub-host-disk1.vmdk" "C:\Users\ysg\VirtualBox VMs\doc-pub-host\doc-pub-host-disk.vdi" --format vdi
 VBoxManage modifyhd "C:\Users\ysg\VirtualBox VMs\doc-pub-host\doc-pub-host-disk.vdi" --resize 20480
 
-VBoxManage guestproperty enumerate doc-pub-host | grep -i Net | grep -i ip
+VBoxManage guestproperty enumerate host-name | grep -i Net | grep -i ip
 
 
 

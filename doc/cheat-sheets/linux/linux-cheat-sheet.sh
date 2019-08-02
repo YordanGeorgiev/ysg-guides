@@ -3,7 +3,6 @@
 
 # dns troubleshooting
 dig host-dns.name
-# how-many Answers !? 
 
 host host-dns.name
 nslookup
@@ -50,8 +49,9 @@ cat "$list_file" | { while read -r jira_issue ; do c=$((c+1)) ; test $c -eq 5 &&
 ( sh /maintenance/ip/sfw/sh/jira --action progressIssue --issue $jira_issue --step 41 )& done }
 
 #-- start - search and replace recursively in both files and file paths
-to_srch='what_to_srch'
-to_repl='what_to_replace'
+export dir='<<type the dir>>'
+export to_srch='what_to_srch'
+export to_repl='what_to_replace'
 
 #-- srch and repl %var_id% with var_id_val in dirs in $component_name_dir_tmp
 find "$dir" -not \( -wholename "./.git" -prune \) -type d |\
@@ -66,22 +66,22 @@ find "$dir" -type f -not \( -wholename "./.git" -prune \) -exec perl -pi -e "s#$
 find "$dir/" -type f -name '*.bak' | xargs rm -f
 #-- stop  - srch and repl %var_id% with var_id_val in files in $dir_to_srch_and_repl
 
-
+on_parhaat
 
 # START === create symlink
-export link_path=/var/csitea
-export target_path=/Users/phz/var/csitea
+export link_path=/opt/phz
+export tgt_path=/hos/opt/phz
 mkdir -p `dirname $link_path`
-unlink $link_path
-ln -s "$target_path" "$link_path"
-ls -la $link_path;
-
+test -L $link_path && unlink $link_path
+ln -s "$tgt_path" "$link_path"
+ls -la $link_path; 
 # STOP === create symlink
 
-
+echo y;echo o conf prerequisites_policy follow;echo o conf commit)|cpan
 
 # get a nice prompt 
 export PS1="\h [\d \t] [\w] $ \n\n  "
+export PS1="`date "+%F %T"` \u@\h  \w \n\n  "
 
 # nice listing
 find . -type f -exec stat -c '%n %y' {} \; | sort -n | less
@@ -286,11 +286,10 @@ uname -a
 #right-click the window title and select copy all to Clipboard.
  
 #To restart a service
-service sshd restart
-#  
+service sshd restart  
 service --status-all --- show the status of all services
  
- 
+
 # change the owneership of the directory recursively
 chown -vR user$group $dir
 
@@ -359,15 +358,15 @@ sed '52q;d' # method 3, efficient on large files
 
 # START === user management
 #how-to add a linux group
-export group=ysg
-export gid=10001
+export group=staff
+export gid=20001
 sudo groupadd -g "$gid" "$group"
 sudo cat /etc/group | grep --color "$group"
 
-export user=ysg
-export uid=10001
+export user=phz
+export uid=20001
 export home_dir=/home/$user
-export desc="the hadoop group"
+export desc="the qto user"
 #how-to add an user
 sudo useradd --uid "$uid" --home-dir "$home_dir" --gid "$group" \
 --create-home --shell /bin/bash "$user" \
@@ -404,9 +403,9 @@ export ins=foo-bar.rpm
 rpm2cpio $ins |cpio -id
 
 #how-to extract or uncompress  *.tar.gz 
-gzip -dc *.tar.gz | tar -C "$target_path" xvf -
+gzip -dc *.tar.gz | tar -C "$tgt_path" xvf -
 
-cd "$target_path/foo-bar-dir"
+cd "$tgt_path/foo-bar-dir"
 
 #--- show all installed packages
 rpm -dev
@@ -461,6 +460,8 @@ kill -9 $proc_to_find
 netstat --tcp --listening --programs
 netstat --tcp
 netstat --route
+# how-to display the kernel routing table 
+sudo netstat -nr
 
 # how-to get my current gateway ip
 ip route | grep default
@@ -526,7 +527,7 @@ bg 1
 # run the next command 
 # how-to copy file via scp by using specificy identity
 scp -v -o "IdentityFile /home/userName/.ssh/id_rsa" /data/path/dir/* \
-userName@ServerHostName.Domain.com:/Server/Target/Dir/
+userName@ServerHostName.Domain.com:/Server/tgt/Dir/
 
 # now again stop the job first by Ctrl + Z 
 # check again the running jobs 
@@ -604,11 +605,13 @@ perl -ne 'split/\s+/;print "$_[5] $_[6] $_[7] \n" ;' | sort -nr | less
 # list dir files , grap a number from their names , print with NumberFileName, sort , \
 # print finally the names without the Number but sorted 
 ls -1 | perl -ne 'm/(\d{8})/; print $1 . $_ ;' | sort -nr | perl -ne 's/(\d{8})//;print $_'
-   
+
+
 # START === how-to implement public private key ( pkk ) authentication 
 # create pub priv keys on server
 # START copy 
 ssh-keygen -t rsa
+ssh-keygen -t rsa -b 4096 -C "yordan.georgiev@phz.fi"
 # Hit enter twice 
 # copy the rsa pub key to the ssh server
 scp ~/.ssh/id_rsa.pub $ssh_user@$ssh_server:/home/$ssh_user/
@@ -670,6 +673,8 @@ ssh -tt -L $local_host_port:localhost:$host1_port $host1_user@$host1 \
 ssh -tt -L $host1_port:localhost:$host2_port $host2_user@$host2
 # STOP === how-to enable port forwarding or tunnelling
 
+
+
 # START === cron scheduling 
 #edit the crontab
 crontab -e
@@ -716,6 +721,9 @@ yum clean all
 yum -y install perl
 # update all but the linux kernel packages
 yum -y --exclude=kernel\* update
+
+# how-to view installed packages on ubuntu 
+sudo dpkg -l
 
 /nz/kit/sbin/sendMail -dst first.last@company.com -msg "subject line" -bodyTextFile $outfile -removeFile
 
@@ -787,7 +795,17 @@ EOF
 # how-to verify cert from the cmd line
 echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
 
+# how-to create a self-signed certficate ...
+openssl req \
+       -newkey rsa:2048 -nodes -keyout host-name.key \
+       -x509 -days 365 -out host-name.crt
 
+# how-to find the total size of files in a directory 
+export dir="." ; find $dir -name '*.csv' -exec du -ch {} + | grep total$
+23G     total
+
+# how-to count the lines of multiple files of type in a directory 
+export dir="." ; find $dir -name '*.csv' -exec cat {} + | wc -l
 
 #
 # useful sources - hint: google site:<site>

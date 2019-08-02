@@ -1,39 +1,73 @@
 #file: doc/cheat-sheets/mac-cheat-sheet.sh
 
-
-# how-to get hw info
+# how-to get hw info - lsb_release -a for mac
 system_profiler SPSoftwareDataType
+
+# how-to check that a DNS server is working to a target url 
+nslookup <<target-uri>> <<dns-server-to-check>>
+nslookup www.google.fi 8.8.8.8
+dig @8.8.8.8 www.apple.com
+
+networksetup -listallnetworkservices
+
+networksetup -setdnsservers 'Wi-Fi' \
+8.8.8.8 8.8.4.4 \
+10.130.130.67 10.185.51.11 10.158.51.11 10.158.51.12 10.158.55.11
+
+
+# how-to list the dns servers 
+networksetup -getdnsservers 'Wi-Fi'
+scutil --dns
+
 
 # which tcp / ip ports are open
 sudo lsof -PiTCP -sTCP:LISTEN
 
+# get list of my hardware devices 
+sudo networksetup -listallhardwareports
 
- # do I have cmd firewall tool 
- which pfctl
+# brew install iproute2mac
+ip link show en0
 
-# edit its configuration file
-vim  /etc/pf.conf
+# how-to check the current routes
+sudo netstat -nr 
 
-# add the following lines 
-# Open port 8080 for TCP on all interfaces
-pass in proto tcp from any to any port 8080
+# how-to write a caron or down arrow 
+# Press Ctrl + Command + Space , search for arrow , right click copy info
+▼▼▼ or ↓ ↓↓↓
 
-# load the fw rules
-sudo pfctl -f /etc/pf.conf
+# how-to type a caret or up-arrow
+^^^ or ↑ ↑↑↑
 
-# list the rules
-sudo pfctl -sr
+Déjà vu
 
-Chrome
-Select the address field
-Command + L
+# lo is the loopback interface
+# en0 and en1 are your hardware interfaces (usually Ethernet and WiFi)
+# p2p0 is a point to point link (usually VPN)
+# p2p is Apple’s custom WiFi-Direct (used by things like personal hotspot in place of normal WiFi in some phases
+# stf0 is a "six to four" interface (IPv6 to IPv4)
+# gif01 is a software interface
+# bridge0 is a software bridge between other interfaces
+# utun0 is used for "Back to My Mac" - a the tunnel interface driver
+# XHC20 is a USB network interface
+# awdl0 is Apple Wireless Direct Link (Bluetooth) to iOS devices
+
+subnet=192.168.0.2/16
+vpn_interface=<<vpn-interface>>
+vpn_server_ip=<<vpn-server-ip>>
+vpn_gateway=<<vpn_gateway>>
+non_vpn_gateway
+/sbin/route add $subnet -interface $vpn_interface 0 $vpn_server_ip $vpn_gateway $non_vpn_gateway
+
 
 # a solution for the dns resolution problem
-https://apple.stackexchange.com/a/63059/258419
+# src: https://apple.stackexchange.com/a/63059/258419
+sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder
 
+# which are my dns servers 
+grep nameserver <(scutil --dns)
 
-
-15. UseFull keyboard shortcuts via the finnish mac keyboard
+Some UseFull keyboard shortcuts via the finnish mac keyboard
 Go to folder from Finder: Shift + Command + G
 Pipe (|) = Alt + 7
 Backslash (\) = Shift + Alt + 7
@@ -50,18 +84,22 @@ Page down = Fn + Down
 Print screen = Cmd + Shift + 3
 Partial print screen = Cmd + Shift + 4 (You get a cursor to select what to capture)
 Print window = Cmd + Shift + 4 and then press Spacebar
-
+Shift + Right click - copy the path to a file ( needs some settings )
 Delete = Fn + Backspace
 Delete file from Finder = Cmd + BackspaceThe 
 
-
-
-# install java 8 
+# how-to install java 8 
 brew cask install caskroom/versions/java8 
 brew install scala  
 brew install sbt 
 
+# which are the OpenDNS servers
+208.67.222.222
+208.67.220.220
 
+# which are the google dns servers
+8.8.8.8
+8.8.4.4
 
 
 # eof file: doc/cheat-sheets/mac-cheat-sheet.sh
