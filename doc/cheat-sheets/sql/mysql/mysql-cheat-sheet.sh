@@ -1,5 +1,8 @@
 # file: docs/cheat-sheets/sql/mysql/mysql-cheat-sheet.sh
 
+
+mysql --protocol tcp -uusrappspa -pusrappspa -hlocalhost -P13306
+
 # how-to change mysql user pw
 mysqladmin -u root -p'old_pass' mysql_user_pw 'new_pass'
 

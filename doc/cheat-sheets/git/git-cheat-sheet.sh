@@ -1,10 +1,89 @@
 #file: git-cheat-sheet.sh
 
-# who has done what in the current branch
-git log --format='%h %ai %an %m%m %s'
+# start :: how-to use different ssh identity files
+
+# create the company identity file
+ssh-keygen -t rsa -b 4096 -C "first.last@corp.com"
+# save private key to ~/.ssh/id_rsa.corp, 
+cat ~/.ssh/id_rsa.corp.pub # copy paste this string into your corp web ui security ssh keys
+
+# create your private identify file
+ssh-keygen -t rsa -b 4096 -C "me@gmail.com"
+# save private key to ~/.ssh/id_rsa.me, note the public key ~/.ssh/id_rsa.me.pub
+cat ~/.ssh/id_rsa.me.pub # copy paste this one into your githubs, private keys
+
+# clone company internal repo as follows
+GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+git clone git@git.in.corp.com:corp/project.git
+
+export git_msg="my commit msg with my corporate identity"
+git add --all ; git commit -m "$git_msg" --author "MeFirst MeLast <first.last@corp.com>"
+GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+git push 
+
+# clone public repo as follows
+GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+git clone git@github.com:acoolprojectowner/coolproject.git
+
+export git_msg="my commit msg with my personal identity"
+git add --all ; git commit -m "$git_msg" --author "MeFirst MeLast <first.last@gmail.com>"
+GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.me -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+git push 
+
+# stop :: how-to use different ssh identity files
+
+
+
+git log --graph --decorate --pretty=oneline --abbrev-commit develop origin/develop temp
+
+# revert the <<commit-hash>> 
+git revert <<hash>> 
+
+# how-to rebase your feature branch into develop quickly 
+# set your current branch , make a backup of it , caveat minute precision
+curr_branch=$(git rev-parse --abbrev-ref HEAD); git branch "$curr_branch"--$(date "+%Y%m%d_%H%M"); git branch -a | grep $curr_branch | sort -nr
+
+# squash all your changes at once 
+git reset $(git merge-base develop $curr_branch)
+
+# check the modified files to add 
+git status
+
+# add the modified files dir by dir, or file by file or all as shown
+git add --all 
+
+# check once again with the author time and commiter time 
+git log --pretty --format='%h %ai %<(15)%an ::: %s'
+git log --pretty --format='%h %cI %<(15)%an ::: %s'
+
+
+# add the single message of your commit for the stuff you did 
+git commit -m "<<MY-ISSUE-ID>>: add my very important feature"
+
+# check once again this time with the commiter time only 
+git log --pretty --format='%h %cI %<(15)%an ::: %s'
+
+# make a backup once again , use seconds precision if you were too fast ... 
+curr_branch=$(git rev-parse --abbrev-ref HEAD); git branch "$curr_branch"--$(date "+%Y%m%d_%H%M"); git branch -a | grep $curr_branch | sort -nr
+
+# compare the old backup with the new backup , should not have any differences 
+git diff <<old-backup>>..<<new-backup-branch>>
+
+
+# you would have to git push force to your feature branch 
+git push --force 
+
+
+# who did what and when in the current branch, start digging for why by git show $commit_short_hash
+git log --pretty --format='%h %cI %<(15)%an ::: %s'
+
+# who did what and when on a specific part of a file ( lines 0 to 10)
+git blame path/to/file -L 0,10 
 
 # get the commit from which you wanto to change the history 
 last_own_commit_hash=babba7c
+
+
 
 # start eding the history
 git rebase -i $last_own_commit_hash
@@ -27,7 +106,7 @@ git log --format='%h %ai %an %m%m %s'
 git diff-tree --no-commit-id --name-only -r 6804322
 
 # who has done what on a specific file
-git log --format='%h %ai %an %m%m %s' --follow some/file
+git log --format='%h %ai %an %m%m %s' --follow some/f
 
 # how-to check all the current branches with less in colors
 git branch -a --color=always | less -r
@@ -137,7 +216,7 @@ alias git="git -C $dir"
 
 # to to the tmp dir 
 cd /tmp 
-
+ƒ
 # set a pw run-time store in the cache 
 git config --global credential.helper cache
 git config --global core.editor "vim"
@@ -205,6 +284,7 @@ git rm --cached -r <<dir_i_did_not_want_to_add>>
 
 # dry run adding verbose a dir 
 git add -v -n --all isg-pub.0.8.9.dev.ysg
+
 
 
 #create the master branch 
@@ -280,14 +360,47 @@ git diff -p \
 git config --global http.proxy $http_proxy
 git config --global https.proxy $https_proxy
 
-# save your current work into the git stash
-git stash 
+
+# save your current working copy into the git stash
+git stash
+
 # check what there is in the git stash 
 git stash list
 
-# git stash 
+# how-to remove a stash item 
 git stash drop stash@{0}
 
-# pick a git stash 
+# how-to pick a git stash 
 git stash pop stash@{2}
+
+# how-to remove the whole stash 
+git stash clear
+
+# how-to merge a feature branch
+git merge -X dev--feature-branch --no-ff
+
+# how-to remove the file from git , but not from the file system
+git rm --cached src/file/to/path
+
+# how-to remove the file both from the file system and git
+git rm src/file/to/file
+
+curr_branch=$(git rev-parse --abbrev-ref HEAD); git branch "$curr_branch"--$(date "+%Y%m%d_%H%M"); git branch -a | grep $curr_branch
+
+# how-to delete a file from the current git branch history
+git filter-branch -f --tree-filter 'rm -f cnf/sec/passwd/proj-name.htpasswd' HEAD
+
+# how-to revert the last n commits already pushed on the remote branch
+git push origin +ee9260c2^:v1.0.0-RC
+# where ee9260c2 is the commit hash of the DESIRED commit to be left as the current one
+
+
+git rev-list --all | (
+    while read revision; do
+        git grep -F 'scalaVersion' $revision
+    done
+)
+
 #eof file: git-cheat-sheet.sh
+
+git push origin +ee9260c2^:v1.0.0-RC
