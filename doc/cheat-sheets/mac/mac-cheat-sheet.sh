@@ -18,6 +18,7 @@ networksetup -setdnsservers 'Wi-Fi' \
 # how-to list the dns servers 
 networksetup -getdnsservers 'Wi-Fi'
 scutil --dns
+scutil --set HostName $(scutil --get LocalHostName)
 
 
 # which tcp / ip ports are open

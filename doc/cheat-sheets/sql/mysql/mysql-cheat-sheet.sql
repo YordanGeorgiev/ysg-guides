@@ -291,6 +291,12 @@ CREATE USER 'username'@'%' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON *.* TO 'username'@'%' WITH GRANT OPTION;
 
 
+SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.TABLES
+
+SELECT plugin from mysql.user where User='root';
+
+use appriengameapi ; select * from migrations ;
+
 -- Purpose:
 -- This is a list of handy MySQL commands that I use time and time again. 
 -- At the bottom are statements, clauses, and functions you can use in 

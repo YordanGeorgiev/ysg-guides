@@ -1,6 +1,22 @@
 # file: doc/cheat-sheets/perl/perl-cheat-sheet.sh
 
 
+# how-to build perl modules as non-root https://perlmonks.org/?node=693828
+The key has been to set PERL5LIB to include the path you're using 
+to install to, e.g., 
+$ENV{PERL5LIB} = "$ENV{HOME}/lib/perl5:$ENV{HOME}/lib" 
+(I think some of the modules install differently when it's ~/lib instead of, 
+say, ~/myperllib, so I found I had to add both) and 
+then pass in the correct parameters to the .PL script the module comes with, e.g.: 
+$^X -I$ENV{HOME}/lib Build.PL --install_base $ENV{HOME}/lib 
+or 
+$^X -I$ENV{HOME}/lib Makefile.PL LIB=$ENV{HOME}/lib PREFIX=$ENV{HOME}. 
+The -I flag may be optional - but I like being explicit.
+
+Once you have everything extracted and then the Makefile or Build files created, 
+go ahead as normal, as if you had root. You just need to ensure PERL5LIB stays set, or that your 
+scripts do a use lib ... properly before trying to use or require anything installed privately like this.
+
 
 
 

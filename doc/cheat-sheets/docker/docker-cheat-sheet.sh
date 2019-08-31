@@ -1,5 +1,9 @@
 #file : docs/cheat-sheets/docker-cheat-sheet.sh
 
+# docker is a run-time utilising the Linux kernel university
+
+# how-to attach to a running container interactively 
+docker exec -it container-name /bin/bash
 
 docker commit   -m "qto-181207010500 after db load" qto-container-01
 
@@ -11,7 +15,7 @@ killall Docker && open /Applications/Docker.app # kill and and re-open it
 docker ps -q | xargs -L1 docker stop
 
 # check the logs 
-docker logs --tail 50 --follow qto-container-01
+docker logs --tail 3000 --follow container-name
 
 # how-to list all the images 
 docker images --all
@@ -58,17 +62,12 @@ docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
 
 
-
-Get the name or id of the image you would like to run, with this command: docker images
-
-The docker run command is used in the following way:
-
-docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-
-
+# instantiate a docker 
 docker run -d --name  qto-cotainer-01 -p localhost:15432:15432 --restart=always 
 
 # how-to remove all the images
+
+sudo service docker restart
 
 # information sources 
 https://vsupalov.com/docker-build-pass-environment-variables/

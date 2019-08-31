@@ -1,5 +1,15 @@
 # file:linux-cheat-sheet.sh v.1.9.5 docs at the end 
 
+# when you work on more than 2 boxes at once you need thiso ne
+export PS1="`date "+%F %T"` \u@\h  \w \n\n  "
+
+tee ~/generated-script.sh > /dev/null << EOF
+some content , cmd substritutions works too
+spawn $(which mysql)
+EOF
+
+# how-to store std err output to var
+VAR_FROM_ERR=$( { command; } 2>&1 )
 
 # dns troubleshooting
 dig host-dns.name
@@ -18,24 +28,17 @@ sudo tcpdump -i enp0s3 -l > dat & tail -f dat
 # trace ssl trafic with sssldump
 ssldump -k /etc/stealmykeys/test.key -i eth0 -dnq host 10.41.12.50
 
-# list all the tmux sessions
-tmux ls
+# get the Ctrl + J tmux 
+wget -O ~./.tmux.conf https://raw.githubusercontent.com/YordanGeorgiev/ysg-confs/master/.tmux.conf.host-name
 
 # create a new tmux session
 tmux new -s "mngmt-1"
-
 
 #find in files with colors
 export to_srch=perl
 find . -type f -exec grep -nHi --color=always -R $to_srch {} \; | less -R
 find . -name '*.pm' | xargs -P 5 grep -nHP --color=always -P $to_srch | less -R
 
-# how-to search for cygwin packages having the "perl" string in their names, requires wget and perl
-wget -qO- "https://cygwin.com/cgi-bin2/package-grep.cgi?grep=$to_srch&arch=x86_64" | \
-perl -l -ne 'm!(.*?)<\/a>\s+\-(.*?)\:(.*?)<\/li>!;print $2'
-
-# install multiple packages at once, note the
-setup-x86_64.exe -q -s http://cygwin.mirror.constant.com -P "inetutils,wget,open-ssh,curl,grep,egrep,git,vim,zip,unzip,tmux"
 
 # and test 
 for bin in `echo ftp telnet wget ssh sftp curl grep egrep`; do echo "$bin path:"; which $bin ;done ; 
@@ -80,8 +83,6 @@ ls -la $link_path;
 echo y;echo o conf prerequisites_policy follow;echo o conf commit)|cpan
 
 # get a nice prompt 
-export PS1="\h [\d \t] [\w] $ \n\n  "
-export PS1="`date "+%F %T"` \u@\h  \w \n\n  "
 
 # nice listing
 find . -type f -exec stat -c '%n %y' {} \; | sort -n | less
@@ -106,7 +107,6 @@ find `pwd` -name '*.pm' -exec grep -inHP -A 1 'sub [a-zA-Z0-9]*\s+\{' {} \; | vi
 
 # how-to search for a regex and build the ready open vim to found line cmds
 find $dir -name '*.ext' -exec grep -nHP 'regex' {} \; | perl -ne 'm/^(.*):(\d{1,10})(.*)/g;print "vim ". "+$2 " . "$1 \n"'
-
 
 # go the previous dir you where 
 cd -
@@ -192,30 +192,22 @@ find . -name '*os*' | grep linux | less
 find . -name '*.xml' -exec cat {} \;| grep wordToFindInRow | less
  
  
-# START === bash shortcuts
+# START ::: bash shortcuts
 
-# Go to the beginning of the line you are currently typing on
-Ctrl + A 
-# Go to the end of the line you are currently typing on
-Ctrl + E
-# move a word forward 
-Alt + F
-# move a word backwards
-Alt + B
-# cycle back the history 
-Ctrl + R
+Ctrl + A # Go to the beginning of the line you are currently typing on
+Ctrl + E # Go to the end of the line you are currently typing on
+Alt + F # move a word forward
+Alt + B # move a word backwards
+Ctrl + R # cycle back the history 
 # the most efficent way to search your history is to hit Ctrl R and
 # type the start of the command. It will autocomplete as soon as theres
 # a match to a history entry, then you just hit enter. If you want to
 # complete the command (add to it ) use the right arrow to
 # escape from the quick search box ...
-
-# cycle forth the history ( might need separate config )
-Ctrl + I 
-# how-to edit complex commands via the $EDITOR
+Ctrl + I # cycle forth the history ( might need separate config ) 
+# how-to edit complex commands via the export EDITOR=vim
 Ctrl + X,E
-
-# STOP === bash shortcuts 
+# STOP ::: bash shortcuts 
  
 # how-to mount an usb stick
 # remember to change the path other wise you will get the device is busy errror
@@ -245,6 +237,12 @@ mailx $(find $dir -type f| perl -ne 'print "-a $_"'| xargs) -s "$fir files" $MyE
  
 # see all the rules associated with the firewall
 iptables -L -n -v --line-numbers
+# save all the rules in a "applicable" format
+iptables -S
+# remove a rule insttead of -A use -D 
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
+-D INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
+
  
 gunzip *file.zip
 
@@ -255,20 +253,7 @@ ps -ef | grep sshd
 # how to kill process interactively
 killall -v -i sshd
  
- 
- 
- 
-#How to see better which file were opened , which directories were visited
- 
-#type always the fullpath after the vi - use the $PWD env variable to
-# open files in the current directory , thus after opening the file
-# after:
- 
-#where to set the colors for the terminal (if you are lucky to have one
-# with colors ; )
- 
-/etc/DIR_COLORS
- 
+  
 open a file containing "sh" in its name bellow the "/usr/lib" directory
  
 :r !find /usr/lib -name *sh*
@@ -277,13 +262,8 @@ go over the file and gf
  
 #which version of Linux I am using
 uname -a
- 
-#How to copy paste text in the terminal client window from client to server -
-
-#click the right button of your pointing device
- 
-#How to copy paste text from the putty window from server to client -
-#right-click the window title and select copy all to Clipboard.
+# on ubuntu 
+lsb_release -a 
  
 #To restart a service
 service sshd restart  
@@ -291,11 +271,10 @@ service --status-all --- show the status of all services
  
 
 # change the owneership of the directory recursively
-chown -vR user$group $dir
+chown -vR $usr:$grp $dir
 
 
 # perform action recursively on a set of files
- 
 find . -name '*.pl' -exec perl -wc {} \;
  
 
@@ -443,7 +422,7 @@ uname -a ;
 # who am I 
 id ; 
 # when this is happening 
-date "+%Y.%m.%d %H:%M:%S" ; 
+date "+%Y-%m-%d %H:%M:%S" ; 
 
 # reboot ... !!! BOOM BOOM BOOM !!!
 shutdown -r now 
@@ -467,7 +446,6 @@ sudo netstat -nr
 ip route | grep default
 
 
-# STOP === system monitoging commands
 # get system info
 cat /proc/cpuinfo | less
 cat /proc/meminfo | sort -nr -k 2 \
@@ -540,6 +518,8 @@ fg 1
 # start command in the background
 command1 &
 
+
+
 # how-to redirect STDERR STDOUT to log file 
 sh $script.sh | tee 2>&1 $log_file
 
@@ -605,49 +585,6 @@ perl -ne 'split/\s+/;print "$_[5] $_[6] $_[7] \n" ;' | sort -nr | less
 # list dir files , grap a number from their names , print with NumberFileName, sort , \
 # print finally the names without the Number but sorted 
 ls -1 | perl -ne 'm/(\d{8})/; print $1 . $_ ;' | sort -nr | perl -ne 's/(\d{8})//;print $_'
-
-
-# START === how-to implement public private key ( pkk ) authentication 
-# create pub priv keys on server
-# START copy 
-ssh-keygen -t rsa
-ssh-keygen -t rsa -b 4096 -C "yordan.georgiev@phz.fi"
-# Hit enter twice 
-# copy the rsa pub key to the ssh server
-scp ~/.ssh/id_rsa.pub $ssh_user@$ssh_server:/home/$ssh_user/
-# STOP copy
-# now go on the server
-ssh $ssh_user@$ssh_server
-
-# START copy 
-cat id_rsa.pub >> ~/.ssh/authorized_keys
-cat ~/.ssh/authorized_keys
-chmod -v 0700 ~/.ssh
-chmod -v 0600 ~/.ssh/authorized_keys
-chmod -v 0600 ~/.ssh/id_rsa
-chmod -v 0644 ~/.ssh/id_rsa.pub
-find ~/.ssh -exec stat -c "%U:%G %a %n" {} \;
-rm -fv ~/id_rsa.pub
-exit
-# and verify that you can go on the server without having to type a pass
-ssh $ssh_user@$ssh_server
-# STOP COPY
-
-# START copy 
-ssh-keygen -t dsa
-# STOP copy  
-# Hit enter twice 
-# START copy 
-cat id_dsa.pub >> ~/.ssh/authorized_keys
-cat ~/.ssh/authorized_keys
-chmod -v 0700 ~/.ssh
-chmod -v 0600 ~/.ssh/authorized_keys
-chmod -v 0600 ~/.ssh/id_dsa
-chmod -v 0644 ~/.ssh/id_dsa.pub
-find ~/.ssh -exec stat -c "%U:%G %a %n" {} \;
-rm -fv ~/id_dsa.pub
-# STOP COPY
-# STOP === how-to implement public private key authentication
 
 
 # show me a nice calendar 
@@ -813,28 +750,5 @@ export dir="." ; find $dir -name '*.csv' -exec cat {} + | wc -l
 # http://www.yolinux.com/TUTORIALS/LinuxTutorialSysAdmin.html#MONITOR
 # http://www.commandlinefu.com/commands/browse/sort-by-votes
 # http://wiki.bash-hackers.org/
-#
-# ==========================================================
-#  VersionHistory
-# ==========================================================
-# 1.9.7 --- 2015-12-16 10-16-32 --- ysg --- new aliases, re-factor
-# 1.9.6 --- 2015-04-09 09:13:27 --- ysg --- re-factor
-# 1.9.5 --- 2014-23-04 22:37:07 --- ysg --- Ctrl+X,E trick
-# 1.9.4 --- 2014-08-03 10:28:55 --- ysg --- refactor
-# 1.9.3 --- 2014-02-24 20:54:04 --- ysg --- clean-up
-# 1.9.2 --- 2013-12-18 11:14:03 --- ysg --- added build re-factor
-# 1.9.1 --- 2013-08-27 15:35:51 --- ysg --- re-factor, 
-# 1.9.0 --- 2013-05-21 09:40:52 --- ysg --- added memory info
-# 1.8.9 --- 2013-05-09 22:52:10 --- ysg --- tar.gz extract compacting 
-# 1.8.8 --- 2013-05-02 16:19:46 --- ysg --- du with nice formatting 
-# 1.8.7 --- 2013-04-22 15:25:36 --- ysg --- nmap check opened ports
-# 1.8.6 --- 2013-04-18 12:43:43 --- ysg --- add user passwd expiry information
-# 1.8.5 --- 2013-04-15 13:02:19 --- ysg --- added send dir files with mailx
-# 1.8.4 --- 2012-12-26 17:56:21 --- ysg --- refined find in files 
-# 1.8.3 --- 2012-12-26 14:23:56 --- ysg --- renamed to linux-cheat-sheet - clean up 
-# 1.8.2 --- 2012-10-08 10:00:46 --- ysg --- added crontab cheat 
-# 1.8.1 --- 2012-07-19 23:15:48 --- ysg --- tar examples , refactor
-# 1.8.0 --- 2012-06-30 21:31:23 --- ysg --- tunnel one liner 
-# 1.0.0 --- ysg ---  Initial creation  
 #
 # eof file:linux-cheat-sheet
