@@ -2,6 +2,10 @@
 
 # start :: how-to use different ssh identity files
 
+# If there are changes to other files in the working directory that should be kept
+git merge --squash --strategy-option=theirs stash
+
+
 # create the company identity file
 ssh-keygen -t rsa -b 4096 -C "first.last@corp.com"
 # save private key to ~/.ssh/id_rsa.corp, 
@@ -16,19 +20,23 @@ cat ~/.ssh/id_rsa.me.pub # copy paste this one into your githubs, private keys
 GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
 git clone git@git.in.corp.com:corp/project.git
 
-export git_msg="my commit msg with my corporate identity"
+export git_msg="my commit msg with my corporate identity, explicitly provide author"
 git add --all ; git commit -m "$git_msg" --author "MeFirst MeLast <first.last@corp.com>"
 GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
 git push 
+# and verify 
+clear ; git log --pretty --format='%h %ae %<(15)%an ::: %s
 
 # clone public repo as follows
 GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
 git clone git@github.com:acoolprojectowner/coolproject.git
 
-export git_msg="my commit msg with my personal identity"
+export git_msg="my commit msg with my personal identity, again author "
 git add --all ; git commit -m "$git_msg" --author "MeFirst MeLast <first.last@gmail.com>"
 GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.me -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
-git push 
+git push ; 
+# and verify 
+clear ; git log --pretty --format='%h %ae %<(15)%an ::: %s
 
 # stop :: how-to use different ssh identity files
 

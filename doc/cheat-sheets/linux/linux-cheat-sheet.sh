@@ -1,7 +1,36 @@
 # file:linux-cheat-sheet.sh v.1.9.5 docs at the end 
 
+alias tarx='tar -zxvf'
+alias tarc='tar -zcvf'
+
+# create tar
+tar -cpzf tar tar-package.tar.bz src/path
+tar -cpjf tar tar-package.tar.bz2 src/path
+
+# extract tar
+tar -xzf tar-package.tar.bz -C /tgt/path/
+tar -xjf tar-package.tar.bz2 -C /tgt/path
+
+
+
+
+sudo chown -R ubuntu:ubuntu /opt/ ; cd /opt/ ; git clone https://github.com/YordanGeorgiev/qto.git
+
+clear ; ./qto/src/bash/qto/bootstrap-qto-host-on-ubuntu.sh
+
+
+# start networking 
+sudo netstat -tulpn
+# which is my default gateway
+sudo ip route | grep default
+sudo ifconfig
+
+iptables -A INPUT -i eth0 -p tcp -m tcp --dport 13306 -j ACCEPT
+iptables -L
+# stop  networking 
+
 # when you work on more than 2 boxes at once you need thiso ne
-export PS1="`date "+%F %T"` \u@\h  \w \n\n  "
+export PS1='`date "+%F %T"` \u@\h  \w \n\n  '
 
 tee ~/generated-script.sh > /dev/null << EOF
 some content , cmd substritutions works too
@@ -72,12 +101,12 @@ find "$dir/" -type f -name '*.bak' | xargs rm -f
 on_parhaat
 
 # START === create symlink
-export link_path=/opt/phz
+export lnk_path=/opt/phz
 export tgt_path=/hos/opt/phz
-mkdir -p `dirname $link_path`
-test -L $link_path && unlink $link_path
-ln -s "$tgt_path" "$link_path"
-ls -la $link_path; 
+mkdir -p `dirname $lnk_path`
+test -L $lnk_path && unlink $lnk_path
+ln -s $tgt_path $lnk_path
+ls -la $lnk_path; 
 # STOP === create symlink
 
 echo y;echo o conf prerequisites_policy follow;echo o conf commit)|cpan
@@ -95,8 +124,6 @@ find . -not path no-go
 # aliases
 # show dirs with nice time newest modified on top 
 alias ll='ls -alrt --time-style=long-iso'
-alias tarx='tar -zxvf'
-alias tarc='tar -zcvf'
 
 
 # find the only the uniq file names of specific file type 
@@ -107,6 +134,8 @@ find `pwd` -name '*.pm' -exec grep -inHP -A 1 'sub [a-zA-Z0-9]*\s+\{' {} \; | vi
 
 # how-to search for a regex and build the ready open vim to found line cmds
 find $dir -name '*.ext' -exec grep -nHP 'regex' {} \; | perl -ne 'm/^(.*):(\d{1,10})(.*)/g;print "vim ". "+$2 " . "$1 \n"'
+
+grep -HrnP '10(\.\d+){3}' .
 
 # go the previous dir you where 
 cd -
@@ -140,7 +169,7 @@ for file in `find / -type f \( -name "*.pl" -or -name "*.pm" \) -exec file {} \;
 
 #  or even faster , be aware of funny file names xargs -0
 find / -name '*bak' -print0 | xargs --null grep -nPH 'curl'
- 
+
 # find and replace recursively
 find . -name '*.html' -print0 | xargs -0 perl -pi -e 's/foo/bar/g'
 
@@ -149,7 +178,7 @@ find $dir -maxdepth 2 -type d -exec du -B M --max-depth=1 {} \; | sort -nr | les
 
 # find all the files greather than 100 MB , sort them by the size and print their sizes 
 find $dir -type f -size +2M -exec du -B M {} \; | sort -nr | less 
- 
+
 du -B M --max-depth 3 $dir | perl -nle 's#\s+# #g;print' | perl -ne 'm/^(.*?) (.*)/g; printf "%10s %-50s \n" , "$1" , "$2"' | sort -nr -k1 | less
 
 # how-to search bunch of tar.gz files 
@@ -165,33 +194,33 @@ find $dir -type d -exec du --summarize -B M {} \; | sort -nr | perl -ne '@a=spli
 
 tcpdump dst 10.168.28.22 and tcp port 22
 tcpdump dst 1.2.81.2.8.212 
- 
+
 # record the current session via script
 mkdir -p ~/data/log/script ; script -a ~/data/log/script/$USER.linux.`date +%Y%m%d%H%M%S`_script.log
-  
+
 
 # take the last 5 commands for faster execution to the temp execution script
 tail -n 5 /root/.bash_history >> /var/run.sh
- 
+
 # I saw the command cd /to/some/suching/dir/which/was/very/long/to/type
 echo so I redid it and saved my fingers
 !345
-  
+
 #how-to check my history without the line numbers  
 history | cut -c 8- | grep env
- 
- 
+
+
 # how to deal with command outputs
 command | filtercommand > command_output.txt 2>errors_from_command.txt
-  
- 
+
+
 #  find the files having os somewhere in their names and only those having linux
 find . -name '*os*' | grep linux | less
- 
+
 # find all xml type of files and display only the rows having wordToFindInRow
 find . -name '*.xml' -exec cat {} \;| grep wordToFindInRow | less
- 
- 
+
+
 # START ::: bash shortcuts
 
 Ctrl + A # Go to the beginning of the line you are currently typing on
@@ -208,7 +237,7 @@ Ctrl + I # cycle forth the history ( might need separate config )
 # how-to edit complex commands via the export EDITOR=vim
 Ctrl + X,E
 # STOP ::: bash shortcuts 
- 
+
 # how-to mount an usb stick
 # remember to change the path other wise you will get the device is busy errror
 mkdir /mnt/usbflash
@@ -221,7 +250,7 @@ umount /mnt/usbflash
 
 #display the first 20 lines of the file
 head -n 20 too-long-file 
- 
+
 #start e-mail 
 # how to restart a service initiated at startup
 /etc/rc.d/init.d/sendmail start | stop | status | restart
@@ -234,41 +263,41 @@ echo $attachments | mailx $attachments -s "$dir files" $MyEmail
 mailx $(find $dir -type f| perl -ne 'print "-a $_"'| xargs) -s "$fir files" $MyEmail < `echo $(find $dir -type f| perl -ne 'print "-a $_"'| xargs)`
 
 #stop e-mail
- 
-# see all the rules associated with the firewall
-iptables -L -n -v --line-numbers
-# save all the rules in a "applicable" format
-iptables -S
-# remove a rule insttead of -A use -D 
--A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
--D INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
 
- 
+# see all the rules associated with the firewall
+sudo iptables -L -n -v --line-numbers
+# save all the rules in a "applicable" format
+sudo iptables -S
+# remove a rule insttead of -A use -D 
+sudo iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+#sudo iptables -D INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+
+
 gunzip *file.zip
 
 # how to ensure the sshd daemon is running
 ps -ef | grep sshd
 
- 
+
 # how to kill process interactively
 killall -v -i sshd
- 
-  
+
+
 open a file containing "sh" in its name bellow the "/usr/lib" directory
- 
+
 :r !find /usr/lib -name *sh*
- 
+
 go over the file and gf
- 
+
 #which version of Linux I am using
 uname -a
 # on ubuntu 
 lsb_release -a 
- 
+
 #To restart a service
 service sshd restart  
 service --status-all --- show the status of all services
- 
+
 
 # change the owneership of the directory recursively
 chown -vR $usr:$grp $dir
@@ -276,25 +305,25 @@ chown -vR $usr:$grp $dir
 
 # perform action recursively on a set of files
 find . -name '*.pl' -exec perl -wc {} \;
- 
+
 
 for file in `find . -type f`;do echo cp $file ./backups/; done;
 for file in `ls *.docx -1`;do echo cp $file ./backups/$file.`date +%Y%m%d%H%M%S`.docx;done;
 
- 
+
 # make Bash append rather than overwrite the history on disk:
 shopt -s histappend
- 
+
 # henever displaying the prompt, write the previous line to disk:
 PROMPT_COMMAND='history -a'
- 
- 
+
+
 # than run the script
 #how-to replace single char in file
 tr '\t' ',' < file-with-tabs > file-with-commas
- 
+
 # Allow access to the box from only one ip address
- 
+
 
 # create a backup file based on the timestamp on bash
 cp -v fileName.ext fileName.ext.`date +%Y%m%d_%H%M%S`.bak
@@ -303,7 +332,7 @@ cp -v fileName.ext fileName.ext.`date +%Y%m%d_%H%M%S`.bak
 df -a -h | tail -n +2   | perl -nle 'm/(.*)\s+(\d{1,2}%\s+(.*))/g;printf "%-20s %-30s %-90s \n","$2",$3,$1' | sort -nr | less
 df -a -B M | column -t | sort -nr -k 5
 df  -h ***
-   
+
 # how-to get running processes 
 ps -ef --forest 
 
@@ -334,6 +363,9 @@ sed -n '52p' # method 1
 sed '52!d' # method 2
 sed '52q;d' # method 3, efficient on large files
 
+# check NFS 
+mount -v
+nfsstat -m
 
 # START === user management
 #how-to add a linux group
@@ -429,7 +461,7 @@ shutdown -r now
 
 # shutdown the whole system 
 shutdown -f -s 00
- 
+
 #how-to kill a process 
 ps -aux | grep $proc_to_find
 pidof $prod_to_find
@@ -452,7 +484,7 @@ cat /proc/meminfo | sort -nr -k 2 \
 | perl -ne 'split /\s+/;printf ("%-15s %20d MB \n" , "$_[0]" , ($_[1]/1024))'
 fdisk -l
 
-
+k
 # check memory usage
 egrep --color 'Mem|Cache|Swap' /proc/meminfo
 
@@ -532,6 +564,8 @@ output=$(command 2>&1)
 # how-to detach an already started job from the terminal
 jobs 
 disown -h %1
+# Delete all jobs if jobID is not supplied.
+disown -a
 
 # how-to start 
 nohup log_script.sh &
@@ -539,7 +573,7 @@ nohup log_script.sh &
 # run a proc every 2 seconds
 watch -n 2 "$cmd_to_run"
 
-# END Jobs control 
+# STOP  Jobs control 
 # ==================================================================
 
 nicedate=`date +%Z-%Y%m%d%H%M%S`
@@ -712,7 +746,7 @@ while $(sleep 0.2); do date "+%Y:%m:%d %H:%M:%S"; done
 # how-to 
 cat << "EOF" > path/to/instructed.cnf
 {
-	foo_var=bar_val
+foo_var=bar_val
 }
 EOF
 #^^^ no space after the new line
@@ -729,13 +763,19 @@ Y
 EOF
 
 
+# start sudo
+
+su - user -c "cd `pwd`; bash" 
+# stop sudo 
+
+
 # how-to verify cert from the cmd line
 echo | openssl s_client -showcerts -servername gnupg.org -connect gnupg.org:443 2>/dev/null | openssl x509 -inform pem -noout -text
 
 # how-to create a self-signed certficate ...
 openssl req \
-       -newkey rsa:2048 -nodes -keyout host-name.key \
-       -x509 -days 365 -out host-name.crt
+   -newkey rsa:2048 -nodes -keyout host-name.key \
+   -x509 -days 365 -out host-name.crt
 
 # how-to find the total size of files in a directory 
 export dir="." ; find $dir -name '*.csv' -exec du -ch {} + | grep total$

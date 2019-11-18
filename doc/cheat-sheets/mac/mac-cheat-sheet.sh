@@ -1,5 +1,25 @@
 #file: doc/cheat-sheets/mac-cheat-sheet.sh
 
+# on the server 
+sudo apt install sshfs
+
+# on the client
+brew cask install osxfuse
+
+
+# how-to map network drive over ssh on the client
+ssh_user=phz; domain=in.phz.fi; remote=monolith
+mkdir -p ~/mnt/$remote/ ; 
+sudo echo sshfs -o allow_other,defer_permissions $ssh_user@$remote.$domain/:/home/$ssh_user ~/mnt/$remote/
+
+sudo sshfs -o allow_other,defer_permissions phz@monolith.in.phz.fi:/home/phz ~/mnt/monolith
+sudo umount -f phz@monolith.in.phz.fi:/home/phz
+pgrep -lf sshfs
+kill -9 <pid_of_sshfs_process>
+
+# dns resolution https://community.spiceworks.com/topic/2099557-apple-mac-hostname-changes-itself
+net -n computername -W in.phz.fi -P ads dns register
+
 # how-to get hw info - lsb_release -a for mac
 system_profiler SPSoftwareDataType
 
@@ -26,6 +46,9 @@ sudo lsof -PiTCP -sTCP:LISTEN
 
 # get list of my hardware devices 
 sudo networksetup -listallhardwareports
+
+# install brew if not yet installed 
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # brew install iproute2mac
 ip link show en0
