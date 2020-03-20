@@ -78,7 +78,7 @@ Each version of this document is identifiable via the git commit hash  - should 
     
 
 ### 2.1. Clone this GitHub repo as follows
-Clone this GitHub repo as follows:
+You may clone this GitHub repo as follows, if you have Git already installed:
 
 ```
 cd ~
@@ -108,8 +108,8 @@ Install Chrome, Firefox and Opera for Windows or any other browsers. The princip
 
     
 
-### 3.4. Configure networking, connect to the Internet
-Configure networking, connect to Internet. 
+### 3.4. Configure network, connect to the Internet
+Configure network, connect to Internet. 
 
     
 
@@ -123,7 +123,7 @@ Google download Strawberry Perl for Windows. Install for your platform (32-bit o
 
     
 
-### 3.7. Configure the Windows PATH envioronment variable
+### 3.7. Configure the Windows PATH environment variable
 This step will enable to run one-liners with VBoxManage.exe to quickly change virtualization settings. 
 Open the advanced system properties on Windows (sysdm.cpl), add the VBobxManage.exe directory into your PATH environmental variable. 
 Add the path of the cygwin installer as well, so that it can be used from both the cygwin shell and the cmd.exe. 
@@ -146,7 +146,7 @@ for /f "tokens=*" %i in ('echo bash binutils bzip2 cygwin gcc-core gcc-g++ gcc-j
 ```
 
 ### 3.10. Install Windows utility applications
-For each step in this sub-section you could install a different application than the suggested one, however skipping the advice to install a type of application will make your work more difficult.
+For each step in this subsection you could install a different application than the suggested one, however skipping the advice to install a type of application will make your work more difficult.
 
     
 
