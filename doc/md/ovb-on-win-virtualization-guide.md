@@ -14,7 +14,7 @@ Table of Contents
     * [3.1. Install Windows OS on the Host](#31-install-windows-os-on-the-host)
     * [3.2. Create initial directory structure](#32-create-initial-directory-structure)
     * [3.3. Install Chrome, Firefox, and Opera for Windows](#33-install-chrome,-firefox-and-opera-for-windows)
-    * [3.4. Configure networking, connect to Internet](#34-configure-networking-,-connect-to-internet)
+    * [3.4. Configure network, connect to the Internet](#34-configure-network,-connect-to-the-internet)
     * [3.5. Install WIN GNU binaries](#35-install-win-gnu-binaries)
     * [3.6. Install Strawberry Perl on Windows](#36-install-strawberry-perl-on-windows)
     * [3.7. Configure the WIN PATH env var](#37-configure-the-win-path-env-var)
