@@ -11,8 +11,8 @@ Table of Contents
   * [2. CLONE THE REPO](#2-clone-the-repo)
     * [2.1. Clone this GitHub repo as follows](#21-clone-this-github-repo-as-follows)
   * [3. INSTALLATIONS AND CONFIGURATIONS](#3-installations-and-configurations)
-    * [3.1. Install Windows OS on the Host](#31-install-windows-os-on-the-Host)
-    * [3.2. Create initial directory structure](#32-create-initial-dir-structure)
+    * [3.1. Install Windows OS on the Host](#31-install-windows-os-on-the-host)
+    * [3.2. Create initial directory structure](#32-create-initial-directory-structure)
     * [3.3. Install Chrome, Firefox, and Opera for Windows](#33-install-chrome,-firefox-and-opera-for-windows)
     * [3.4. Configure networking, connect to Internet](#34-configure-networking-,-connect-to-internet)
     * [3.5. Install WIN GNU binaries](#35-install-win-gnu-binaries)
@@ -26,20 +26,20 @@ Table of Contents
     * [3.13. Install Oracle Virtual Box](#313-install-oracle-virtual-box)
     * [3.14. Install Oracle Virtual Box Extension Pack](#314-install-oracle-virtual-box-extension-pack)
     * [3.15. Enable fully read,write access to a shared folder on the Host from the Guest](#315-enable-fully-read,write-access-to-a-shared-folder-on-the-Host-from-the-Guest)
-      * [3.15.1. Install the Guest Additions prerequisites](#3151-install-the-Guest-additions-prerequisites)
-      * [3.15.2. Install the Guest Additions](#3152-install-the-Guest-additions)
-      * [3.15.3. Change your for the share dir to be automounted on VM boot](#3153-change-your-for-the-share-dir-to-be-automounted-on-VM-boot)
-      * [3.15.4. Add yourself to the vboxsf group ](#3154-add-yourself-to-the-vboxsf-group-)
+      * [3.15.1. Install the Guest Additions prerequisites](#3151-install-the-guest-additions-prerequisites)
+      * [3.15.2. Install the Guest Additions](#3152-install-the-guest-additions)
+      * [3.15.3. Change your shared directory to be automounted on VM boot](#3153-change-your-for-the-shared-directory-to-be-automounted-on-VM-boot)
+      * [3.15.4. Add yourself to the vboxsf group](#3154-add-yourself-to-the-vboxsf-group)
       * [3.15.5. Reboot and verify](#3155-reboot-and-verify)
   * [4. MAINTENANCE AND OPERATIONS](#4-maintenance-and-operations)
     * [4.1. Start and stop VMs](#41-start-and-stop-VMs)
       * [4.1.1. Start a virtual machine](#411-start-a-virtual-machine)
       * [4.1.2. Stop a virtual machine](#412-stop-a-virtual-machine)
     * [4.2. VMs backup and restore](#42-VMs-backup-and-restore)
-      * [4.2.1. Backup a single VM](#421-backup-a-single-VM)
+      * [4.2.1. Backup a single virtual machine](#421-backup-a-single-virtual-machine)
       * [4.2.2. Backup the current state of the virtual machines](#422-backup-the-current-state-of-the-virtual-machines)
-      * [4.2.3. Restore a backup of VM](#423-restore-a-backup-of-VM)
-      * [4.2.4. How-to attach an iso drive as a DVD on the ](#424-how-to-attach-an-iso-drive-as-a-dvd-on-the-)
+      * [4.2.3. Restore a backup of virtual machine](#423-restore-a-backup-of-virtual-machine)
+      * [4.2.4. How-to attach an iso drive as a DVD on the fly](#424-how-to-attach-an-iso-drive-as-a-dvd-on-the-fly)
 
 
     
@@ -192,7 +192,7 @@ VBoxManage sharedfolder add "Host-name" -name "vshare" -hostpath "C:\var" -autom
 Install the Guest Additions prerequisites by issuing the following command:
 
 ```
-sudo apt-get install -y build-essential make gcc  linux-headers-$(uname -r) linux-headers-generic make linux-source  linux-generic linux-signed-generic
+sudo apt-get install -y build-essential make gcc linux-headers-$(uname -r) linux-headers-generic make linux-source linux-generic linux-signed-generic
 ```
     
 
@@ -203,8 +203,8 @@ Do not use the .iso file to download and the installer from there - it will simp
 sudo apt-get install virtualbox-guest-dkms
 ```
 
-#### 3.15.3. Change your for the share dir to be automounted on VM boot
-Change your for the share dir to be automounted on VM boot by addding the folowing lines to the end of your fstab file
+#### 3.15.3. Change your shared directory to be automounted on VM boot
+Change your shared directory to be automounted on VM boot by addding the folowing lines to the end of your fstab file. Alternatively, you can configure it in VirtualBox image Settings, Shared Folders tab. 
 
 ```
 #/media/sf_vshare /vagrant bind defaults,bind 0 0
@@ -213,7 +213,7 @@ Change your for the share dir to be automounted on VM boot by addding the folowi
 # eof file: /etc/fstab
 ```
 
-#### 3.15.4. Add yourself to the vboxsf group 
+#### 3.15.4. Add yourself to the vboxsf group
 You need to add yourself to the vboxsf group in order to be able to edit as non-root from your VM the files on your Host machine. 
 
 ```
@@ -224,11 +224,17 @@ sudo usermod -G vboxsf -a user-name
 ```
 
 #### 3.15.5. Reboot and verify
-Reboot the VM and login via ssh to verify the file sharing. 
+Reboot the VM and login via SSH to verify the file sharing. You may need to install open-ssh server on the Guest system and set Port forwarding from 127.0.0.1 port 2522 to 10.0.2.15 port 22 in VirtualBox image preferences, Network, Advanced, Port forwarding in order to connect via SSH.
 
+In Terminal on Guest
+```
+sudo apt install openssh-server
+```
+
+In bash shell on Host
 ```
 # ssh to the VM
-ssh user-name@Host-name
+ssh user-name@localhost -p 2522
 
 # check as yourself that you have 
 find /vagrant
@@ -263,7 +269,7 @@ vm-stop Guest-name
 
     
 
-#### 4.2.1. Backup a single VM
+#### 4.2.1. Backup a single virtual machine
 To backup a single VM issue the following command:
 
 ```
@@ -282,20 +288,20 @@ If you performed the installations and configurations as described above you wil
 while read -r vms ; do echo VBoxManage export "$vms" -o "$vms".ova ; done < <(VBoxManage list vms|cut -d'"' -f2)
 ```
 
-#### 4.2.3. Restore a backup of VM
-Copy the backed-up folder into your Windows Hosts VMs folder. 
+#### 4.2.3. Restore a backup of virtual machine
+Copy the backed-up folder into your Windows Hosts virtual machines folder. 
 Open OVB. Machine add, navigate to the just copied &lt;&lt;machine-name&gt;&gt;.ova. 
 
     
 
-#### 4.2.4. How-to attach an ISO drive as a DVD on the 
+#### 4.2.4. How to attach an ISO drive as a DVD on the fly
 To attach the storage would mean in the physical world to buy a DVD drive and physically attach it to the hardware of your box. 
 Issue the following two commands:
 
 ```
 # add the IDE 
-VBoxManage.exe storagectl "Host-name" --name IDE --add ide
+VBoxManage.exe storagectl "Guest-name" --name IDE --add ide
 
 # attach the DVD drive with the following command
-VBoxManage.exe storageattach "Host-name" --storagectl IDE --port 0 --device 0 --type dvddrive --medium "C:\var\pckgs\oracle\virtual-box\VBoxGuestAdditions_5.1.2.iso"
+VBoxManage.exe storageattach "Guest-name" --storagectl IDE --port 0 --device 0 --type dvddrive --medium "C:\var\pckgs\oracle\virtual-box\VBoxGuestAdditions_5.1.2.iso"
 ```
