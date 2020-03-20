@@ -100,7 +100,7 @@ This is important. The reason for creating initial dir structure are as follows:
  - once estalished naming conventions and logic within the structure you would NEVER have to loose any important file or dir again. Period. 
 
 ```
-mkdir -p C:\var\<<org>>\Hosts\%COMPUTERNAME%\
+mkdir -p C:\var\<<org>>\hosts\%COMPUTERNAME%\
 ```
 
 ### 3.3. Install Chrome, Firefox and Opera for Windows
