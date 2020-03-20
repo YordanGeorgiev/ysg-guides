@@ -17,7 +17,7 @@ Table of Contents
     * [3.4. Configure network, connect to the Internet](#34-configure-network,-connect-to-the-internet)
     * [3.5. Install GnuWin binaries](#35-install-gnuwin-binaries)
     * [3.6. Install Strawberry Perl on Windows](#36-install-strawberry-perl-on-windows)
-    * [3.7. Configure the WIN PATH env var](#37-configure-the-win-path-env-var)
+    * [3.7. Configure the Window PATH environment variable](#37-configure-the-windows-path-environment-variable)
     * [3.8. Install cygwin on Windows Host](#38-install-cygwin-on-windows-Host)
     * [3.9. Install cygwin packages](#39-install-cygwin-packages)
     * [3.10. Install Windows utility applications](#310-install-windows-utility-applications)
