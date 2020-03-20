@@ -15,7 +15,7 @@ Table of Contents
     * [3.2. Create initial directory structure](#32-create-initial-directory-structure)
     * [3.3. Install Chrome, Firefox, and Opera for Windows](#33-install-chrome,-firefox-and-opera-for-windows)
     * [3.4. Configure network, connect to the Internet](#34-configure-network,-connect-to-the-internet)
-    * [3.5. Install WIN GNU binaries](#35-install-win-gnu-binaries)
+    * [3.5. Install GnuWin binaries](#35-install-gnuwin-binaries)
     * [3.6. Install Strawberry Perl on Windows](#36-install-strawberry-perl-on-windows)
     * [3.7. Configure the WIN PATH env var](#37-configure-the-win-path-env-var)
     * [3.8. Install cygwin on Windows Host](#38-install-cygwin-on-windows-Host)
@@ -23,9 +23,9 @@ Table of Contents
     * [3.10. Install Windows utility applications](#310-install-windows-utility-applications)
     * [3.11. Install proper text editors](#311-install-proper-text-editors)
     * [3.12. Install a password manager application](#312-install-a-password-manager-application)
-    * [3.13. Install Oracle Virtual Box](#313-install-oracle-virtual-box)
-    * [3.14. Install Oracle Virtual Box Extension Pack](#314-install-oracle-virtual-box-extension-pack)
-    * [3.15. Enable fully read,write access to a shared folder on the Host from the Guest](#315-enable-fully-read,write-access-to-a-shared-folder-on-the-Host-from-the-Guest)
+    * [3.13. Install Oracle VirtualBox](#313-install-oracle-virtualbox)
+    * [3.14. Install Oracle VirtualBox Extension Pack](#314-install-oracle-virtualbox-extension-pack)
+    * [3.15. Enable fully read/write access to a shared folder on the Host from the Guest](#315-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
       * [3.15.1. Install the Guest Additions prerequisites](#3151-install-the-guest-additions-prerequisites)
       * [3.15.2. Install the Guest Additions](#3152-install-the-guest-additions)
       * [3.15.3. Change your shared directory to be automounted on VM boot](#3153-change-your-for-the-shared-directory-to-be-automounted-on-VM-boot)
@@ -162,17 +162,17 @@ https://pwsafe.org/
 
     
 
-### 3.13. Install Oracle Virtual Box
+### 3.13. Install Oracle VirtualBox
 Google download Oracle VirtualBox, which at the moment will lead you to the download page at:
 https://www.virtualbox.org/wiki/Downloads
 Since the target setup is to have the VirtualBox running on the Widows Host, you would choose the download the package for Windows.
 
     
 
-### 3.14. Install Oracle Virtual Box Extension Pack
+### 3.14. Install Oracle VirtualBox Extension Pack
 Google download Oracle VirtualBox extension pack, which at the moment will lead you to the download page at:
 https://www.virtualbox.org/wiki/Downloads
-You have to double click the file and it will open with the VirtualBox UI. 
+You have to double-click the file and it will open with the VirtualBox UI. 
 
     
 
