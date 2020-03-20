@@ -303,5 +303,5 @@ Issue the following two commands:
 VBoxManage.exe storagectl "Guest-name" --name IDE --add ide
 
 # attach the DVD drive with the following command
-VBoxManage.exe storageattach "Guest-name" --storagectl IDE --port 0 --device 0 --type dvddrive --medium "C:\var\pckgs\oracle\virtual-box\VBoxGuestAdditions_5.1.2.iso"
+VBoxManage.exe storageattach "Guest-name" --storagectl IDE --port 0 --device 0 --type dvddrive --medium "C:\var\pckgs\oracle\virtual-box\VBoxGuestAdditions_6.1.4.iso"
 ```
