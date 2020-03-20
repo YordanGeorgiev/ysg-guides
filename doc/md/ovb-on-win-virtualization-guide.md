@@ -5,7 +5,7 @@ Table of Contents
 
   * [1. INTRODUCTION](#1-introduction)
     * [1.1. Purpose](#11-purpose)
-    * [1.2. Target Setup](#12-target-setup)
+    * [1.2. Target setup](#12-target-setup)
     * [1.3. Master storage](#13-master-storage)
     * [1.4. Version control](#14-version-control)
   * [2. CLONE THE REPO](#2-clone-the-repo)
@@ -54,7 +54,7 @@ The purpose of this guide is to provide a practical step-by-step doable from top
 
     
 
-### 1.2. Target Setup
+### 1.2. Target setup
 The target setup of this guide is a physical Windows machine operating a fully configurable network of virtual machines (Guests), which all will have access both internal to one another and to the Internet via the network connections of the Host machine. 
 The Guests will have also read and write access to a shared directory on the Host, which will be visible as mounted share to the Guests. 
 
