@@ -129,7 +129,7 @@ Open the advanced system properties on Windows (sysdm.cpl), add the VBobxManage.
 Add the path of the cygwin installer as well, so that it can be used from both the cygwin shell and the cmd.exe. 
 
 ```
-# Win+R, execute this command:
+# Press Win+R on the keyboard, execute this command:
 sysdm.cpl
 ```
 
