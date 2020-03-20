@@ -22,15 +22,14 @@ Table of Contents
     * [3.9. Install cygwin packages](#39-install-cygwin-packages)
     * [3.10. Install Windows utility applications](#310-install-windows-utility-applications)
     * [3.11. Install proper text editors](#311-install-proper-text-editors)
-    * [3.12. Install a password manager application](#312-install-a-password-manager-application)
-    * [3.13. Install Oracle VirtualBox](#313-install-oracle-virtualbox)
-    * [3.14. Install Oracle VirtualBox Extension Pack](#314-install-oracle-virtualbox-extension-pack)
-    * [3.15. Enable fully read/write access to a shared folder on the Host from the Guest](#315-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
-      * [3.15.1. Install the Guest Additions prerequisites](#3151-install-the-guest-additions-prerequisites)
-      * [3.15.2. Install the Guest Additions](#3152-install-the-guest-additions)
-      * [3.15.3. Change your shared directory to be automounted on VM boot](#3153-change-your-for-the-shared-directory-to-be-automounted-on-vm-boot)
-      * [3.15.4. Add yourself to the vboxsf group](#3154-add-yourself-to-the-vboxsf-group)
-      * [3.15.5. Reboot and verify](#3155-reboot-and-verify)
+    * [3.12. Install Oracle VirtualBox](#313-install-oracle-virtualbox)
+    * [3.13. Install Oracle VirtualBox Extension Pack](#314-install-oracle-virtualbox-extension-pack)
+    * [3.14. Enable fully read/write access to a shared folder on the Host from the Guest](#315-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
+      * [3.14.1. Install the Guest Additions prerequisites](#3151-install-the-guest-additions-prerequisites)
+      * [3.14.2. Install the Guest Additions](#3152-install-the-guest-additions)
+      * [3.14.3. Change your shared directory to be automounted on VM boot](#3153-change-your-for-the-shared-directory-to-be-automounted-on-vm-boot)
+      * [3.14.4. Add yourself to the vboxsf group](#3154-add-yourself-to-the-vboxsf-group)
+      * [3.14.5. Reboot and verify](#3155-reboot-and-verify)
   * [4. MAINTENANCE AND OPERATIONS](#4-maintenance-and-operations)
     * [4.1. Start and stop VMs](#41-start-and-stop-vms)
       * [4.1.1. Start a virtual machine](#411-start-a-virtual-machine)
@@ -155,21 +154,14 @@ Notepad is not a proper text editor - install TextPad, NotePad++, Atom or whatev
 
     
 
-### 3.12. Install a password manager application
-Install a Password Manager application - in this setup we use PasswordSafe:
-https://pwsafe.org/
-
-
-    
-
-### 3.13. Install Oracle VirtualBox
+### 3.12. Install Oracle VirtualBox
 Google download Oracle VirtualBox, which at the moment will lead you to the download page at:
 https://www.virtualbox.org/wiki/Downloads
 Since the target setup is to have the VirtualBox running on the Widows Host, you would choose the download the package for Windows.
 
     
 
-### 3.14. Install Oracle VirtualBox Extension Pack
+### 3.13. Install Oracle VirtualBox Extension Pack
 Google download Oracle VirtualBox extension pack, which at the moment will lead you to the download page at:
 https://www.virtualbox.org/wiki/Downloads
 You have to double-click the file and it will open with the VirtualBox UI. 
@@ -188,7 +180,7 @@ VBoxManage sharedfolder add "Host-name" -name "vshare" -hostpath "C:\var" -autom
     
     
 
-#### 3.15.1. Install the Guest Additions prerequisites
+#### 3.14.1. Install the Guest Additions prerequisites
 Install the Guest Additions prerequisites by issuing the following command:
 
 ```
@@ -196,14 +188,14 @@ sudo apt-get install -y build-essential make gcc linux-headers-$(uname -r) linux
 ```
     
 
-#### 3.15.2. Install the Guest Additions
+#### 3.14.2. Install the Guest Additions
 Do not use the .iso file to download and the installer from there - it will simply not work
 
 ```
 sudo apt-get install virtualbox-guest-dkms
 ```
 
-#### 3.15.3. Change your shared directory to be automounted on VM boot
+#### 3.14.3. Change your shared directory to be automounted on VM boot
 Change your shared directory to be automounted on VM boot by addding the folowing lines to the end of your fstab file. Alternatively, you can configure it in VirtualBox image Settings, Shared Folders tab. 
 
 ```
@@ -213,7 +205,7 @@ Change your shared directory to be automounted on VM boot by addding the folowin
 # eof file: /etc/fstab
 ```
 
-#### 3.15.4. Add yourself to the vboxsf group
+#### 3.14.4. Add yourself to the vboxsf group
 You need to add yourself to the vboxsf group in order to be able to edit as non-root from your VM the files on your Host machine. 
 
 ```
@@ -223,7 +215,7 @@ sudo mount -a
 sudo usermod -G vboxsf -a user-name
 ```
 
-#### 3.15.5. Reboot and verify
+#### 3.14.5. Reboot and verify
 Reboot the VM and login via SSH to verify the file sharing. You may need to install open-ssh server on the Guest system and set Port forwarding from 127.0.0.1 port 2522 to 10.0.2.15 port 22 in VirtualBox image preferences, Network, Advanced, Port forwarding in order to connect via SSH.
 
 In Terminal on Guest
