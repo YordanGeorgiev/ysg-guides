@@ -109,7 +109,7 @@ Install Chrome, Firefox and Opera for Windows or any other browsers. The princip
     
 
 ### 3.4. Configure network, connect to the Internet
-Configure network, connect to Internet. 
+Configure network, connect to the Internet.
 
     
 
