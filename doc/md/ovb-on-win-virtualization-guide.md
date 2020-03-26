@@ -1,4 +1,4 @@
-#  VIRTUALIZATION GUIDE
+#  VIRTUALIZATION GUIDE FOR WINDOWS
 
 
 Table of Contents
@@ -22,14 +22,14 @@ Table of Contents
     * [3.9. Install cygwin packages](#39-install-cygwin-packages)
     * [3.10. Install Windows utility applications](#310-install-windows-utility-applications)
     * [3.11. Install proper text editors](#311-install-proper-text-editors)
-    * [3.12. Install Oracle VirtualBox](#313-install-oracle-virtualbox)
-    * [3.13. Install Oracle VirtualBox Extension Pack](#314-install-oracle-virtualbox-extension-pack)
-    * [3.14. Enable fully read/write access to a shared folder on the Host from the Guest](#315-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
-      * [3.14.1. Install the Guest Additions prerequisites](#3151-install-the-guest-additions-prerequisites)
-      * [3.14.2. Install the Guest Additions](#3152-install-the-guest-additions)
-      * [3.14.3. Change your shared directory to be automounted on VM boot](#3153-change-your-for-the-shared-directory-to-be-automounted-on-vm-boot)
-      * [3.14.4. Add yourself to the vboxsf group](#3154-add-yourself-to-the-vboxsf-group)
-      * [3.14.5. Reboot and verify](#3155-reboot-and-verify)
+    * [3.12. Install Oracle VirtualBox](#312-install-oracle-virtualbox)
+    * [3.13. Install Oracle VirtualBox Extension Pack](#313-install-oracle-virtualbox-extension-pack)
+    * [3.14. Enable fully read/write access to a shared folder on the Host from the Guest](#314-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
+      * [3.14.1. Install the Guest Additions prerequisites](#3141-install-the-guest-additions-prerequisites)
+      * [3.14.2. Install the Guest Additions](#3142-install-the-guest-additions)
+      * [3.14.3. Change your shared directory to be automounted on VM boot](#3143-change-your-for-the-shared-directory-to-be-automounted-on-vm-boot)
+      * [3.14.4. Add yourself to the vboxsf group](#3144-add-yourself-to-the-vboxsf-group)
+      * [3.14.5. Reboot and verify](#3145-reboot-and-verify)
   * [4. MAINTENANCE AND OPERATIONS](#4-maintenance-and-operations)
     * [4.1. Start and stop VMs](#41-start-and-stop-vms)
       * [4.1.1. Start a virtual machine](#411-start-a-virtual-machine)
@@ -49,124 +49,70 @@ Table of Contents
     
 
 ### 1.1. Purpose
-The purpose of this guide is to provide a practical step-by-step doable from top to bottom guide for setting up a full development environment for Windows and Linux relying heavily on virtualization.
+The purpose of this guide is to provide step-by-step instructions for setting up a QTO development environment relying heavily on virtualization in Windows. There is also a pdf version available at https://github.com/YordanGeorgiev/ysg-guides/blob/master/doc/pdf/ovb-on-win-virtualization-guide.pdf
 
     
 
 ### 1.2. Target setup
-The target setup of this guide is a physical Windows machine operating a fully configurable network of virtual machines (Guests), which all will have access both internal to one another and to the Internet via the network connections of the Host machine. 
-The Guests will have also read and write access to a shared directory on the Host, which will be visible as mounted share to the Guests. 
-
+The target setup of this guide is a physical Windows machine (Host) operating a configurable virtual machine (Guest), which both have access to one another and to the Internet via the network connections of the Host machine. 
+The Guest will also have read and write access to a shared directory on the Host. 
     
 
-### 1.3. Master storage
-The master storage of this document is the following Markdown file in GitHub:
-https://github.com/YordanGeorgiev/you-guides/doc/md 
-You could also download the pdf version.
-
-    
-
-### 1.4. Version control
-Each version of this document is identifiable via the git commit hash  - should you find an error / want to suggest a change in the content of the document - clone this github repository and create a merge request. Emails / IM's might just as well be ignored / noted but left without further action.
-
-    
-
-## 2. CLONE THE REPO
+### 1.3. Submitting suggestions
+Should you find an error or want to suggest a change in the content of the document, clone this github repository and create a merge request.
 
 
-    
 
-### 2.1. Clone this GitHub repo as follows
-You may clone this GitHub repo as follows, if you have Git already installed:
+## 2. PREPARATION AND CONFIGURATION
+
+This guide assumes that you have 64-bit Windows already installed on the Host, the computer is connected to the Internet and you installed a browser, for example, Firefox, Opera or Chrome. If you have 32-bit Windows, then use the appropriate 32-bit installers instead during this installation.
+
+It is recommended to get NotePad++, TextPad, Atom or whatever else light text editor for quickly editing text and configuration files in the future.
+https://notepad-plus-plus.org/downloads/
+
+
+### 2.1. Install Strawberry Perl
+Perl binaries, compiler (gcc) and related tools will be needed for proper deployment of QTO. Install a recommended version of Strawberry Perl from the official website to your Windows Host system:
+http://strawberryperl.com/
+
+### 2.2. Install Cygwin
+Cygwin will be the main terminal for working with the virtual machine. It also comes with a bunch of packages that will be necessary for the QTO installation. Install it by downloading setup-x86_64.exe from this website:
+https://cygwin.com/
+
+During the setup choose any mirror website, keep the default packages and make sure that the following Cygwin packages get installed, too:
 
 ```
-cd ~
-git clone git://github.com/YordanGeorgiev/ysg-guides
+echo bash binutils bzip2 cygwin gcc-core gcc-g++ git grep gzip jq less m4 make unzip zip
 ```
 
-## 3. INSTALLATIONS AND CONFIGURATIONS
-
-
-    
-
-### 3.1. Install Windows OS on the Host
-If you just bought the machine, congratulations. Plug it to the socket, turn it on and follow the instructions on the screen. Do not quickly press Next, Next, but always use the customizable options and plan a bit before configuring. For example, the keyboard layout is trully something you should feel confortable with.
-
-    
-
-### 3.2. Create initial directory structure
-This is important. The reason for creating initial dir structure are as follows:
- - once estalished naming conventions and logic within the structure you would NEVER have to loose any important file or dir again. Period. 
-
+It is possible to start the setup via a command line (Win+R, cmd, Enter) by navigating to the folder, where you downloaded setup-x86_64.exe, and executing this one-liner:
 ```
-mkdir -p C:\var\<<org>>\hosts\%COMPUTERNAME%\
+for /f "tokens=*" %i in ('echo bash binutils bzip2 cygwin gcc-core gcc-g++ git grep gzip jq less m4 make unzip zip') do setup-x86_64.exe -n -q -s http://cygwin.mirror.constant.com -P %i
 ```
 
-### 3.3. Install Chrome, Firefox and Opera for Windows
-Install Chrome, Firefox and Opera for Windows or any other browsers. The principle is to have at least 3 so that you could compare the different rendering of the html pages by swithing to a different browser. 
+### 2.3. Install VirtualBox
+Install VirtualBox from this website by choosing "VirtualBox platform packages" -> "Windows hosts":
+https://www.virtualbox.org/wiki/Downloads
 
-    
+Then download and install "VirtualBox Oracle VM VirtualBox Extension Pack".
 
-### 3.4. Configure network, connect to the Internet
-Configure network, connect to the Internet.
+### 2.4. Install Vagrant
+Vagrant will be used together with VirtualBox to create a configured Guest virtual machine, where QTO will be run. Install Vagrant for Windows:
+https://www.vagrantup.com/downloads.html
 
-    
+### 2.5. Configure the Windows PATH environment variable
+This step will enable to run one-liners with VBoxManage.exe to quickly change virtualization settings. It is also required for working with Cygwin.
 
-### 3.5. Install GnuWin binaries
-Google download GnuWin Packages. Download and install the following MUST-HAVE binaries: grep, less
-
-    
-
-### 3.6. Install Strawberry Perl on Windows
-Google download Strawberry Perl for Windows. Install for your platform (32-bit or 64-bit)
-
-    
-
-### 3.7. Configure the Windows PATH environment variable
-This step will enable to run one-liners with VBoxManage.exe to quickly change virtualization settings. 
-Open the advanced system properties on Windows (sysdm.cpl), add the VBobxManage.exe directory into your PATH environmental variable. 
-Add the path of the cygwin installer as well, so that it can be used from both the cygwin shell and the cmd.exe. 
-
+Open the Advanced System Properties on Windows (Win+R, sysdm.cpl, Enter), switch to the Advanced tab, then click on Environment Variables button.
 ```
-# Press Win+R on the keyboard, execute this command:
 sysdm.cpl
 ```
 
-### 3.8. Install cygwin on Windows Host
-You will use cygwin only as the terminal for your virtual machines with a very limited amount of packages. 
+Scroll down and select the variable "Path" under the "System variables" and click on the "Edit" button. Add directory of VBobxManage.exe to the line and click OK.
 
-    
+Add the path of the Cygwin bin folder as well, so that Cygwin can be launched from the command line. 
 
-### 3.9. Install cygwin packages
-Install the following cygwin packages
-
-```
-for /f "tokens=*" %i in ('echo bash binutils bzip2 cygwin gcc-core gcc-g++ gcc-java gzip m4 make unzip zip') do setup-x86_64.exe -n -q -s http://cygwin.mirror.constant.com -P %i
-```
-
-### 3.10. Install Windows utility applications
-For each step in this subsection you could install a different application than the suggested one, however skipping the advice to install a type of application will make your work more difficult.
-
-    
-
-### 3.11. Install proper text editors
-Notepad is not a proper text editor - install TextPad, NotePad++, Atom or whatever else LIGHT text editor for quickly editing text and configuration files
-
-    
-
-### 3.12. Install Oracle VirtualBox
-Google download Oracle VirtualBox, which at the moment will lead you to the download page at:
-https://www.virtualbox.org/wiki/Downloads
-Since the target setup is to have the VirtualBox running on the Widows Host, you would choose the download the package for Windows.
-
-    
-
-### 3.13. Install Oracle VirtualBox Extension Pack
-Google download Oracle VirtualBox extension pack, which at the moment will lead you to the download page at:
-https://www.virtualbox.org/wiki/Downloads
-You have to double-click the file and it will open with the VirtualBox UI. 
-
-    
+## 3. DEPLOY VAGRANT VM
 
 ### 3.15. Enable fully read/write access to a shared folder on the Host from the Guest
 This is the most error prone section, as your mileage will vary. 
