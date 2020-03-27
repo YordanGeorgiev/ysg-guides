@@ -46,28 +46,24 @@ Table of Contents
 ## 1. INTRODUCTION
 
 
-    
 
 ### 1.1. Purpose
 The purpose of this guide is to provide step-by-step instructions for setting up a QTO development environment relying heavily on virtualization in Windows. There is also a pdf version available at https://github.com/YordanGeorgiev/ysg-guides/blob/master/doc/pdf/ovb-on-win-virtualization-guide.pdf
 
-    
 
 ### 1.2. Target setup
-The target setup of this guide is a physical Windows machine (Host) operating a configurable virtual machine (Guest), which both have access to one another and to the Internet via the network connections of the Host machine. 
-The Guest will also have read and write access to a shared directory on the Host. 
-    
+The target setup of this guide is a physical Windows machine (Host) operating a configurable virtual machine (Guest), which both have access to the Internet. The Guest will also have read and write access to a shared directory on the Host. 
+
 
 ### 1.3. Submitting suggestions
-Should you find an error or want to suggest a change in the content of the document, clone this github repository and create a merge request.
-
+Should you find an error or want to suggest a change in the content of the document, feel free to clone this Github repository and create a merge request.
 
 
 ## 2. PREPARATION AND CONFIGURATION
 
 This guide assumes that you have 64-bit Windows already installed on the Host, the computer is connected to the Internet and you installed a browser, for example, Firefox, Opera or Chrome. If you have 32-bit Windows, then use the appropriate 32-bit installers instead during this installation.
 
-It is recommended to get NotePad++, TextPad, Atom or whatever else light text editor for quickly editing text and configuration files in the future.
+It is recommended to get NotePad++, TextPad, Atom or any other light text editor for quickly editing text and configuration files in the future.
 https://notepad-plus-plus.org/downloads/
 
 
@@ -108,14 +104,38 @@ Open the Advanced System Properties on Windows (Win+R, sysdm.cpl, Enter), switch
 sysdm.cpl
 ```
 
-Scroll down and select the variable "Path" under the "System variables" and click on the "Edit" button. Add directory of VBobxManage.exe to the line and click OK.
+Scroll down and select the variable "Path" under the "System variables" and click on the "Edit" button. Add directory of VBoxManage.exe to the line and click OK. The default installation directory for VBoxManage.exe is C:\Program files\VirtualBox\
 
-Add the path of the Cygwin bin folder as well, so that Cygwin can be launched from the command line. 
+Add the path of the Cygwin bin folder as well, so that Cygwin can be launched from the command line. Usually it is C:\cygwin\bin
 
-## 3. DEPLOY VAGRANT VM
+Press OK to save the settings, then restart the computer.
+
+## 3. VIRTUAL MACHINE DEPLOYMENT
+
+At this stage we will download and create a Ubuntu 18.04 virtual machine using Vagrant and then install QTO on it.
+
+### 3.1 Clone Github repository
+
+First launch Cygwin by running `Cygwin` in command line. In a new installation of Cygwin, your home directory will be in C:/cygwin/home/<user>/, and can be accessed by the `~` shortcut.
+
+Then create a directory called `opt`, get inside of it, clone QTO files from Github and navigate inside `qto` folder. Here are the commands to be executed inside Cygwin:
+```
+mkdir -p ~/opt; cd $_ ; git clone https://github.com/YordanGeorgiev/qto.git ; cd ~/opt/qto
+```
+
+### 3.2 Run deployment script
+
+When this is done, run the deployment script:
+```
+./src/bash/deploy-vagrant-vm.sh
+```
+
+The script will download Ubuntu image from the Internet and copy a Vagrant configuration file from /qto/cnf/tpl/vagrant/Vagrantfile to the `qto` folder
+
+If there are any errors, please check the Troubleshooting section of this guide.
+
 
 ### 3.15. Enable fully read/write access to a shared folder on the Host from the Guest
-This is the most error prone section, as your mileage will vary. 
 This step will enable you to access a certain root directory on your Windows Host machine from the Linux Guest terminal. 
 In this example the name of the share from the OVB perspective will be vshare (which is the default), the full directory path to the Windows OS (the Host OS) will be "C:\var\" and the full file path to access it from the Guest VM will be "/vagrant", and finally the name of the user to enable the full read/write access will be "user-name". 
 
