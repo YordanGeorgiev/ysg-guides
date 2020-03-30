@@ -1,44 +1,33 @@
-#  VIRTUALIZATION GUIDE
+#  VIRTUALIZATION GUIDE FOR WINDOWS
 
 
 Table of Contents
 
   * [1. INTRODUCTION](#1-introduction)
-    * [1.1. Purpose](#11-purpose)
-    * [1.2. Target setup](#12-target-setup)
-    * [1.3. Master storage](#13-master-storage)
-    * [1.4. Version control](#14-version-control)
-  * [2. CLONE THE REPO](#2-clone-the-repo)
-    * [2.1. Clone this GitHub repo as follows](#21-clone-this-github-repo-as-follows)
-  * [3. INSTALLATIONS AND CONFIGURATIONS](#3-installations-and-configurations)
-    * [3.1. Install Windows OS on the Host](#31-install-windows-os-on-the-host)
-    * [3.2. Create initial directory structure](#32-create-initial-directory-structure)
-    * [3.3. Install Chrome, Firefox, and Opera for Windows](#33-install-chrome-firefox-and-opera-for-windows)
-    * [3.4. Configure network, connect to the Internet](#34-configure-network-connect-to-the-internet)
-    * [3.5. Install GnuWin binaries](#35-install-gnuwin-binaries)
-    * [3.6. Install Strawberry Perl on Windows](#36-install-strawberry-perl-on-windows)
-    * [3.7. Configure the Window PATH environment variable](#37-configure-the-windows-path-environment-variable)
-    * [3.8. Install cygwin on Windows Host](#38-install-cygwin-on-windows-Host)
-    * [3.9. Install cygwin packages](#39-install-cygwin-packages)
-    * [3.10. Install Windows utility applications](#310-install-windows-utility-applications)
-    * [3.11. Install proper text editors](#311-install-proper-text-editors)
-    * [3.12. Install Oracle VirtualBox](#313-install-oracle-virtualbox)
-    * [3.13. Install Oracle VirtualBox Extension Pack](#314-install-oracle-virtualbox-extension-pack)
-    * [3.14. Enable fully read/write access to a shared folder on the Host from the Guest](#315-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
-      * [3.14.1. Install the Guest Additions prerequisites](#3151-install-the-guest-additions-prerequisites)
-      * [3.14.2. Install the Guest Additions](#3152-install-the-guest-additions)
-      * [3.14.3. Change your shared directory to be automounted on VM boot](#3153-change-your-for-the-shared-directory-to-be-automounted-on-vm-boot)
-      * [3.14.4. Add yourself to the vboxsf group](#3154-add-yourself-to-the-vboxsf-group)
-      * [3.14.5. Reboot and verify](#3155-reboot-and-verify)
+    * [1.1 Purpose](#11-purpose)
+    * [1.2 Target setup](#12-target-setup)
+    * [1.3 Submitting suggestions](#13-submitting-suggestions)
+  * [2. PREPARATION AND CONFIGURATION](#2-preparation-and-configuration)
+    * [2.1 Install Strawberry Perl](#21-install-strawberry-perl)
+    * [2.2 Install Cygwin](#22-install-cygwin)
+    * [2.3 Install VirtualBox](#23-install-virtualbox)
+    * [2.4 Install Vagrant](#24-install-vagrant)
+    * [2.5 Configure Windows PATH variable](#25-configure-windows-path-variable)
+  * [3. VIRTUAL MACHINE DEPLOYMENT](#3-virtual-machine-deployment)
+    * [3.1 Clone Github repository](#31-clone-github-repository)
+    * [3.2 Run deployment script](#32-run-deployment-script)
+    * [3.3 Enable full read/write access to a shared folder](#33-enable-full-read-write-access-to-a-shared-folder)
+    * [3.4 SSH to Guest](#34-ssh-to-guest)
+    * [3.5 Install the Guest Additions prerequisites](#35-install-the-guest-additions-prerequisites)
+    * [3.6 Install VirtualBox Guest Additions](#36-install-virtualbox-guest-additions)
+    * [3.7 Add yourself to the vboxsf group](#37-add-yourself-to-the-vboxsf-group)
+    * [3.8 Reboot and verify](#38-reboot-and-verify)
   * [4. MAINTENANCE AND OPERATIONS](#4-maintenance-and-operations)
-    * [4.1. Start and stop VMs](#41-start-and-stop-vms)
-      * [4.1.1. Start a virtual machine](#411-start-a-virtual-machine)
-      * [4.1.2. Stop a virtual machine](#412-stop-a-virtual-machine)
-    * [4.2. VMs backup and restore](#42-vms-backup-and-restore)
-      * [4.2.1. Backup a single virtual machine](#421-backup-a-single-virtual-machine)
-      * [4.2.2. Backup the current state of the virtual machines](#422-backup-the-current-state-of-the-virtual-machines)
-      * [4.2.3. Restore a backup of virtual machine](#423-restore-a-backup-of-virtual-machine)
-      * [4.2.4. How-to attach an iso drive as a DVD on the fly](#424-how-to-attach-an-iso-drive-as-a-dvd-on-the-fly)
+    * [4.1 Start and stop VMs](#41-start-and-stop-vms)
+    * [4.2 Backup and restore VMs](#42-backup-and-restore-vms)
+      * [4.2.1 Backup a single VM](#421-backup-a-single-vm)
+      * [4.2.2 Backup the current state of all VMs](#422-backup-the-current-state-of-all-vms)
+      * [4.2.3 Restore a backup of virtual machine](#423-restore-a-backup-of-virtual-machine)
 
 
     
@@ -46,254 +35,210 @@ Table of Contents
 ## 1. INTRODUCTION
 
 
-    
-
-### 1.1. Purpose
-The purpose of this guide is to provide a practical step-by-step doable from top to bottom guide for setting up a full development environment for Windows and Linux relying heavily on virtualization.
-
-    
-
-### 1.2. Target setup
-The target setup of this guide is a physical Windows machine operating a fully configurable network of virtual machines (Guests), which all will have access both internal to one another and to the Internet via the network connections of the Host machine. 
-The Guests will have also read and write access to a shared directory on the Host, which will be visible as mounted share to the Guests. 
-
-    
-
-### 1.3. Master storage
-The master storage of this document is the following Markdown file in GitHub:
-https://github.com/YordanGeorgiev/you-guides/doc/md 
-You could also download the pdf version.
-
-    
-
-### 1.4. Version control
-Each version of this document is identifiable via the git commit hash  - should you find an error / want to suggest a change in the content of the document - clone this github repository and create a merge request. Emails / IM's might just as well be ignored / noted but left without further action.
-
-    
-
-## 2. CLONE THE REPO
+### 1.1 Purpose
+The purpose of this guide is to provide step-by-step instructions for setting up a QTO development environment relying heavily on virtualization in Windows. There is also a pdf version available at https://github.com/YordanGeorgiev/ysg-guides/blob/master/doc/pdf/ovb-on-win-virtualization-guide.pdf
 
 
-    
+### 1.2 Target setup
+The target setup of this guide is a physical Windows machine (Host) operating a configurable virtual machine (Guest), which both have access to the Internet. The Guest will also have read and write access to a shared directory on the Host. 
 
-### 2.1. Clone this GitHub repo as follows
-You may clone this GitHub repo as follows, if you have Git already installed:
+
+### 1.3 Submitting suggestions
+Should you find an error or want to suggest a change in the content of the document, feel free to clone this Github repository and create a merge request.
+
+
+## 2. PREPARATION AND CONFIGURATION
+
+This guide assumes that you have 64-bit Windows already installed on the Host, the computer is connected to the Internet and you installed a browser, for example, Firefox, Opera or Chrome. If you have 32-bit Windows, then use the appropriate 32-bit installers instead during this installation.
+
+It is recommended to get NotePad++, TextPad, Atom or any other light text editor for quickly editing text and configuration files in the future.
+https://notepad-plus-plus.org/downloads/
+
+
+### 2.1 Install Strawberry Perl
+Perl binaries, compiler (gcc) and related tools will be needed for proper deployment of QTO. Install a recommended version of Strawberry Perl from the official website to your Windows Host system:
+http://strawberryperl.com/
+
+### 2.2 Install Cygwin
+Cygwin will be the main terminal for working with the virtual machine. It also comes with a bunch of packages that will be necessary for the QTO installation. Install it by downloading setup-x86_64.exe from this website:
+https://cygwin.com/
+
+During the setup choose any mirror website, keep the default packages and make sure that the following Cygwin packages get installed, too:
 
 ```
-cd ~
-git clone git://github.com/YordanGeorgiev/ysg-guides
+echo bash binutils bzip2 cygwin gcc-core gcc-g++ git grep gzip jq less m4 make unzip zip
 ```
 
-## 3. INSTALLATIONS AND CONFIGURATIONS
-
-
-    
-
-### 3.1. Install Windows OS on the Host
-If you just bought the machine, congratulations. Plug it to the socket, turn it on and follow the instructions on the screen. Do not quickly press Next, Next, but always use the customizable options and plan a bit before configuring. For example, the keyboard layout is trully something you should feel confortable with.
-
-    
-
-### 3.2. Create initial directory structure
-This is important. The reason for creating initial dir structure are as follows:
- - once estalished naming conventions and logic within the structure you would NEVER have to loose any important file or dir again. Period. 
-
+It is possible to start the setup via a command line (Win+R, cmd, Enter) by navigating to the folder, where you downloaded setup-x86_64.exe, and executing this one-liner:
 ```
-mkdir -p C:\var\<<org>>\hosts\%COMPUTERNAME%\
+for /f "tokens=*" %i in ('echo bash binutils bzip2 cygwin gcc-core gcc-g++ git grep gzip jq less m4 make unzip zip') do setup-x86_64.exe -n -q -s http://cygwin.mirror.constant.com -P %i
 ```
 
-### 3.3. Install Chrome, Firefox and Opera for Windows
-Install Chrome, Firefox and Opera for Windows or any other browsers. The principle is to have at least 3 so that you could compare the different rendering of the html pages by swithing to a different browser. 
+### 2.3 Install VirtualBox
+Install VirtualBox from this website by choosing "VirtualBox platform packages" -> "Windows hosts":
+https://www.virtualbox.org/wiki/Downloads
 
-    
+Then download and install "VirtualBox Oracle VM VirtualBox Extension Pack".
 
-### 3.4. Configure network, connect to the Internet
-Configure network, connect to the Internet.
+### 2.4 Install Vagrant
+Vagrant will be used together with VirtualBox to create a configured Guest virtual machine, where QTO will be run. Install Vagrant for Windows:
+https://www.vagrantup.com/downloads.html
 
-    
+### 2.5 Configure Windows PATH variable
+This step will enable to run one-liners with VBoxManage.exe to quickly change virtualization settings. It is also required for working with Cygwin.
 
-### 3.5. Install GnuWin binaries
-Google download GnuWin Packages. Download and install the following MUST-HAVE binaries: grep, less
-
-    
-
-### 3.6. Install Strawberry Perl on Windows
-Google download Strawberry Perl for Windows. Install for your platform (32-bit or 64-bit)
-
-    
-
-### 3.7. Configure the Windows PATH environment variable
-This step will enable to run one-liners with VBoxManage.exe to quickly change virtualization settings. 
-Open the advanced system properties on Windows (sysdm.cpl), add the VBobxManage.exe directory into your PATH environmental variable. 
-Add the path of the cygwin installer as well, so that it can be used from both the cygwin shell and the cmd.exe. 
-
+Open the Advanced System Properties on Windows (`Win+R`, `sysdm.cpl`, Enter), switch to the Advanced tab, then click on Environment Variables button.
 ```
-# Press Win+R on the keyboard, execute this command:
 sysdm.cpl
 ```
 
-### 3.8. Install cygwin on Windows Host
-You will use cygwin only as the terminal for your virtual machines with a very limited amount of packages. 
+Scroll down and select the variable "Path" under the "System variables" and click on the "Edit" button. Add directory of VBoxManage.exe to the line and click OK. The default installation directory for VBoxManage.exe is `C:\Program files\VirtualBox\`
 
-    
+Add the path of the Cygwin bin folder as well, so that Cygwin can be launched from the command line. Usually it is C:\cygwin\bin
 
-### 3.9. Install cygwin packages
-Install the following cygwin packages
+Press OK to save the settings, then restart the computer.
+
+## 3. VIRTUAL MACHINE DEPLOYMENT
+
+At this stage we will download and create a Ubuntu 18.04 virtual machine using Vagrant and then install QTO on it.
+
+### 3.1 Clone Github repository
+
+First launch Cygwin by running `Cygwin` in command line. In a new installation of Cygwin, your home directory will be in C:/cygwin/home/<user>/, and can be accessed by the `~` shortcut.
+
+Then create a directory called `opt`, get inside of it, clone QTO files from Github and navigate inside `qto` folder. Here are the commands to be executed inside Cygwin:
+```
+mkdir -p ~/opt; cd $_ ; git clone https://github.com/YordanGeorgiev/qto.git ; cd ~/opt/qto
+```
+
+### 3.2 Run deployment script
+
+When this is done, run the deployment script:
+```
+./src/bash/deploy-vagrant-vm.sh
+```
+
+The script will download Ubuntu image from the Internet and copy a Vagrant configuration file from `/qto/cnf/tpl/vagrant/Vagrantfile` to the `qto` folder, then run `vagrant up` command to start the virtual machine.
+
+If there are any errors, please check the Troubleshooting section of the Installation guide.
+
+
+### 3.3 Enable full read/write access to a shared folder
+Edit the `/qto/Vagrantfile` to allow access to a directory on your Windows Host machine from the Linux Guest terminal. In this example `D:\opt\qto\` is the path on Host that will be shared, `/home/vagrant/opt/` is the path, where this folder will be available on the Guest.
 
 ```
-for /f "tokens=*" %i in ('echo bash binutils bzip2 cygwin gcc-core gcc-g++ gcc-java gzip m4 make unzip zip') do setup-x86_64.exe -n -q -s http://cygwin.mirror.constant.com -P %i
+config.vm.synced_folder "D:\opt\qto\", "/home/vagrant/opt/"
 ```
 
-### 3.10. Install Windows utility applications
-For each step in this subsection you could install a different application than the suggested one, however skipping the advice to install a type of application will make your work more difficult.
 
-    
-
-### 3.11. Install proper text editors
-Notepad is not a proper text editor - install TextPad, NotePad++, Atom or whatever else LIGHT text editor for quickly editing text and configuration files
-
-    
-
-### 3.12. Install Oracle VirtualBox
-Google download Oracle VirtualBox, which at the moment will lead you to the download page at:
-https://www.virtualbox.org/wiki/Downloads
-Since the target setup is to have the VirtualBox running on the Widows Host, you would choose the download the package for Windows.
-
-    
-
-### 3.13. Install Oracle VirtualBox Extension Pack
-Google download Oracle VirtualBox extension pack, which at the moment will lead you to the download page at:
-https://www.virtualbox.org/wiki/Downloads
-You have to double-click the file and it will open with the VirtualBox UI. 
-
-    
-
-### 3.15. Enable fully read/write access to a shared folder on the Host from the Guest
-This is the most error prone section, as your mileage will vary. 
-This step will enable you to access a certain root directory on your Windows Host machine from the Linux Guest terminal. 
-In this example the name of the share from the OVB perspective will be vshare (which is the default), the full directory path to the Windows OS (the Host OS) will be "C:\var\" and the full file path to access it from the Guest VM will be "/vagrant", and finally the name of the user to enable the full read/write access will be "user-name". 
+It should also be possible to add the folder using VBoxManage, however editing the Vagrantfile is the preferable way. Here the name of the share will be `qto`, the full directory path to the directory on the Host will be `D:\opt\qto\`, and finally the name of the virtual machine to enable the full read/write access for will be `qto_dev-qto-vagrant_1584955571704_40830`. Alternatively, you can configure it in VirtualBox image Settings, Shared Folders tab.
 
 ```
 # how-to add a shared folder on the Host
-VBoxManage sharedfolder add "Host-name" -name "vshare" -hostpath "C:\var" -automount
+VBoxManage sharedfolder add "qto_dev-qto-vagrant_1584955571704_40830" -name "qto" -hostpath "D:\opt\qto\" -automount
 ```
-    
-    
 
-#### 3.14.1. Install the Guest Additions prerequisites
-Install the Guest Additions prerequisites by issuing the following command:
+The names of the created virtual machines can be seen using `VBoxManage list vms` command in Cygwin on Host.
+
+### 3.4 SSH to Guest
+
+After the virtual machine started, run the following command to establish an SSH session into a running virtual machine to give you shell access.
+
+```
+vagrant ssh
+```
+
+If this does not work at once, you may need to start VirtualBox, launch the image from there, then install open-ssh server on the Guest system.
+```
+sudo apt-get install -y openssh-server
+sudo systemctl enable ssh
+```
+
+Them set Port forwarding from `127.0.0.1` port `2522` to `10.0.2.15` port `22` in VirtualBox image preferences, Network, Advanced, Port forwarding in order to connect via SSH.
+
+### 3.4 Install the Guest Additions prerequisites
+After getting access to Guest, install the Guest Additions prerequisites by issuing the following command inside Terminal:
 
 ```
 sudo apt-get install -y build-essential make gcc linux-headers-$(uname -r) linux-headers-generic make linux-source linux-generic linux-signed-generic
 ```
-    
 
-#### 3.14.2. Install the Guest Additions
-Do not use the .iso file to download and the installer from there - it will simply not work
-
-```
-sudo apt-get install virtualbox-guest-dkms
-```
-
-#### 3.14.3. Change your shared directory to be automounted on VM boot
-Change your shared directory to be automounted on VM boot by addding the folowing lines to the end of your fstab file. Alternatively, you can configure it in VirtualBox image Settings, Shared Folders tab. 
+### 3.5 Install VirtualBox Guest Additions
+Do not use the .iso file to download and the installer from there - it will not work. Install `virtualbox-guest-dkms` package instead by running this command in the Guest system.
 
 ```
-#/media/sf_vshare /vagrant bind defaults,bind 0 0
-/media/sf_vshare /vagrant vboxsf bind,uid=10001,rw,umask=0000 0 0
-
-# eof file: /etc/fstab
+sudo apt-get install -y virtualbox-guest-dkms
 ```
 
-#### 3.14.4. Add yourself to the vboxsf group
-You need to add yourself to the vboxsf group in order to be able to edit as non-root from your VM the files on your Host machine. 
+### 3.6 Add yourself to the vboxsf group
+Add yourself to the vboxsf group in order to be able to edit as non-root from your VM the files on your Host machine. `ubuntu` is the user name on Guest.
 
 ```
 # remount /etc/fstab without rebooting
 sudo mount -a
     
-sudo usermod -G vboxsf -a user-name
+sudo usermod -G vboxsf -a ubuntu
 ```
 
-#### 3.14.5. Reboot and verify
-Reboot the VM and login via SSH to verify the file sharing. You may need to install open-ssh server on the Guest system and set Port forwarding from 127.0.0.1 port 2522 to 10.0.2.15 port 22 in VirtualBox image preferences, Network, Advanced, Port forwarding in order to connect via SSH.
+### 3.7 Reboot and verify
+Reboot the virtual machine and login via SSH to verify the file sharing. 
 
-In Terminal on Guest
+Execute this in Cygwin on Host:
 ```
-sudo apt install openssh-server
+# ssh to the VM, alternatively vagrant ssh
+ssh vagrant@localhost -p 2522
 ```
 
-In bash shell on Host
+When you are connected to VM, check that you can see this folder:
 ```
-# ssh to the VM
-ssh user-name@localhost -p 2522
-
-# check as yourself that you have 
 find /vagrant
 ```
 
 ## 4. MAINTENANCE AND OPERATIONS
 This section contains maintenance and operational activities around the virtualization. 
 
-    
+### 4.1 Start and stop VMs
 
-### 4.1. Start and stop VMs
-
-
-    
-
-#### 4.1.1. Start a virtual machine
-To start a virtual machine navigate to the folder 'ysg-guides\src\cmd\' and execute the following cmd file with the name of the Guest system as a parameter. 
+To start a virtual machine navigate to the `opt` directory on your Host, then clone `ysg-guides` repository there.
 
 ```
-vm-start Guest-name
+cd ~ ; git clone git://github.com/YordanGeorgiev/ysg-guides
 ```
 
-#### 4.1.2. Stop a virtual machine
-To stop a virtual machine navigate to the folder 'ysg-guides\src\cmd\' and execute the following cmd file with the name of the Guest system as a parameter. 
+Then get inside 'ysg-guides\src\cmd\' and execute the following cmd file with the name of the Guest system as a parameter. In this example the name of the virtual machine is `qto_dev-qto-vagrant_1584955571704_40830`. 
 
 ```
-vm-stop Guest-name
+vm-start qto_dev-qto-vagrant_1584955571704_40830
 ```
 
-### 4.2. VMs backup and restore
+To stop a virtual machine execute the following cmd file with the name of the Guest system as a parameter. 
 
+```
+vm-stop qto_dev-qto-vagrant_1584955571704_40830
+```
 
-    
+### 4.2 Backup and restore VMs
 
-#### 4.2.1. Backup a single virtual machine
+#### 4.2.1 Backup a single VM
 To backup a single VM issue the following command:
 
 ```
-# list first you VMs 
+# first list all your VMs 
 VBoxManage list vms
 
-# select the Host-name VM
-VBoxManage export Guest-name -o Guest-name.ova
+# select the Guest VM
+VBoxManage export qto_dev-qto-vagrant_1584955571704_40830 -o qto_dev-qto-vagrant_1584955571704_40830.ova
 ```
 
-#### 4.2.2. Backup the current state of the virtual machines
-If you performed the installations and configurations as described above you will be able to backup any or all of your Guests by simply backing up the VMs folder.
+#### 4.2.2 Backup the current state of all VMs
+If you performed the installations and configurations as described above, you will be able to backup any or all of your Guests by simply backing up the VMs folder.
 
 ```
-# execute this in bash shell to export all VirtualBox VMs in Windows into the current directory
+# execute this in bash shell to display necessary commands to export all VirtualBox VMs in Windows into the current directory
 while read -r vms ; do echo VBoxManage export "$vms" -o "$vms".ova ; done < <(VBoxManage list vms|cut -d'"' -f2)
 ```
 
-#### 4.2.3. Restore a backup of virtual machine
-Copy the backed-up folder into your Windows Hosts virtual machines folder. 
-Open OVB. Machine add, navigate to the just copied &lt;&lt;machine-name&gt;&gt;.ova. 
+#### 4.2.3 Restore a backup of virtual machine
+Copy the backed up folder into your Windows Hosts virtual machines folder. By default it is located in `C:\Users\%USERPROFILE%\VirtualBox\`
 
-    
-
-#### 4.2.4. How to attach an ISO drive as a DVD on the fly
-To attach the storage would mean in the physical world to buy a DVD drive and physically attach it to the hardware of your box. 
-Issue the following two commands:
-
-```
-# add the IDE 
-VBoxManage.exe storagectl "Guest-name" --name IDE --add ide
-
-# attach the DVD drive with the following command
-VBoxManage.exe storageattach "Guest-name" --storagectl IDE --port 0 --device 0 --type dvddrive --medium "C:\var\pckgs\oracle\virtual-box\VBoxGuestAdditions_6.1.4.iso"
-```
+Open Oracle VirtualBox. In the menu choose `Machine`,  `Add...`, then navigate to the just copied `qto_dev-qto-vagrant_1584955571704_40830.ova`.
