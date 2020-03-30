@@ -120,10 +120,10 @@ When this is done, run the deployment script:
 
 The script will download Ubuntu image from the Internet and copy a Vagrant configuration file from `/qto/cnf/tpl/vagrant/Vagrantfile` to the `qto` folder, then run `vagrant up` command to start the virtual machine.
 
-If there are any errors, please check the Troubleshooting section of this guide.
+If there are any errors, please check the Troubleshooting section of the Installation guide.
 
 
-### 3.3 Enable fully read/write access to a shared folder on the Host from the Guest
+### 3.3 Enable full read/write access to a shared folder on the Host from the Guest
 Edit the `/qto/Vagrantfile` to allow access to a directory on your Windows Host machine from the Linux Guest terminal. In this example `D:\opt\qto\` is the path on Host that will be shared, `/home/vagrant/opt/` is the path, where this folder will be available on the Guest.
 
 ```
