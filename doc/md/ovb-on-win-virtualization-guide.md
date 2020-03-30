@@ -140,7 +140,7 @@ VBoxManage sharedfolder add "qto_dev-qto-vagrant_1584955571704_40830" -name "qto
 
 The names of the created virtual machines can be seen using `VBoxManage list vms` command in Cygwin on Host.
 
-#### 3.4 SSH to Guest
+### 3.4 SSH to Guest
 
 After the virtual machine started, run the following command to establish an SSH session into a running virtual machine to give you shell access.
 
@@ -156,21 +156,21 @@ sudo systemctl enable ssh
 
 Them set Port forwarding from `127.0.0.1` port `2522` to `10.0.2.15` port `22` in VirtualBox image preferences, Network, Advanced, Port forwarding in order to connect via SSH.
 
-#### 3.4 Install the Guest Additions prerequisites
+### 3.4 Install the Guest Additions prerequisites
 After getting access to Guest, install the Guest Additions prerequisites by issuing the following command inside Terminal:
 
 ```
 sudo apt-get install -y build-essential make gcc linux-headers-$(uname -r) linux-headers-generic make linux-source linux-generic linux-signed-generic
 ```
 
-#### 3.5 Install VirtualBox Guest Additions
+### 3.5 Install VirtualBox Guest Additions
 Do not use the .iso file to download and the installer from there - it will not work. Install `virtualbox-guest-dkms` package instead by running this command in the Guest system.
 
 ```
 sudo apt-get install -y virtualbox-guest-dkms
 ```
 
-#### 3.6 Add yourself to the vboxsf group
+### 3.6 Add yourself to the vboxsf group
 Add yourself to the vboxsf group in order to be able to edit as non-root from your VM the files on your Host machine. `ubuntu` is the user name on Guest.
 
 ```
@@ -180,15 +180,17 @@ sudo mount -a
 sudo usermod -G vboxsf -a ubuntu
 ```
 
-#### 3.7 Reboot and verify
+### 3.7 Reboot and verify
 Reboot the virtual machine and login via SSH to verify the file sharing. 
 
-In bash shell on Host
+Execute this in Cygwin on Host:
 ```
 # ssh to the VM, alternatively vagrant ssh
 ssh vagrant@localhost -p 2522
+```
 
-# check as yourself that you have 
+When you are connected to VM, check that you can see this folder:
+```
 find /vagrant
 ```
 
