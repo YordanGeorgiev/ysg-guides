@@ -16,7 +16,7 @@ Table of Contents
   * [3. VIRTUAL MACHINE DEPLOYMENT](#3-virtual-machine-deployment)
     * [3.1 Clone Github repository](#31-clone-github-repository)
     * [3.2 Run deployment script](#32-run-deployment-script)
-    * [3.3 Enable fully read/write access to a shared folder on the Host from the Guest](#33-enable-fully-read-write-access-to-a-shared-folder-on-the-host-from-the-guest)
+    * [3.3 Enable full read/write access to a shared folder](#33-enable-full-read-write-access-to-a-shared-folder)
     * [3.4 SSH to Guest](#34-ssh-to-guest)
     * [3.5 Install the Guest Additions prerequisites](#35-install-the-guest-additions-prerequisites)
     * [3.6 Install VirtualBox Guest Additions](#36-install-virtualbox-guest-additions)
@@ -123,7 +123,7 @@ The script will download Ubuntu image from the Internet and copy a Vagrant confi
 If there are any errors, please check the Troubleshooting section of the Installation guide.
 
 
-### 3.3 Enable full read/write access to a shared folder on the Host from the Guest
+### 3.3 Enable full read/write access to a shared folder
 Edit the `/qto/Vagrantfile` to allow access to a directory on your Windows Host machine from the Linux Guest terminal. In this example `D:\opt\qto\` is the path on Host that will be shared, `/home/vagrant/opt/` is the path, where this folder will be available on the Guest.
 
 ```
