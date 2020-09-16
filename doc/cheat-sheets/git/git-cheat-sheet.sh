@@ -21,7 +21,7 @@ GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o St
 git clone git@git.in.corp.com:corp/project.git
 
 export git_msg="my commit msg with my corporate identity, explicitly provide author"
-git add --all ; git commit -m "$git_msg" --author "MeFirst MeLast <first.last@corp.com>"
+git add --all ; git commit -m "$git_msg" --author "MeFirst MeLast <ffirst.last@corp.com>"
 GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa.corp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
 git push 
 # and verify 

@@ -1,5 +1,22 @@
 # file:linux-cheat-sheet.sh v.1.9.5 docs at the end 
 
+sudo hostnamectl set-hostname qto.fi
+
+
+# how-to use tee for appending multiline text with sudo ... for example to disable ip06
+cat <<EOF | sudo tee -a /etc/sysctl.conf > /dev/null 
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+EOF
+
+
+# where are the "too-long lines " files
+find . -type f -exec grep --color=always -nHPo '.{0,300}to-srch.{0,300}' {} \;
+# now repeat the search by excluding those bastards 
+find . -type f ! -name '*.main.js' ! -path './build*' -exec grep --color=always -nHio 'to-srch' {} \;
+
+
 alias tarx='tar -zxvf'
 alias tarc='tar -zcvf'
 
@@ -11,16 +28,15 @@ tar -cpjf tar tar-package.tar.bz2 src/path
 tar -xzf tar-package.tar.bz -C /tgt/path/
 tar -xjf tar-package.tar.bz2 -C /tgt/path
 
-
-
-
-sudo chown -R ubuntu:ubuntu /opt/ ; cd /opt/ ; git clone https://github.com/YordanGeorgiev/qto.git
-
-clear ; ./qto/src/bash/qto/bootstrap-qto-host-on-ubuntu.sh
-
+# network cards info
+sudo arp -a
 
 # start networking 
 sudo netstat -tulpn
+
+# show th
+sudo route -n
+
 # which is my default gateway
 sudo ip route | grep default
 sudo ifconfig
@@ -57,7 +73,7 @@ sudo tcpdump -i enp0s3 -l > dat & tail -f dat
 # trace ssl trafic with sssldump
 ssldump -k /etc/stealmykeys/test.key -i eth0 -dnq host 10.41.12.50
 
-# get the Ctrl + J tmux 
+w# get the Ctrl + J tmux 
 wget -O ~./.tmux.conf https://raw.githubusercontent.com/YordanGeorgiev/ysg-confs/master/.tmux.conf.host-name
 
 # create a new tmux session
@@ -118,8 +134,8 @@ find . -type f -exec stat -c '%n %y' {} \; | sort -n | less
 # check permissions effectively 
 find . -type f -exec stat -c "%U:%G %a %n" {} \; | less
 
-# skip a dir in find
-find . -not path no-go
+# skip / omit a dir in find
+find . -not -path no-go
 
 # aliases
 # show dirs with nice time newest modified on top 
@@ -150,10 +166,37 @@ ls -al --lcontext $dir
 # change the selinux security context 
 chcon -vR -u system_u -r object_r -t httpd_sys_content_t $dir
 
-# use rsync to preserve permissions
+# use rsync to preserve permissions, archieve and NOT create tgt dir src_dir/
+
+export ssh_server=csitea.net #cgfinics.com #qto.fi
+export ssh_user=ubuntu
+export src_dir=/home/ubuntu/opt/
+#export ssh_idty=~/.ssh/id_rsa.aws-ec2.cg-finics.prd
+# export ssh_idty=~/.ssh/id_rsa.aws-ec2.qto.0.8.6.prd
+export ssh_idty=~/.ssh/id_rsa.aws-ec2.qto.prd
+export tgt_dir=/hos/opt/
+rsync -e "ssh -l USERID -i $ssh_idty" -av -r --partial --progress --human-readable \
+	--stats $ssh_user@$ssh_server:$src_dir $tgt_dir
+clear ; find $tgt_dir -type d -maxdepth 1|sort -nr| less
+
+rsync -e "ssh -l USERID -i ~/.ssh/id_rsa.aws-ec2.qto.prd" -av -r --partial --progress --human-readable \
+	--stats --delete-excluded ubuntu@$ssh_server:$src_dir $tgt_dir
+
+
+
+rsync -av -r --partial --progress --human-readable --stats --delete-excluded $src_dir tgt_dir
 rsync -v -X -r -E -o -g --perms --acls $src_dir $tgt_dir
 rsync -v -r --partial --progress --human-readable --stats $src_dir $tgt_dir
 rsync -v -r --partial --progress --human-readable --stats $src_dir/$f $tgt_dir/$f
+
+rsync -avzhXrEog $ssh_user@$ssh_server:$src_dir $tgt_dir
+rsync -avzhXrEog $src_dir $ssh_user@$ssh_server:$tgt_dir
+
+
+
+
+
+
 
 while read line_with_spaces ; do sh /path/to/script.sh "$line_with_spaces" ; done < $file_with_lines_with_spaces
 
@@ -369,17 +412,17 @@ nfsstat -m
 
 # START === user management
 #how-to add a linux group
-export group=staff
-export gid=20001
+export group=grpqto
+export gid=1010
 sudo groupadd -g "$gid" "$group"
 sudo cat /etc/group | grep --color "$group"
 
-export user=phz
-export uid=20001
+export user=atc
+export uid=1111
 export home_dir=/home/$user
-export desc="the qto user"
+export desc="atc"
 #how-to add an user
-sudo useradd --uid "$uid" --home-dir "$home_dir" --gid "$group" \
+sudo useradd --uid "$uid" --home-dir "$home_dir" --gid "1000" \
 --create-home --shell /bin/bash "$user" \
 --comment "$desc"
 sudo cat /etc/passwd | grep --color "$user"

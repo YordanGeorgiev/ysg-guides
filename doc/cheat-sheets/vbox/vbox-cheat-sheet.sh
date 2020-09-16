@@ -1,5 +1,9 @@
 #file: docs/cheat-sheets/vbox/vbox-cheat-sheet.sh
 
+sudo mount -t vboxsf hos /hos/
+
+
+VBoxManage setextradata host-name VBoxInternal2/SharedFoldersEnableSymlinksCreate/hos 1
 
 # how-to add a shared folder on the host
 VBoxManage sharedfolder add "host-name" -name "vshare" -hostpath "C:\var"
@@ -36,6 +40,7 @@ VBoxManage showvminfo "host-name" | grep NIC
 
 # in bash how-to export all myy Virtual box vms in Windows in the current dir
 while read -r vms ; do echo VBoxManage export "$vms" -o "$vms".ova ; done < <(VBoxManage list vms|cut -d'"' -f2)
+
 
 #in cmd how-to export all myy Virtual box vms in Windows in the current dir in cmd
 for /f "tokens=1 delims= " %i in ('VBoxManage list vms') do VBoxManage export %i -o %i.ova

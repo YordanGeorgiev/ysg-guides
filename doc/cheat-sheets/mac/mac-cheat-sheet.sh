@@ -1,5 +1,20 @@
 #file: doc/cheat-sheets/mac-cheat-sheet.sh
 
+Gr&Bg12Rulez
+
+
+
+
+
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk'
+
+i=20
+while [ $i -lt 40 ]; do
+	i=$[$i+1]
+	chrome "https://vaultit.atlassian.net/browse/ID06TECHSP-17$i"
+done
+
+
 # on the server 
 sudo apt install sshfs
 
@@ -8,12 +23,14 @@ brew cask install osxfuse
 
 
 # how-to map network drive over ssh on the client
-ssh_user=phz; domain=in.phz.fi; remote=monolith
-mkdir -p ~/mnt/$remote/ ; 
-sudo echo sshfs -o allow_other,defer_permissions $ssh_user@$remote.$domain/:/home/$ssh_user ~/mnt/$remote/
+ssh_user=atc; domain=qto.fi; remote='src'
+mkdir -p ~/mnt/$remote.$domain/ ; 
+sudo echo sshfs -o allow_other,defer_permissions $ssh_user@$remote.$domain/:/home/$ssh_user ~/mnt/$remote.$domain/
+export dir_to_mount='/home/ubuntu/opt/qto/qto.0.8.6.dev.ubuntu@ip-10-0-63-166/src/perl/qto/public/cgfinics-web'
+sudo sshfs -o allow_other,defer_permissions $ssh_user@$remote.$domain:/home/ubuntu ~/mnt/$remote.$domain
 
-sudo sshfs -o allow_other,defer_permissions phz@monolith.in.phz.fi:/home/phz ~/mnt/monolith
-sudo umount -f phz@monolith.in.phz.fi:/home/phz
+
+sudo umount -f phz@$domain.$domain:~
 pgrep -lf sshfs
 kill -9 <pid_of_sshfs_process>
 
