@@ -71,3 +71,18 @@ sudo service docker restart
 
 # information sources 
 https://vsupalov.com/docker-build-pass-environment-variables/
+
+echo << EOF_DOCKER_REGISTRY_CONF_01 >> ~/.docker/config.json
+{
+	"auths": {
+		"REGISTRY": {
+			"auth": "base64(USERNAME:PASSWORD)"
+		}
+	},
+	"HttpHeaders": {
+		"User-Agent": "Docker-Client/18.09.7 (linux)"
+	}
+}
+EOF_DOCKER_REGISTRY_CONF_01
+
+
