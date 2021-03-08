@@ -1,4 +1,8 @@
 
+# run a deployment file chck change-scripts-runs
+kubectl create -f 1_dry_run.yml
+
+
 
 # how-to get the name of the pod(s) by the job name
 kubectl --namespace=serviceportal get pods -l sp-change-script-job-85671
@@ -14,8 +18,6 @@ private
 public
 EOF
 )
-
-
 
 
 # generate a search for errors call per pod for a (list) of namespaces 
