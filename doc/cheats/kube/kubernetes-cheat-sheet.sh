@@ -1,14 +1,33 @@
 
+
+while read -r ns; do 
+  while read -r p ; do  
+  echo kubectl logs --namespace $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \|wc -l
+  # echo kubectl logs --namespace $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \| less -R
+  done < <(kubectl --namespace $ns get pods |awk '{print $1}') ;
+done < <(cat <<EOF
+service
+ns2
+EOF
+)
+
+
 # run a deployment file chck change-scripts-runs
 kubectl create -f 1_dry_run.yml
+
+# get the the pods 
+kubectl --namespace=serviceportal get pods -l sp-change-script-job-94894
 
 
 
 # how-to get the name of the pod(s) by the job name
-kubectl --namespace=serviceportal get pods -l sp-change-script-job-85671
+kubectl --namespace=serviceportal get pods -l sp-change-script-job-94894
 
 
-while read -r p ; do kubectl logs $p | grep -i fatal | head -n 100 ; done < <(kubectl get pods | grep spid06|awk '{print $1}')
+while read -r p ; do echo kubectl logs $p ; done < <(kubectl get pods | grep spid06|awk '{print $1}')
+
+
+kubectl logs sp-change-script-job-94894-mg8f8
 
 
 while read -r pp; do 
@@ -66,7 +85,7 @@ export KUBECONFIG=~/.kube/config:~/.kube/kubconfig2
 # how-to delete deployments
 kubectl delete pods $pod_name
 
-# run cjommands against cluster config file 
+# run commands against cluster config file 
 kubectl --kubeconfig ~/.ssh/stg.yml get pods
 
 
@@ -91,9 +110,7 @@ kubectl get pods --namespace=secret-stories
 kubectl get nodes
 
 
-hostpath ti
 
-poland outsouring 
 
 # 
 kubectl create deployment nginx --image=nginx:1.10.0
@@ -133,10 +150,15 @@ echo << EOF_DOCKER_REGISTRY_CONF_02 >> ~/.docker/config.json
     "User-Agent" : "Docker-Client/19.03.5 (darwin)"
   },
   "auths" : {
-    "registry.vaultit.org": { "auth": "xx fpT4s1hKaf1iaGMxz1Tt xx" }
+    "registry.vaultit.org": { "auth": "xx foobar xx" }
   }
 }
 EOF_DOCKER_REGISTRY_CONF_02
 
 
 
+cat kubernetes/${deploy_to_environment}/${deployment_file} |  
+  sed -e "s#IMAGE#${docker_image_name}:${docker_tag}#g" | \
+  ssh -o StrictHostKeyChecking=no centos@${admin_host} kubectl --namespace=${namespace} apply -f -'
+
+kubectl rollout status --namespace=${namespace} deployments ${deployment_name}
