@@ -1,42 +1,10 @@
-
-
-bash src/bash/hydeout-backend/hydeout-backend.sh -a backup-postgres-table -t interaction_events
-psql -t -d dev_ho_biz -c "ALTER TABLE interaction_events RENAME COLUMN lobbyImage TO image;"
-psql -t -d dev_ho_biz -c "ALTER TABLE interaction_events ADD COLUMN lobbyImage text;"
-bash src/bash/hydeout-backend/hydeout-backend.sh -a backup-postgres-table -t interaction_events
-mv -v ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl.tmp
-./deploy --mode aws --actions do_setup_strapi
-./hydeout-backend -a strapi-pm2-stop ; ./hydeout-backend -a strapi-pm2-start
-mv -v ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl.tmp ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl
-curl --location --request GET 'http://34.245.116.8:1337/interaction-events' --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTYwNjMxMjcyNiwiZXhwIjoxNjA4OTA0NzI2fQ.iYsuuKwpTaXMylt6nUI2ezMb5tHXfi00myaUYUjCfLg' 2>&1 | grep -i --color=always lobbyImage
-
-
-curl -s --location --request GET 'https://prd-api.hydeoutplatform.com/interaction-events' --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTYwNjMxMzI3NywiZXhwIjoxNjA4OTA1Mjc3fQ.gQH5EPG8eY0jHG4lFd47UPOlQO6WOwkjachEjtYkENU' 2>&1 | grep -i --color=always image
-bash src/bash/hydeout-backend/hydeout-backend.sh -a backup-postgres-table -t interaction_events
-psql -t -d prd_ho_biz -c "ALTER TABLE interaction_events RENAME COLUMN lobbyImage TO image;"
-psql -t -d prd_ho_biz -c "ALTER TABLE interaction_events ADD COLUMN lobbyImage text;"
-bash src/bash/hydeout-backend/hydeout-backend.sh -a backup-postgres-table -t interaction_events
-mv -v ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl.tmp
-./deploy --mode aws --actions do_setup_strapi
-./hydeout-backend -a strapi-pm2-stop ; ./hydeout-backend -a strapi-pm2-start
-mv -v ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl.tmp ./src/tpl/src/nodejs/hydeout_marketplace_app/env.tpl
-curl -s --location --request GET 'https://prd-api.hydeoutplatform.com/interaction-events' --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTYwNjMxMzI3NywiZXhwIjoxNjA4OTA1Mjc3fQ.gQH5EPG8eY0jHG4lFd47UPOlQO6WOwkjachEjtYkENU' 2>&1 | grep -i --color=always lobbyImage
-
-
-
 # file:linux-cheat-sheet.sh v.1.9.5 docs at the end 
 
-# search for cards by priority and status and project
-https://vaultit.atlassian.net/issues/?jql=project%20%3D%20%27SUP%27%20AND%20priority%20%3D%20Major%20AND%20status%20%3D%20%27DONE%27
-
-https://github.com/nextauthjs/next-auth
-https://github.com/goldbergyoni/nodebestpractices
-https://github.com/tonydavis995/nodejs-stateless-auth-backend
-https://www.willandskill.se/en/setup-a-next-js-project-with-pm2-nginx-and-yarn-on-ubuntu-18-04/
+# how-to expand tilde into $HOME
+var="${var/#\~/$HOME}"
 
 
-
-
+# how-to exlude paths from the find command
 find . -not -path "./node_modules/*" -not -path "./.git/*"
 
 
@@ -52,14 +20,12 @@ perl -pi -e "$perl_code" /path/to/file/to/search/and/replace
 # how-to change the host name on ubuntu
 sudo hostnamectl set-hostname qto.fi
 
-
 # how-to use tee for appending multiline text with sudo ... for example to disable ip06
 cat <<EOF | sudo tee -a /etc/sysctl.conf > /dev/null 
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 EOF
-
 
 # where are the "too-long lines " files
 find . -type f -exec grep --color=always -nHPo '.{0,300}to-srch.{0,300}' {} \;
@@ -247,8 +213,6 @@ rsync -e "ssh -l USERID -i ssh_i_fle" -av -r --partial --progress --human-readab
 sudo sshfs -p 5522 -o nonempty -o allow_other -o IdentityFile=$ssh_i_fle -o kernel_cache,cache=yes,compression=no \
 	ubuntu@$ssh_server:/home/ubuntu ~/mnt/ho-dev
 
-
-
 rsync -av -r --partial --progress --human-readable --stats --delete-excluded $src_dir tgt_dir
 rsync -v -X -r -E -o -g --perms --acls $src_dir $tgt_dir
 rsync -v -r --partial --progress --human-readable --stats $src_dir $tgt_dir
@@ -256,12 +220,6 @@ rsync -v -r --partial --progress --human-readable --stats $src_dir/$f $tgt_dir/$
 
 rsync -avzhXrEog $ssh_user@$ssh_server:$src_dir $tgt_dir
 rsync -avzhXrEog $src_dir $ssh_user@$ssh_server:$tgt_dir
-
-
-
-
-
-
 
 while read line_with_spaces ; do sh /path/to/script.sh "$line_with_spaces" ; done < $file_with_lines_with_spaces
 

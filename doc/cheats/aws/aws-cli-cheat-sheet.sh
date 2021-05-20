@@ -1,5 +1,28 @@
 # file: docs/cheat-sheets/aws/aws-cli-cheat-sheet.sh
 
+aws --profile profile --region us-east-1 eks get-token --cluster-name se-eks-prod | jq -r '.status.token'
+
+
+
+export AWS_SHARED_CREDENTIALS_FILE=~/.aws/credentials.mac
+
+aws iam list-roles --profile spectralengines_master_devtest_admin| jq -r '.Roles[]|to_entries[]|select(.key=="RoleName" or .key == "RoleId" or .key == "Description")|"\(.key): \(.value)"' | perl -ne 's|RoleName|\nRoleName|g;print'
+
+
+
+aws iam get-account-authorization-details
+aws sts get-caller-identity
+
+aws iam list-roles --profile spectralengines_master_devtest_admin --region us-east-1 \
+	| jq -r '.Roles[]|to_entries[]|select(.key=="Arn" or .key == "RoleId")|"\(.key): \(.value)"'
+
+aws secretsmanager get-secret-value --secret-id se_cloudflare_credentials --region us-east-1 --profile spectralengines_master_prod_admin | jq '.'
+aws secretsmanager update-secret --secret-id arn:aws:secretsmanager:us-east-1:123456789013:secret:cross-account --secret-string file://creds.txt
+aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:us-east-1:123456789013:secret:cross-account --version-stage AWSCURRENT --profile cross-account-user --region us-east-1 --query SecretString --output text
+
+aws rds modify-db-instance --db-instance-identifier mydb --master-user-password mypassword
+
+aws sts get-caller-identity | jq '.'
 
 Cloudwatch
 Log Groups
@@ -25,6 +48,8 @@ aws logs delete-log-group \
 	--log-group-name "DefaultGroup"
 
 
+# check my aws cashe
+while read -r f ; do echo start $f; cat $f | jq '.' ; echo stop $f ; done < <(find ~/.aws/cli/cache/ -type f)
 
 
 aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,PublicIpAddress,KeyName,Tags[?Key==`Name`]| [0].Value]' --output=text
@@ -407,4 +432,6 @@ for userName in $allUsers; do
         --user-name $userName
 done
 
+# info-sources
+# https://ilya-sher.org/2016/05/11/most-jq-you-will-ever-need/
 # eof file: docs/cheat-sheets/aws/aws-cli-cheat-sheet.sh

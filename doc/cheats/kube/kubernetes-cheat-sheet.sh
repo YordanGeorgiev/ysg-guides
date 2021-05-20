@@ -1,3 +1,47 @@
+# file: kubernetes - cheat -sheet
+# 
+# src: 
+# https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+# https://eksctl.io/usage/iamserviceaccounts/
+
+
+kubectl --namespace kubernetes-dashboard describe service kubernetes-dashboard
+kubectl describe configmap -n kube-system aws-auth
+kubectl describe service -n default spectralha-api-central
+kubectl get deployments --all-namespaces
+kubectl get deploy kubernetes-dashboard --namespace kubernetes-dashboard -o yaml
+
+kubectl rollout restart deployment/deployment-name
+# get the end points
+kubectl describe service  -n kubernetes-dashboard kubernetes-dashboard
+
+# how-to restart all the deployments from a namespace
+while read -r d ; do echo kubectl -n apiv2 rollout restart deployment/$d ; done < <(kubectl get deployments -n apiv2|grep -v NAME|awk '{print $1}')
+
+
+# how-to restart pods 
+kubectl get pods -n ns
+kubectl scale deployment deployment-name --replicas=2 -n ns
+kubectl scale deployment deployment-name --replicas=0 -n ns
+kubectl describe pods -n ns
+kubectl describe nodes 
+
+
+while read -r pod ; do kubectl describe pods --namespace default $pod; done < <(kubectl get pods --all-namespaces|grep -i prometheus| awk '{print $2}')
+
+get the log errors
+
+while read -r pod ; do kubectl logs  --namespace default $pod --tail 1000 ; done < <(kubectl get pods --all-namespaces|grep -i entitlement| awk '{print $2}')
+
+
+alias memalloc='util | grep % | awk '\''{print $3}'\'' | awk '\''{ sum += $1 } END { if (NR > 0) { result=(sum*100)/(NR*1600); printf result/NR "%\n" } }'\'''
+# Get CPU request total (we x20 because because each m3.large has 2 vcpus (2000m) )
+alias cpualloc='util | grep % | awk '\''{print $1}'\'' | awk '\''{ sum += $1 } END { if (NR > 0) { print sum/(NR*20), "%\n" } }'\'''
+
+# Get mem request total (we x75 because because each m3.large has 7.5G ram )
+alias memalloc='util | grep % | awk '\''{print $5}'\'' | awk '\''{ sum += $1 } END { if (NR > 0) { print sum/(NR*75), "%\n" } }'\'''
+kubectl top pod
+kubectl get po --all-namespaces -o=jsonpath="{range .items[*]}{.metadata.namespace}:{.metadata.name}{'\n'}{range .spec.containers[*]}  {.name}:{.resources.requests.cpu}{'\n'}{end}{'\n'}{end}"
 
 
 while read -r ns; do 
@@ -11,6 +55,8 @@ ns2
 EOF
 )
 
+      --web.external-url=http://prometheus-operator-alertmanager.monitoring:9093
+      --web.external-url=http://prometheus-operator-prometheus.monitoring:9090
 
 # run a deployment file chck change-scripts-runs
 kubectl create -f 1_dry_run.yml
@@ -40,7 +86,7 @@ EOF
 
 
 # generate a search for errors call per pod for a (list) of namespaces 
-str='first.last@company.se'
+str='Sven'
 echo 'echo srch for the following str: "'$str'"';
 while read -r ns; do 
 	while read -r p ; do  
@@ -56,7 +102,7 @@ EOF
 
 
 kubectl logs $pod  
-kubectl exec --stdin --tty $pod_to_attach_to -- /bin/bas
+kubectl exec --stdin --tty $pod_to_attach_to -- /bin/bash
 
 ns='serviceportal'; kubectl config set-context --current --namespace serviceportal
 
