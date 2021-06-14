@@ -2,14 +2,13 @@
 # 
 # src: 
 # https://kubernetes.io/docs/reference/kubectl/cheatsheet/
-# https://eksctl.io/usage/iamserviceaccounts/
 
 
-kubectl --namespace kubernetes-dashboard describe service kubernetes-dashboard
+kubectl -n kubernetes-dashboard describe service kubernetes-dashboard
 kubectl describe configmap -n kube-system aws-auth
 kubectl describe service -n default spectralha-api-central
 kubectl get deployments --all-namespaces
-kubectl get deploy kubernetes-dashboard --namespace kubernetes-dashboard -o yaml
+kubectl get deploy kubernetes-dashboard -n kubernetes-dashboard -o yaml
 
 kubectl rollout restart deployment/deployment-name
 # get the end points
@@ -18,6 +17,9 @@ kubectl describe service  -n kubernetes-dashboard kubernetes-dashboard
 # how-to restart all the deployments from a namespace
 while read -r d ; do echo kubectl -n apiv2 rollout restart deployment/$d ; done < <(kubectl get deployments -n apiv2|grep -v NAME|awk '{print $1}')
 
+kubectl describe configmap -n kube-system aws-auth
+
+kubectl rollout restart deployment/deployment-name
 
 # how-to restart pods 
 kubectl get pods -n ns
@@ -27,11 +29,11 @@ kubectl describe pods -n ns
 kubectl describe nodes 
 
 
-while read -r pod ; do kubectl describe pods --namespace default $pod; done < <(kubectl get pods --all-namespaces|grep -i prometheus| awk '{print $2}')
+while read -r pod ; do kubectl describe pods -n default $pod; done < <(kubectl get pods --all-namespaces|grep -i prometheus| awk '{print $2}')
 
 get the log errors
 
-while read -r pod ; do kubectl logs  --namespace default $pod --tail 1000 ; done < <(kubectl get pods --all-namespaces|grep -i entitlement| awk '{print $2}')
+while read -r pod ; do kubectl logs  -n default $pod --tail 1000 ; done < <(kubectl get pods --all-namespaces|grep -i entitlement| awk '{print $2}')
 
 
 alias memalloc='util | grep % | awk '\''{print $3}'\'' | awk '\''{ sum += $1 } END { if (NR > 0) { result=(sum*100)/(NR*1600); printf result/NR "%\n" } }'\'''
@@ -46,9 +48,9 @@ kubectl get po --all-namespaces -o=jsonpath="{range .items[*]}{.metadata.namespa
 
 while read -r ns; do 
   while read -r p ; do  
-  echo kubectl logs --namespace $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \|wc -l
-  # echo kubectl logs --namespace $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \| less -R
-  done < <(kubectl --namespace $ns get pods |awk '{print $1}') ;
+  echo kubectl logs -n $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \|wc -l
+  # echo kubectl logs -n $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \| less -R
+  done < <(kubectl -n $ns get pods |awk '{print $1}') ;
 done < <(cat <<EOF
 service
 ns2
@@ -62,12 +64,12 @@ EOF
 kubectl create -f 1_dry_run.yml
 
 # get the the pods 
-kubectl --namespace=serviceportal get pods -l sp-change-script-job-94894
+kubectl -n=serviceportal get pods -l sp-change-script-job-94894
 
 
 
 # how-to get the name of the pod(s) by the job name
-kubectl --namespace=serviceportal get pods -l sp-change-script-job-94894
+kubectl -n=serviceportal get pods -l sp-change-script-job-94894
 
 
 while read -r p ; do echo kubectl logs $p ; done < <(kubectl get pods | grep spid06|awk '{print $1}')
@@ -90,9 +92,9 @@ str='Sven'
 echo 'echo srch for the following str: "'$str'"';
 while read -r ns; do 
 	while read -r p ; do  
-	echo kubectl logs --namespace $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \|wc -l
-	# echo kubectl logs --namespace $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \| less -R
-	done < <(kubectl --namespace $ns get pods | grep Running |awk '{print $1}') ;
+	echo kubectl logs -n $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \|wc -l
+	# echo kubectl logs -n $ns $p \| grep -i -A 20 -B 2 --color=always '"$str"' \| head -n 1000 \| less -R
+	done < <(kubectl -n $ns get pods | grep Running |awk '{print $1}') ;
 done < <(cat <<EOF
 ns1
 ns2
@@ -104,9 +106,9 @@ EOF
 kubectl logs $pod  
 kubectl exec --stdin --tty $pod_to_attach_to -- /bin/bash
 
-ns='serviceportal'; kubectl config set-context --current --namespace serviceportal
+ns='serviceportal'; kubectl config set-context --current -n serviceportal
 
-kubectl config set-context $(kubectl config current-context) --namespace=serviceportal
+kubectl config set-context $(kubectl config current-context) -n=serviceportal
 kubectl config view | grep namespace
 kubectl get pods | grep spid06
 
@@ -145,13 +147,13 @@ kubectl get deployments
 kubectl version
 
 # attach to a running docker from a specific namespaec 
-kubectl --namespace secret-stories exec -it story-db-stg-postgresql-0 bash
+kubectl -n secret-stories exec -it story-db-stg-postgresql-0 bash
 
 # src: https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-autocomplete
 kubectl get pods --all-namespaces             # List all pods in all namespaces
 
 # get the pods from one namespace 
-kubectl get pods --namespace=secret-stories
+kubectl get pods -n=secret-stories
 
 kubectl get nodes
 
@@ -165,10 +167,7 @@ kubectl create deployment nginx --image=nginx:1.10.0
 kubectl create -f pods/monolith.yaml
 
 kubectl describe pods pod-name
-
-
 kubectl get pods secure-monolith --show-labels
-
 kubectl get events --sort-by='.lastTimestamp'
 
 # how-to update containwers image 
@@ -205,6 +204,6 @@ EOF_DOCKER_REGISTRY_CONF_02
 
 cat kubernetes/${deploy_to_environment}/${deployment_file} |  
   sed -e "s#IMAGE#${docker_image_name}:${docker_tag}#g" | \
-  ssh -o StrictHostKeyChecking=no centos@${admin_host} kubectl --namespace=${namespace} apply -f -'
+  ssh -o StrictHostKeyChecking=no centos@${admin_host} kubectl -n=${namespace} apply -f -'
 
-kubectl rollout status --namespace=${namespace} deployments ${deployment_name}
+kubectl rollout status -n=${namespace} deployments ${deployment_name}
