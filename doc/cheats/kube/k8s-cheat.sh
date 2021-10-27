@@ -3,6 +3,19 @@
 # src: 
 # https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
+# how-to filter by attribute name from array of items 
+kubectl get services --all-namespaces -o json | jq -r \
+  '.items[] | select( .metadata.name | contains("api-gateway")) | { name: .metadata.name, ns: .metadata.namespace , nodePort: .spec.ports[].nodePort, port: .spec.ports[].port}'
+
+
+# start a pod where you can make curl commands from
+kubectl run $my_pod_name --image=radial/busyboxplus:curl -n $ns -i --tty --rm
+
+# how-to port forward with k8s
+kubectl port-forward --namespace test-service svc/redis-master 6379:6379
+
+# start a port forward to easier consume browser stuff
+kubectl port-forward -n $ns service/$service_name $my_local_port:$my_remote_port
 
 kubectl -n kubernetes-dashboard describe service kubernetes-dashboard
 kubectl describe configmap -n kube-system aws-auth

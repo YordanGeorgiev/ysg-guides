@@ -32,11 +32,7 @@ ssh $ssh_user@$ssh_server
 # START copy 
 cat id_rsa.pub >> ~/.ssh/authorized_keys
 cat ~/.ssh/authorized_keys
-chmod -v 0700 ~/.ssh
-chmod -v 0600 ~/.ssh/authorized_keys
-chmod -v 0600 ~/.ssh/id_rsa
-chmod -v 0644 ~/.ssh/id_rsa.pub
-find ~/.ssh -exec stat -c "%U:%G %a %n" {} \;
+pfind ~/.ssh -exec stat -c "%U:%G %a %n" {} \;
 rm -fv ~/id_rsa.pub
 exit
 # and verify that you can go on the server without having to type a pass

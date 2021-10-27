@@ -1,12 +1,22 @@
 # file: docs/cheat-sheets/aws/aws-cli-cheat-sheet.sh
 
+aws sts get-caller-identity
+
+
+# how-to get all the app clients 
+while read -r p ; do aws  cognito-idp list-user-pool-clients --user-pool-id $p ; done < <(aws  cognito-idp list-user-pools --max-results 10| jq -r '.UserPools[]|.Id')
+
+
+
+
 aws --profile profile --region us-east-1 eks get-token --cluster-name se-eks-prod | jq -r '.status.token'
 
+aws cognito-idp list-user-pools --max-results 20 | jq -r '.UserPools[]|to_entries[]|select (.key == "Name")|("\(.key):@\(.value)")'| column -t -s'@'
 
 
 export AWS_SHARED_CREDENTIALS_FILE=~/.aws/credentials.mac
 
-aws iam list-roles --profile spectralengines_master_devtest_admin| jq -r '.Roles[]|to_entries[]|select(.key=="RoleName" or .key == "RoleId" or .key == "Description")|"\(.key): \(.value)"' | perl -ne 's|RoleName|\nRoleName|g;print'
+aws iam list-roles --profile spectralengines_master_devtest_admin| jq -r '.Roles[]|to_entries[]|select(.key=="RoleName" or .key == "RoleId" or .key == "Arn")|"\(.key): \(.value)"' | perl -ne 's|RoleName|\nRoleName|g;print'
 
 
 
@@ -166,7 +176,7 @@ while read -r lb ; do \
 	echo " stop  lb: $lb" ; \
 done < <(aws elb describe-load-balancers --query \
 'LoadBalancerDescriptions[].Instances[].InstanceId' \
---profile rnd|perl -nle 's/\s+/\n/g;print')
+--profile $AWS_PROFILE --region $AWS_REGION|perl -nle 's/\s+/\n/g;print')
 
 
 

@@ -2,6 +2,8 @@
 
 # docker is a run-time utilising the Linux kernel university
 
+apk update apk add vim
+
 docker run -v `pwd`:/opt/app/src/change_scripts -i -t 7a3f91406564 /bin/bash
 docker run -v /host/directory:/container/directory
 

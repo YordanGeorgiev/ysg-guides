@@ -1,5 +1,13 @@
 #file: git-cheat-sheet.sh
 
+
+
+# how-to create your private key for git
+export email="you@org.com" ; ssh-keygen -t rsa -b 4096 -C "$email" -f ~/.ssh/id_rsa.$email
+
+
+git config core.fileMode false
+
 # start :: how-to use different ssh identity files
 
 # enforce remote changes to local
@@ -11,7 +19,7 @@ git merge --squash --strategy-option=theirs stash
 
 
 # create the company identity file
-ssh-keygen -t rsa -b 4096 -C "first.last@corp.com"
+export emial=you@corp.com ; ssh-keygen -t rsa -b 4096 -C "$email" -f ~/.ssh/id_rsa.$email
 # save private key to ~/.ssh/id_rsa.corp, 
 cat ~/.ssh/id_rsa.corp.pub # copy paste this string into your corp web ui security ssh keys
 
@@ -68,7 +76,7 @@ git add --all
 # check once again with the author time and commiter time 
 git log --pretty --format='%h %ai %<(15)%an ::: %s'
 git log --pretty --format='%h %cI %<(15)%an ::: %s'
-
+ aikaa fssh
 
 while read -r f ; do echo $(basename $f)|perl -ne 'chomp;print ("unzip -o $_ -d ");s/(.*).zip/$1/g;print ("../../games/blobs/$_/;")'; done < <(find games/zip/*.zip)
 
@@ -245,7 +253,7 @@ git config --global push.default simple
 less ~/.gitconfig
 
 # generate your ssh keys to authenticate yourself against github
-ssh-keygen -t ecdsa -b 521
+fcurrkeygen -t ecdsa -b 521
 # paste the output as new key into the https://github.com/settings/keys section
 cat ~/.ssh/id_ecdsa.pub
 
@@ -308,6 +316,9 @@ git push -u origin master
 git commit -m "Adding $component_name $component_version files recursively " 
 
 git push
+
+
+
 
 
 

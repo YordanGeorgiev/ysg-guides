@@ -1,5 +1,8 @@
 #file: docs/cheat-sheets/vbox/vbox-cheat-sheet.sh
 
+# how-to get the ip of already booted guest
+VBoxManage guestproperty enumerate sat | grep /VirtualBox/GuestInfo/Net/0/V4/IP
+
 # check ip the of the guest 
 for i in {1..9}; do sudo ifconfig -a | grep -i -A 1 enp0s$i | grep -i inet | awk '{print $2}'; done
 
@@ -128,7 +131,8 @@ VBoxManage modifyvm "$guest" --natpf1 "5001,tcp,,5001,,5001"
 VBoxManage showvminfo "$guest" | grep NIC
 
 # in bash how-to export all myy Virtual box vms  in the current dir
-while read -r vms ; do echo VBoxManage export "$vms" -o "$vms".ova ; done < <(VBoxManage list vms|cut -d'"' -f2)
+
+
 
 
 #in cmd how-to export all myy Virtual box vms in Windows in the current dir in cmd

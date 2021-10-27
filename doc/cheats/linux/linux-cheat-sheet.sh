@@ -3,6 +3,8 @@
 # how-to expand tilde into $HOME
 var="${var/#\~/$HOME}"
 
+# how-to create your private key for git
+export email="you@org.com" ; ssh-keygen -t rsa -b 4096 -C "$email" -f ~/.ssh/id_rsa.$email
 
 # how-to exlude paths from the find command
 find . -not -path "./node_modules/*" -not -path "./.git/*"

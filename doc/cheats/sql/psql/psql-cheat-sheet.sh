@@ -1,3 +1,9 @@
+
+
+psql -v -t -X -w -U postgres --port 5432 --host rds-stack-dev-108-flk-instance-db.cuk0clq7wto2.eu-west-1.rds.amazonaws.com"
+
+
+
 IFS='' read -r -d '' sql_code << EOF_SQL_CODE
             SELECT users.id, email, password, roles.name as roles
             FROM users
