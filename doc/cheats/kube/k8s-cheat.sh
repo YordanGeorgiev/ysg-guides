@@ -3,13 +3,55 @@
 # src: 
 # https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
+clear; while read -r d; do echo kubectl -n default rollout restart deployment/$d ; done < <(kubectl -n default get deployments|awk '{print $1}'|tail -n +2)
+clear; while read -r d; do echo kubectl -n default scale deployment $d --replicas=2; done < <(kubectl -n default get deployments|awk '{print $1}'|tail -n +2)
+
+
+for namespace in `echo namespace-01 namespace-02`; do
+  while read -r pod ; do
+    while read -r container ; do
+      echo START ::: POD: $pod , CONTAINER : $container 
+      echo kubectl -n $namespace exec -it $pod -c $container -- env
+      echo STOP ::: POD: $pod , CONTAINER : $container 
+    done < <(kubectl -n $namespace get pods -o json | jq -r ".items[]|select(.metadata.name | contains ( \"$pod\"))| .status.containerStatuses[].name") ;
+  done < <(kubectl -n $namespace get pods -o json | jq -r '.items[].metadata.name')
+done
+    
+
+# get all secrets used by a pod
+kubectl -n apiv2 get pods -o json | jq -r '.items[].spec.containers[].env[]?.valueFrom.secretKeyRef.name' | grep -v null | sort | uniq
+
+
+while read -r pod ; do while read -r container ; do echo kubectl -n apiv2 logs $pod $container; done < <(kubectl -n apiv2 get pods -o json | jq -r ".items[]|select(.metadata.name | contains ( \"$pod\"))| .status.containerStatuses[].name") ; done < <(kubectl -n apiv2 get pods -o json | jq -r '.items[].metadata.name')
+
+kubectl -n kube-system edit configmap/aws-auth
+kubectl -n kube-system edit configmap coredns 
+kubectl -n kube-system get configmap coredns -o jsonpath='{$.data.Corefile}'
+
+
+# in src/java/person/src/test/resources/application.yml
+
+  datasource:
+    url: "jdbc:tc:postgresql:11.1:///localhost:5234/person_db"
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+    
+
+### how-to check a deployment status 
+kubectl -n $ns rollout status deployments $deployment_name
+
+
+
+
+
 # how-to filter by attribute name from array of items 
 kubectl get services --all-namespaces -o json | jq -r \
-  '.items[] | select( .metadata.name | contains("api-gateway")) | { name: .metadata.name, ns: .metadata.namespace , nodePort: .spec.ports[].nodePort, port: .spec.ports[].port}'
-
+  '.items[] | select( .metadata.name | contains("api-doc")) | { name: .metadata.name, ns: .metadata.namespace , nodePort: .spec.ports[].nodePort, port: .spec.ports[].port}'
 
 # start a pod where you can make curl commands from
-kubectl run $my_pod_name --image=radial/busyboxplus:curl -n $ns -i --tty --rm
+kubectl run $my_pod_name --image=radial/busyboxplus:curl -n $my_namespace -i --tty --rm
 
 # how-to port forward with k8s
 kubectl port-forward --namespace test-service svc/redis-master 6379:6379

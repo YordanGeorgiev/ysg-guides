@@ -1,19 +1,5 @@
 #file: doc/cheat-sheets/mac-cheat-sheet.sh
 
-Gr&Bg12Rulez
-
-
-curl 'https://qat.tilaajavastuu.fi/api/qat/resources/private/0035-3e6c33a3db88ebcba045821adb815a48-244a492f?reason=SUP-2298' \
-  -H 'Connection: keep-alive' \
-  -H 'Accept: application/json' \
-  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36' \
-  -H 'Sec-Fetch-Site: same-origin' \
-  -H 'Sec-Fetch-Mode: cors' \
-  -H 'Sec-Fetch-Dest: empty' \
-  -H 'Referer: https://qat.tilaajavastuu.fi/resources/persons/0035-3e6c33a3db88ebcba045821adb815a48-244a492f' \
-  -H 'Accept-Language: en-US,en;q=0.9,fi-FI;q=0.8,fi;q=0.7,bg-BG;q=0.6,bg;q=0.5' \
-  -H 'Cookie: qat=cb67894ac6e94f9ebea4f591457b0748' \
-  --compressed
 
 
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk'
@@ -161,5 +147,6 @@ brew install sbt
 8.8.8.8
 8.8.4.4
 
-
+172065
+OBarce12Lona!
 # eof file: doc/cheat-sheets/mac-cheat-sheet.sh

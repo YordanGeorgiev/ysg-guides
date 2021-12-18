@@ -3,10 +3,13 @@
 # Compare SSL Certificates
 # General OpenSSL Commands
 # These commands allow you to generate CSRs, Certificates, Private Keys and do other miscellaneous tasks.
+
 # Generate a new private key and Certificate Signing Request
 openssl req -out CSR.csr -new -newkey rsa:2048 -nodes -keyout privateKey.key
+
 # Generate a self-signed certificate (see How to Create and Install an Apache Self Signed Certificate for more info)
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privateKey.key -out certificate.crt
+
 # Generate a certificate signing request (CSR) for an existing private key
 openssl req -out CSR.csr -key privateKey.key -new
 # Generate a certificate signing request based on an existing certificate
@@ -36,6 +39,7 @@ openssl pkcs12 -info -in keyStore.p12
 openssl x509 -noout -modulus -in certificate.crt | openssl md5
 openssl rsa -noout -modulus -in privateKey.key | openssl md5
 openssl req -noout -modulus -in CSR.csr | openssl md5
+
 # Check an SSL connection. All the certificates (including Intermediates) should be displayed
 openssl s_client -connect www.paypal.com:443
 

@@ -28,4 +28,4 @@ demand_var-%:
    @if [ "${${*}}" = "" ]; then \
       echo "the var \"$*\" is not set, do set it by: export $*='value'"; \
       exit 1; \
-   fi
+   fi 

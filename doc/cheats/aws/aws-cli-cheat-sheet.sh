@@ -1,12 +1,12 @@
 # file: docs/cheat-sheets/aws/aws-cli-cheat-sheet.sh
 
+
+
 aws sts get-caller-identity
 
 
 # how-to get all the app clients 
 while read -r p ; do aws  cognito-idp list-user-pool-clients --user-pool-id $p ; done < <(aws  cognito-idp list-user-pools --max-results 10| jq -r '.UserPools[]|.Id')
-
-
 
 
 aws --profile profile --region us-east-1 eks get-token --cluster-name se-eks-prod | jq -r '.status.token'

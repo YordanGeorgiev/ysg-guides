@@ -1,6 +1,15 @@
 # file: doc/cheat-sheets/perl/perl-cheat-sheet.sh
 
 
+# the 'EOT' means do not interpolate the string
+perl -pi - <<'EOT' file.txt
+BEGIN{undef $/;}
+s|a multiline
+srch string|a multiline
+replace string|gs
+EOT
+
+
 # how-to build perl modules as non-root https://perlmonks.org/?node=693828
 The key has been to set PERL5LIB to include the path you're using 
 to install to, e.g., 
@@ -20,7 +29,6 @@ scripts do a use lib ... properly before trying to use or require anything insta
 
 
 
-# File:PerlOneLiners.sh v.1.1.0 
 
 # how-to install modules from the cpan
 perl -MCPAN -e 'install HTML::Template' 
