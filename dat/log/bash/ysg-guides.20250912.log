@@ -1,0 +1,136 @@
+ [DEBUG] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] do_run_actions: actions=do_print_usage , args=
+ [DEBUG] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] actions_found=0 
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] action(s) requested: "do_print_usage " NOT found !!![0m
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] 1. check the spelling of your action[0m
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] 2. check the available actions by: ENV=lde ./run --help[0m
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:17:50 EEST [ysg-guides][@] [24313] the run failed ![0m
+ [DEBUG] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] do_run_actions: actions=do_print_usage , args=
+ [DEBUG] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] Sourcing src/bash/run/print-usage.func.sh for action do_print_usage
+ [DEBUG] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:18:33 EEST [ysg-guides][@] [24911] START ::: running action :: do_print_usage [0m
+ [DEBUG] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:36 EEST [ysg-guides][@] [25231] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] Processing list file: /home/ysg/var/lst.txt [0m
+ [INFO:] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] Generated log file: /mnt/c/Temp/var/log/log.log
+ [INFO:] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] Paste that to the AI prompt and enjoy the magic!
+[0;34m ℹ  [INFO] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] STOP  ::: running function :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:18:37 EEST [ysg-guides][@] [25231] OK run.sh's run completed [0m
+ [DEBUG] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] Processing list file: /home/ysg/var/lst.txt [0m
+ [INFO:] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] Generated log file: /home/ysg/var/log/log.log
+ [INFO:] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] Paste that to the AI prompt and enjoy the magic!
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] STOP  ::: running function :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:20:17 EEST [ysg-guides][@] [26309] OK run.sh's run completed [0m
+ [DEBUG] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] Processing list file: /home/ysg/var/lst.txt [0m
+ [INFO:] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] Generated log file: /home/ysg/var/log/log.log
+ [INFO:] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] Paste that to the AI prompt and enjoy the magic!
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] STOP  ::: running function :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:23 EEST [ysg-guides][@] [27047] OK run.sh's run completed [0m
+ [DEBUG] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+ [ERROR:] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] File specified by LST_FLE (~/var/lst.txt) does not exist.
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:21:45 EEST [ysg-guides][@] [27549] failed to run action: do_cat_files_for_ai_from_list_file !!![0m
+ [DEBUG] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+ [ERROR:] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] File specified by LST_FLE (~/var/lst.txt) does not exist.
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:21:52 EEST [ysg-guides][@] [27900] failed to run action: do_cat_files_for_ai_from_list_file !!![0m
+ [DEBUG] 2025-09-12 11:22:06 EEST [ysg-guides][@] [28298] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:22:06 EEST [ysg-guides][@] [28298] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:06 EEST [ysg-guides][@] [28298] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:06 EEST [ysg-guides][@] [28298] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:06 EEST [ysg-guides][@] [28298] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+ [ERROR:] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] File specified by LST_FLE (~/var/lst.txt) does not exist.
+[0;31m ❌ [NOK]  [FATAL] 2025-09-12 11:22:07 EEST [ysg-guides][@] [28298] failed to run action: do_cat_files_for_ai_from_list_file !!![0m
+ [DEBUG] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] OS detected: debian
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20250912.log [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] using: HOST_NAME: [0m
+ [DEBUG] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] do_run_actions: actions=do_cat_files_for_ai_from_list_file , args=
+ [DEBUG] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] Sourcing src/bash/run/cat-files-for-ai-from-list-file.func.sh for action do_cat_files_for_ai_from_list_file
+ [DEBUG] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] actions_found=1 
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] START ::: running action :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] Processing list file: /home/ysg/var/lst.txt [0m
+ [INFO:] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] Generated log file: /home/ysg/var/log/log.log
+ [INFO:] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] Paste that to the AI prompt and enjoy the magic!
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] STOP  ::: running function :: do_cat_files_for_ai_from_list_file [0m
+[0;34m ℹ  [INFO] 2025-09-12 11:22:46 EEST [ysg-guides][@] [28834] OK run.sh's run completed [0m
