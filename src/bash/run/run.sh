@@ -4,6 +4,36 @@
 # wget https://github.com/csitea/run.sh/archive/refs/tags/current.zip && unzip -o current.zip -d . && mv -v run.sh-current my-app
 # usage: ./run --help
 
+set -E  # Ensure ERR trap is inherited by functions
+
+# Global Error Handler
+error_handler() {
+  local exit_code=$?
+  local line_no=$1
+  local cmd="$2"
+  if [ $exit_code -ne 0 ]; then
+    echo "[FATAL] Command '$cmd' failed at line $line_no with status $exit_code."
+    exit $exit_code
+  fi
+}
+
+# Execution Wrapper
+execute_step() {
+  local func_name=$1
+  do_log "INFO START ::: running action :: $func_name"
+  "$func_name"
+  local status=$?
+  if [ $status -eq 0 ]; then
+    do_log "INFO STOP ::: running function :: $func_name"
+  else
+    do_log "FATAL failed to run action: $func_name with status $status !!!"
+    exit $status
+  fi
+}
+
+trap 'error_handler ${LINENO} "$BASH_COMMAND"' ERR
+
+
 main() {
   do_flush_screen
   do_set_vars_v205 "$@" # is inside, unless --help flag is present
@@ -56,15 +86,17 @@ do_run_actions() {
   do_log "DEBUG do_run_actions: actions=$actions, args=${args[*]}"
   while read -d ' ' arg_action; do
     while read -r fnc_file; do
-      # do_log "DEBUG Checking function file: $fnc_file"
+      # Skip files that don't match the action name BEFORE spawning subprocess
+      action_name=$(basename "$fnc_file" .func.sh)
+      action_name="do_${action_name//-/_}"
+      test "$action_name" != "$arg_action" && continue
+
+      # Only call get_function_list for matching files
       while read -r fnc_name; do
-        action_name=$(echo $(basename $fnc_file) | sed -e 's/.func.sh//g')
-        action_name=$(echo do_$action_name | sed -e 's/-/_/g')
-        test "$action_name" != "$arg_action" && continue
         do_log "DEBUG Sourcing $fnc_file for action $arg_action"
         source $fnc_file
         actions_found=$((actions_found + 1))
-        test "$action_name" == "$arg_action" && run_funcs="$(echo -e "${run_funcs}\n$fnc_name")"
+        run_funcs="$(echo -e "${run_funcs}\n$fnc_name")"
       done < <(get_function_list "$fnc_file")
     done < <(find "src/bash/run/" "lib/bash/funcs" -type f -name '*.func.sh' | sort)
   done < <(echo "$actions")
@@ -81,14 +113,7 @@ do_run_actions() {
   run_funcs="$(echo -e "${run_funcs}" | sed -e 's/^[[:space:]]*//;/^$/d')"
   while read -r run_func; do
     cd ${PROJ_PATH:-}
-    do_log "INFO START ::: running action :: $run_func"
-    $run_func "${args[@]}"
-    if [[ "${EXIT_CODE:-}" != "0" ]]; then
-      msg="FATAL failed to run action: $run_func !!!"
-      do_log "$msg"
-      exit ${EXIT_CODE:-1}
-    fi
-    do_log "INFO STOP ::: running function :: $run_func"
+    execute_step "$run_func"
   done < <(echo "$run_funcs")
 }
 
@@ -157,7 +182,6 @@ do_log() {
 do_set_vars_v205() {
   set -u -o pipefail
   do_read_cmd_args "$@"
-  declare EXIT_CODE=1 && export EXIT_CODE
   unit_run_dir=$(perl -e 'use File::Basename; use Cwd "abs_path"; print dirname(abs_path(@ARGV[0]));' -- "$0")
   declare -gx RUN_UNIT="$(cd "${unit_run_dir:-}" && basename "$(pwd)").sh" && export RUN_UNIT
   declare -gx PROJ_PATH="$(cd "${unit_run_dir:-}/../../.." && pwd)" && export PROJ_PATH
@@ -183,10 +207,10 @@ do_set_vars_v205() {
   declare_variable "USER" "${USER:-$(id -un)}"
   declare_variable "GROUP" "${GROUP:-$(id -gn 2>/dev/null || ps -o group,supgrp $$ | tail -n 1 | awk '{print $1}')}"
   echo "Declared variables:"
-  compgen -A variable | grep -E '^(HOST_NAME|EXIT_CODE|RUN_UNIT|PROJ_PATH|APP_PATH|ORG_PATH|BASE_PATH|PROJ|ENV|GROUP|USER|UID|GID|OS|LOG_DIR|LOG_FILE)=' | while read -r var; do
+  compgen -A variable | grep -E '^(HOST_NAME|RUN_UNIT|PROJ_PATH|APP_PATH|ORG_PATH|BASE_PATH|PROJ|ENV|GROUP|USER|UID|GID|OS|LOG_DIR|LOG_FILE)=' | while read -r var; do
     echo "$var: ${!var}"
   done
-  REQUIRED_VARS=(HOST_NAME EXIT_CODE RUN_UNIT PROJ_PATH APP_PATH ORG_PATH BASE_PATH PROJ ENV GROUP USER UID GID OS LOG_DIR LOG_FILE)
+  REQUIRED_VARS=(HOST_NAME RUN_UNIT PROJ_PATH APP_PATH ORG_PATH BASE_PATH PROJ ENV GROUP USER UID GID OS LOG_DIR LOG_FILE)
   echo "REQUIRED_VARS: ${REQUIRED_VARS[*]}"
   echo PROJ_PATH: ${PROJ_PATH:-} in set_vars
 }
@@ -221,7 +245,7 @@ do_finalize() {
          $RUN_UNIT run completed
   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 EOF_FIN_MSG
-  exit $EXIT_CODE
+  exit 0
 }
 
 do_load_functions() {
@@ -431,7 +455,6 @@ do_ds_run_initial_load() {
     exit 1
   fi
 
-  export EXIT_CODE="0"
 }
 
 main "$@"

@@ -77,5 +77,4 @@ do_cat_files_for_ai_from_list_file() {
     cat "${OUTPUT_FILE}" | xclip -selection clipboard
   fi
 
-  export EXIT_CODE="0"
 }
