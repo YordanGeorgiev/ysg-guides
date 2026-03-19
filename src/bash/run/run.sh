@@ -125,57 +125,69 @@ do_flush_screen() {
 do_log() {
   print_ok() {
     GREEN_COLOR="\033[0;32m"
-    DEFAULT="\033[0m"
-    echo -e "${GREEN_COLOR} ✔ [OK] ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${GREEN_COLOR} ✔ ${1:-} ${DEFAULT_COLOR}"
   }
 
   print_warning() {
     YELLOW_COLOR="\033[33m"
-    DEFAULT="\033[0m"
-    echo -e "${YELLOW_COLOR} ⚠ ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${YELLOW_COLOR} ⚠ ${1:-} ${DEFAULT_COLOR}"
   }
 
   print_info() {
     BLUE_COLOR="\033[0;34m"
-    DEFAULT="\033[0m"
-    echo -e "${BLUE_COLOR} ℹ ${1:-} ${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${BLUE_COLOR} ℹ ${1:-} ${DEFAULT_COLOR}"
   }
 
   print_fail() {
     RED_COLOR="\033[0;31m"
-    DEFAULT="\033[0m"
-    echo -e "${RED_COLOR} ❌ [NOK] ${1:-}${DEFAULT}"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${RED_COLOR} ✘ ${1:-}${DEFAULT_COLOR}"
+  }
+
+  print_debug() {
+    GRAY_COLOR="\033[0;37m"
+    DEFAULT_COLOR="\033[0m"
+    echo -e "${GRAY_COLOR} ⚙ ${1:-}${DEFAULT_COLOR}"
   }
 
   type_of_msg=$(echo $* | cut -d" " -f1)
   action=$(echo $* | cut -d" " -f2)
   rest_of_msg=$(echo $* | cut -d" " -f3-)
+  test -z ${HOST_NAME:-} && export HOST_NAME=$(hostname -s)
+  [ -z "${PROJ_PATH}" ] &&
+    export PROJ_PATH=$(cd $(dirname $(perl -e 'use File::Basename; use Cwd "abs_path"; print dirname(abs_path($ARGV[0]))' -- "$0"))/../../.. && pwd)
+  [ -z "${PROJ}" ] && export PROJ=$(basename $PROJ_PATH)
 
+  # Pad [TYPE] to 9 chars (longest is [WARNING]) so dates align vertically
+  local padded_type
+  [[ "$type_of_msg" == "WARNING" ]] && type_of_msg="WARN"
+  padded_type=$(printf "%-7s" "[$type_of_msg]")
+
+  # Check if the action is START or STOP and adjust the length
   if [[ "$action" == "START" || "$action" == "STOP" ]]; then
-    formatted_action=$(printf "%-5s" "$action")
-    msg=" [$type_of_msg] $(date "+%Y-%m-%d %H:%M:%S %Z") [${PROJ:-}][@${HOST_NAME:-}] [$$] $formatted_action $rest_of_msg"
+    # Adjust the length of 'START' or 'STOP' token for alignment
+    formatted_action=$(printf "%-5s" "$action") # 5 characters wide, adjust as needed
+    msg="${padded_type} $(date "+%Y-%m-%d %H:%M:%S %Z") [${PROJ:-}][@${HOST_NAME:-}] [$$] $formatted_action $rest_of_msg"
   else
-    msg=" [$type_of_msg] $(date "+%Y-%m-%d %H:%M:%S %Z") [${PROJ:-}][@${HOST_NAME:-}] [$$] $action $rest_of_msg"
+    # Handle other types of messages without formatting the action
+    msg="${padded_type} $(date "+%Y-%m-%d %H:%M:%S %Z") [${PROJ:-}][@${HOST_NAME:-}] [$$] $action $rest_of_msg"
   fi
 
-  declare LOG_DIR="${LOG_DIR:-${PROJ_PATH:-}/dat/log}" && export LOG_DIR
-  declare LOG_FILE="${LOG_FILE:-$LOG_DIR/${PROJ:-}.$(date "+%Y%m%d").log}" && export LOG_FILE
-  mkdir -p "${LOG_DIR}"
-  mkdir -p "$(dirname "${LOG_FILE}")" || {
-    echo "FATAL: Failed to create log directory $(dirname "${LOG_FILE}")"
-    exit 1
-  }
-  touch "${LOG_FILE}" || {
-    echo "FATAL: Cannot write to log file: ${LOG_FILE}"
-    exit 1
-  }
+  log_dir="${PROJ_PATH:-}/dat/log/bash"
+  mkdir -p $log_dir || mkdir -p $HOME/var/log/$PROJ && log_dir=$HOME/var/log/$PROJ
+  log_file="$log_dir/${PROJ:-}."$(date "+%Y%m%d")'.log'
+
   case "$type_of_msg" in
-  'FATAL') print_fail "$msg" | tee -a "${LOG_FILE}" ;;
-  'ERROR') print_fail "$msg" | tee -a "${LOG_FILE}" ;;
-  'WARNING') print_warning "$msg" | tee -a "${LOG_FILE}" ;;
-  'INFO') print_info "$msg" | tee -a "${LOG_FILE}" ;;
-  'OK') print_ok "$msg" | tee -a "${LOG_FILE}" ;;
-  *) echo "$msg" | tee -a "${LOG_FILE}" ;;
+  'FATAL') print_fail "$msg" | tee -a $log_file ;;
+  'ERROR') print_fail "$msg" | tee -a $log_file ;;
+  'WARNING'|'WARN') print_warning "$msg" | tee -a $log_file ;;
+  'INFO') print_info "$msg" | tee -a $log_file ;;
+  'OK') print_ok "$msg" | tee -a $log_file ;;
+  'DEBUG') print_debug "$msg" | tee -a $log_file ;;
+  *) echo " · $msg" | tee -a $log_file ;;
   esac
 }
 

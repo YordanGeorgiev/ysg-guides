@@ -1,0 +1,36 @@
+ [DEBUG] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] OS detected: debian
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20260204.log [0m
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] using: HOST_NAME: [0m
+ [DEBUG] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] do_run_actions: actions=do_print_usage , args=
+ [DEBUG] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] Sourcing src/bash/run/print-usage.func.sh for action do_print_usage
+ [DEBUG] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] actions_found=1 
+[0;34m ℹ  [INFO] 2026-02-04 11:59:39 EET [ysg-guides][@] [68028] START ::: running action :: do_print_usage [0m
+ [DEBUG] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] OS detected: debian
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20260204.log [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] using: HOST_NAME: [0m
+ [DEBUG] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] do_run_actions: actions=do_print_usage , args=
+ [DEBUG] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] Sourcing src/bash/run/print-usage.func.sh for action do_print_usage
+ [DEBUG] 2026-02-04 12:00:31 EET [ysg-guides][@] [86501] actions_found=1 
+[0;34m ℹ  [INFO] 2026-02-04 12:00:32 EET [ysg-guides][@] [86501] START ::: running action :: do_print_usage [0m
+ [DEBUG] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] OS detected: debian
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: BASE_PATH: / [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: ORG_PATH: /opt [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: APP_PATH: /opt/ysg [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: PROJ_PATH: /opt/ysg/ysg-guides [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: LOG_DIR: /opt/ysg/ysg-guides/dat/log/bash [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: LOG_FILE: /opt/ysg/ysg-guides/dat/log/bash/ysg-guides.20260204.log [0m
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] using: HOST_NAME: [0m
+ [DEBUG] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] do_run_actions: actions=do_print_usage , args=
+ [DEBUG] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] Sourcing src/bash/run/print-usage.func.sh for action do_print_usage
+ [DEBUG] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] actions_found=1 
+[0;34m ℹ  [INFO] 2026-02-04 12:06:03 EET [ysg-guides][@] [107066] START ::: running action :: do_print_usage [0m
